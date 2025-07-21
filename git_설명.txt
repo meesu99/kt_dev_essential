@@ -1,5 +1,0 @@
-git clone 레포주소 # 레포 등록 (생성은 페이지에서 하자)
-git add . # 저장하고싶은 파일 넣기
-git commit -m "메시지 대충" # 업로드에 대한 설명 적기
-git push origin main # 깃에 업로드 레포 주소 브랜치이름
- 
