@@ -1,0 +1,284 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 고양이 귀 장식 */
+body::before,
+body::after {
+    content: '';
+    position: absolute;
+    top: 50px;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 40px solid #ffb6c1;
+    z-index: 1;
+}
+
+body::before {
+    left: 50%;
+    transform: translateX(-120px) rotate(-15deg);
+}
+
+body::after {
+    right: 50%;
+    transform: translateX(120px) rotate(15deg);
+}
+
+.calculator {
+    background: linear-gradient(145deg, #fff5f5, #ffe4e1);
+    border-radius: 30px;
+    padding: 25px;
+    box-shadow: 0 20px 40px rgba(255, 182, 193, 0.3);
+    width: 320px;
+    border: 3px solid #ffb6c1;
+    position: relative;
+    z-index: 2;
+}
+
+/* 고양이 얼굴 장식 */
+.calculator::before {
+    content: '🐱';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    z-index: 3;
+}
+
+/* 고양이 발 장식 */
+.calculator::after {
+    content: '🐾';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    z-index: 3;
+}
+
+/* 고양이 손 장식 */
+.calculator .paw-left,
+.calculator .paw-right {
+    position: absolute;
+    font-size: 18px;
+    z-index: 3;
+    animation: pawWave 2s ease-in-out infinite;
+}
+
+.calculator .paw-left {
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+    animation-delay: 0s;
+}
+
+.calculator .paw-right {
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    animation-delay: 1s;
+}
+
+/* 고양이 꼬리 장식 */
+.calculator .tail {
+    position: absolute;
+    font-size: 16px;
+    z-index: 3;
+    right: -30px;
+    bottom: 20px;
+    animation: tailWag 3s ease-in-out infinite;
+}
+
+/* 고양이 발 애니메이션 */
+@keyframes pawWave {
+    0%, 100% { transform: translateY(-50%) rotate(-45deg) scale(1); }
+    50% { transform: translateY(-50%) rotate(-45deg) scale(1.2); }
+}
+
+.calculator .paw-right {
+    animation: pawWaveRight 2s ease-in-out infinite;
+}
+
+@keyframes pawWaveRight {
+    0%, 100% { transform: translateY(-50%) rotate(45deg) scale(1); }
+    50% { transform: translateY(-50%) rotate(45deg) scale(1.2); }
+}
+
+/* 고양이 꼬리 애니메이션 */
+@keyframes tailWag {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+}
+
+/* 고양이 발자국 장식 */
+body .paw-prints {
+    position: absolute;
+    font-size: 12px;
+    color: rgba(255, 182, 193, 0.6);
+    z-index: 1;
+    animation: pawPrint 4s ease-in-out infinite;
+}
+
+body .paw-prints:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+body .paw-prints:nth-child(2) {
+    top: 60%;
+    right: 15%;
+    animation-delay: 1s;
+}
+
+body .paw-prints:nth-child(3) {
+    bottom: 30%;
+    left: 20%;
+    animation-delay: 2s;
+}
+
+@keyframes pawPrint {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+.display {
+    background: linear-gradient(145deg, #fff, #f8f8f8);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: right;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 2px solid #ffb6c1;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.previous-operand {
+    color: #ff69b4;
+    font-size: 16px;
+    margin-bottom: 5px;
+    min-height: 20px;
+}
+
+.current-operand {
+    color: #333;
+    font-size: 32px;
+    font-weight: bold;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #fff;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 182, 193, 0.5);
+    animation: meow 0.3s ease-in-out;
+}
+
+@keyframes meow {
+    0% { transform: scale(1.05); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1.05); }
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.number {
+    background: linear-gradient(145deg, #ffb6c1, #ffc0cb);
+    color: #333;
+    border: 2px solid #ff69b4;
+}
+
+.number:hover {
+    background: linear-gradient(145deg, #ffc0cb, #ffb6c1);
+    transform: scale(1.05);
+}
+
+.operator {
+    background: linear-gradient(145deg, #ff69b4, #ff1493);
+    color: #fff;
+    border: 2px solid #ff1493;
+}
+
+.operator:hover {
+    background: linear-gradient(145deg, #ff1493, #ff69b4);
+}
+
+.clear {
+    background: linear-gradient(145deg, #ff6b6b, #ff4757);
+    color: #fff;
+    border: 2px solid #ff4757;
+}
+
+.clear:hover {
+    background: linear-gradient(145deg, #ff4757, #ff6b6b);
+}
+
+.equals {
+    background: linear-gradient(145deg, #51cf66, #40c057);
+    color: #fff;
+    border: 2px solid #40c057;
+}
+
+.equals:hover {
+    background: linear-gradient(145deg, #40c057, #51cf66);
+}
+
+.zero {
+    grid-column: span 2;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 400px) {
+    .calculator {
+        width: 280px;
+        padding: 15px;
+    }
+    
+    .btn {
+        padding: 15px;
+        font-size: 18px;
+    }
+    
+    .current-operand {
+        font-size: 28px;
+    }
+} 
