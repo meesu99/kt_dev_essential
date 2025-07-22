@@ -11,6 +11,3 @@
 
 ---
 
-<div align="center">
-<i>입문 교육 화이팅!</i>
-</div>
