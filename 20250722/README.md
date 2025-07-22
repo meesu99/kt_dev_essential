@@ -3,3 +3,4 @@
 바이브코딩 기초 (Cursor, Next.js, TailwindCSS)
 - my-profile
 - apple_homepage
+- supabase
