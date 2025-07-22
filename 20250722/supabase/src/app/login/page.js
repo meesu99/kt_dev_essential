@@ -28,7 +28,7 @@ export default function Login() {
       } else {
         setMessage('로그인 성공!')
         setTimeout(() => {
-          router.push('/')
+          router.push('/ranking')
         }, 1000)
       }
     } catch (error) {
