@@ -40,7 +40,7 @@ export default function Ranking() {
   useEffect(() => {
     checkUser()
     detectTableSchema()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const detectTableSchema = async () => {
     try {
@@ -175,19 +175,19 @@ export default function Ranking() {
         -- RLS 정책 설정
         ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
         
-        CREATE POLICY IF NOT EXISTS "Anyone can view profiles" 
+        CREATE POLICY IF NOT EXISTS 'Anyone can view profiles' 
           ON profiles FOR SELECT 
           USING (true);
         
-        CREATE POLICY IF NOT EXISTS "Users can insert profiles" 
+        CREATE POLICY IF NOT EXISTS 'Users can insert profiles' 
           ON profiles FOR INSERT 
           WITH CHECK (auth.uid() = user_id);
         
-        CREATE POLICY IF NOT EXISTS "Users can update own profiles" 
+        CREATE POLICY IF NOT EXISTS 'Users can update own profiles' 
           ON profiles FOR UPDATE 
           USING (auth.uid() = user_id);
         
-        CREATE POLICY IF NOT EXISTS "Users can delete own profiles" 
+        CREATE POLICY IF NOT EXISTS 'Users can delete own profiles' 
           ON profiles FOR DELETE 
           USING (auth.uid() = user_id);
       `
@@ -639,7 +639,7 @@ export default function Ranking() {
                   <p className="mb-2">다음 단계를 따라 테이블을 생성해주세요:</p>
                   <ol className="list-decimal list-inside space-y-2 ml-4">
                     <li>Supabase Dashboard 접속</li>
-                    <li>좌측 메뉴에서 "SQL Editor" 클릭</li>
+                    <li>좌측 메뉴에서 &quot;SQL Editor&quot; 클릭</li>
                     <li>아래 SQL 코드를 복사하여 실행</li>
                     <li>페이지를 새로고침</li>
                   </ol>
@@ -656,19 +656,19 @@ export default function Ranking() {
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Anyone can view profiles" 
+CREATE POLICY 'Anyone can view profiles' 
   ON profiles FOR SELECT 
   USING (true);
 
-CREATE POLICY "Users can insert profiles" 
+CREATE POLICY 'Users can insert profiles' 
   ON profiles FOR INSERT 
   WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY "Users can update own profiles" 
+CREATE POLICY 'Users can update own profiles' 
   ON profiles FOR UPDATE 
   USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can delete own profiles" 
+CREATE POLICY 'Users can delete own profiles' 
   ON profiles FOR DELETE 
   USING (auth.uid() = user_id);`}</pre>
                 </div>
@@ -685,10 +685,10 @@ CREATE POLICY "Users can delete own profiles"
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Anyone can view profiles" ON profiles FOR SELECT USING (true);
-CREATE POLICY "Users can insert profiles" ON profiles FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update own profiles" ON profiles FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY "Users can delete own profiles" ON profiles FOR DELETE USING (auth.uid() = user_id);`)
+CREATE POLICY 'Anyone can view profiles' ON profiles FOR SELECT USING (true);
+CREATE POLICY 'Users can insert profiles' ON profiles FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY 'Users can update own profiles' ON profiles FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY 'Users can delete own profiles' ON profiles FOR DELETE USING (auth.uid() = user_id);`)
                     setMessage('SQL 코드가 클립보드에 복사되었습니다! Supabase SQL Editor에 붙여넣기 하세요.')
                   }}
                   className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
