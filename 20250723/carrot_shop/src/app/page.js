@@ -9,7 +9,7 @@ export default function Home() {
       title: '아이폰 14 Pro 128GB 딥퍼플', 
       desc: '1년 사용, 케이스 끼고 사용해서 깨끗해요', 
       price: 850000, 
-      image: '/iphone.jpg',
+      image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=400&fit=crop',
       location: '서초구 반포동',
       timeAgo: 30,
       likes: 12,
@@ -21,7 +21,7 @@ export default function Home() {
       title: '맥북 에어 M2 13인치', 
       desc: '대학교 과제용으로 사용했습니다. 정말 깨끗해요!', 
       price: 1200000, 
-      image: '/macbook.jpg',
+      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&h=400&fit=crop',
       location: '강남구 역삼동',
       timeAgo: 120,
       likes: 8,
@@ -33,7 +33,7 @@ export default function Home() {
       title: '갤럭시 버즈 프로 2', 
       desc: '구매한지 3개월 됐고 거의 안써서 새것 같아요', 
       price: 120000, 
-      image: '/buds.jpg',
+      image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=400&fit=crop',
       location: '마포구 홍대입구',
       timeAgo: 45,
       likes: 15,
@@ -45,7 +45,7 @@ export default function Home() {
       title: '닌텐도 스위치 OLED', 
       desc: '작년에 구매했는데 게임을 잘 안해서 팝니다', 
       price: 280000, 
-      image: '/switch.jpg',
+      image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=400&fit=crop',
       location: '송파구 잠실동',
       timeAgo: 180,
       likes: 20,
@@ -97,7 +97,7 @@ export default function Home() {
             {categories.map((category, index) => (
               <Link 
                 key={index}
-                href={`/products?category=${category.name}`}
+                href={`/products?category=${encodeURIComponent(category.name)}`}
                 className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
               >
                 <div className="text-4xl mb-2 group-hover:scale-110 transition-transform duration-200">

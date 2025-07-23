@@ -10,6 +10,10 @@ export default function ProductCard({ product }) {
     return price.toLocaleString() + "원";
   };
 
+  const handleImageError = (e) => {
+    e.target.src = 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop';
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 cursor-pointer">
       {/* 상품 이미지 */}
@@ -18,6 +22,7 @@ export default function ProductCard({ product }) {
           src={product.image} 
           alt={product.title} 
           className="w-full h-full object-cover rounded-t-lg"
+          onError={handleImageError}
         />
         {product.status === "예약중" && (
           <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
@@ -36,6 +41,12 @@ export default function ProductCard({ product }) {
         <h3 className="font-medium text-gray-900 text-sm leading-tight mb-1 line-clamp-2">
           {product.title}
         </h3>
+        
+        {product.desc && (
+          <p className="text-xs text-gray-600 mb-2 line-clamp-2 leading-relaxed">
+            {product.desc}
+          </p>
+        )}
         
         <div className="flex items-center text-xs text-gray-500 mb-2">
           <span>{product.location}</span>
