@@ -41,7 +41,7 @@ export default function Home() {
           throw new Error('Posts 데이터를 가져오는데 실패했습니다');
         }
         const postsData = await postsRes.json();
-        setPosts(postsData.slice(0, 5)); // 처음 5개만 표시
+        setPosts(postsData.slice(0, 50)); // API에서 50개 받아오기
         
         // 로컬 API에서 hello 데이터 가져오기
         const helloRes = await fetch('/api/hello');
@@ -105,16 +105,28 @@ export default function Home() {
           <h1 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'}`}>
             🚀 Async/Await 예제
           </h1>
-          <button
-            onClick={toggleDarkMode}
-            className={`px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 ${
-              darkMode 
-                ? 'bg-gray-700 text-white hover:bg-gray-600 shadow-lg' 
-                : 'bg-white text-gray-800 hover:bg-gray-100 shadow-lg'
-            }`}
-          >
-            {darkMode ? '🌞 라이트 모드' : '🌙 다크 모드'}
-          </button>
+          <div className="flex gap-4 items-center">
+            <a
+              href="/products"
+              className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+                darkMode 
+                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+              } shadow-lg`}
+            >
+              🛍️ 상품 보기
+            </a>
+            <button
+              onClick={toggleDarkMode}
+              className={`px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 ${
+                darkMode 
+                  ? 'bg-gray-700 text-white hover:bg-gray-600 shadow-lg' 
+                  : 'bg-white text-gray-800 hover:bg-gray-100 shadow-lg'
+              }`}
+            >
+              {darkMode ? '🌞 라이트 모드' : '🌙 다크 모드'}
+            </button>
+          </div>
         </div>
 
         {/* Hello API 결과 섹션 */}
@@ -151,10 +163,10 @@ export default function Home() {
         {/* Posts 섹션 */}
         <div className="mb-6">
           <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-            📝 외부 API Posts (상위 5개)
+            📝 외부 API Posts (상위 25개)
           </h2>
           <div className="grid gap-4">
-            {posts.map(post => (
+            {posts.slice(0, 25).map(post => (
               <div key={post.id} className={`rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 border-l-4 ${
                 darkMode 
                   ? 'bg-gray-800 border-purple-500 hover:bg-gray-750' 
@@ -193,19 +205,19 @@ export default function Home() {
           </div>
         </div>
         
-        <div className={`text-center rounded-lg p-4 shadow-sm transition-colors duration-300 ${
-          darkMode ? 'bg-gray-800' : 'bg-white'
-        }`}>
-          <div className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
-            ✨ <strong>Async/Await</strong> 패턴으로 두 개의 API를 순차적으로 호출했습니다!
+                  <div className={`text-center rounded-lg p-4 shadow-sm transition-colors duration-300 ${
+            darkMode ? 'bg-gray-800' : 'bg-white'
+          }`}>
+            <div className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
+              ✨ <strong>Async/Await</strong> 패턴으로 두 개의 API를 순차적으로 호출했습니다!
+            </div>
+            <div className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              콘솔에서 Hello API 응답을 확인해보세요 🔍
+            </div>
+            <div className={`text-xs mt-2 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+              📊 API에서 {posts.length}개 받아와서 25개 표시 | {darkMode ? '🌙 다크모드' : '🌞 라이트모드'} 활성화됨
+            </div>
           </div>
-          <div className={`text-sm mt-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            콘솔에서 Hello API 응답을 확인해보세요 🔍
-          </div>
-          <div className={`text-xs mt-2 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-            {darkMode ? '🌙 다크모드 활성화됨' : '🌞 라이트모드 활성화됨'}
-          </div>
-        </div>
       </div>
     </div>
   );
