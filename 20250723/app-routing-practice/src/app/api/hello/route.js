@@ -1,4 +1,5 @@
-import { NextResponse } from 'next/server';
+// 파일 명은 꼭 route.js로 해야 함 (api 사용하고자 하면)
+import { NextResponse } from 'next/server';   // GET 메서드의 내용을 가져오기 위함
 
 export async function GET() {
   // 실제 API처럼 약간의 지연 시뮬레이션
