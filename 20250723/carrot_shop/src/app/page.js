@@ -66,7 +66,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* 히어로 섹션 */}
       <section className="bg-gradient-to-br from-orange-400 to-orange-600 text-white mt-16 md:mt-0">
         <div className="max-w-7xl mx-auto px-4 py-16">
@@ -90,21 +90,21 @@ export default function Home() {
       </section>
 
       {/* 카테고리 섹션 */}
-      <section className="bg-white py-12">
+      <section className="bg-white dark:bg-gray-800 py-12 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">인기 카테고리</h2>
+                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">인기 카테고리</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
             {categories.map((category, index) => (
               <Link 
                 key={index}
                 href={`/products?category=${encodeURIComponent(category.name)}`}
-                className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 group"
               >
                 <div className="text-4xl mb-2 group-hover:scale-110 transition-transform duration-200">
                   {category.icon}
                 </div>
-                <span className="text-sm font-medium text-gray-900 text-center">{category.name}</span>
-                <span className="text-xs text-gray-500 mt-1">{category.count}개</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white text-center">{category.name}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">{category.count}개</span>
               </Link>
             ))}
           </div>
@@ -115,7 +115,7 @@ export default function Home() {
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">지금 인기있는 중고거래</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">지금 인기있는 중고거래</h2>
             <Link href="/products" className="text-orange-500 font-medium hover:text-orange-600 transition-colors duration-200">
               더보기 →
             </Link>
@@ -130,29 +130,29 @@ export default function Home() {
       </section>
 
       {/* 통계 섹션 */}
-      <section className="bg-orange-50 py-12">
+      <section className="bg-orange-50 dark:bg-gray-800 py-12 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">당근마켓과 함께하는 우리 동네</h2>
-            <p className="text-gray-600">믿을 수 있는 이웃과 함께하는 중고거래</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">당근마켓과 함께하는 우리 동네</h2>
+            <p className="text-gray-600 dark:text-gray-300">믿을 수 있는 이웃과 함께하는 중고거래</p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-3xl font-bold text-orange-500 mb-2">2,000만+</div>
-              <div className="text-gray-600">누적 다운로드</div>
+              <div className="text-gray-600 dark:text-gray-300">누적 다운로드</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-orange-500 mb-2">1,000만+</div>
-              <div className="text-gray-600">월 사용자</div>
+              <div className="text-gray-600 dark:text-gray-300">월 사용자</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-orange-500 mb-2">99.9%</div>
-              <div className="text-gray-600">사용자 만족도</div>
+              <div className="text-gray-600 dark:text-gray-300">사용자 만족도</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-orange-500 mb-2">24시간</div>
-              <div className="text-gray-600">평균 판매 시간</div>
+              <div className="text-gray-600 dark:text-gray-300">평균 판매 시간</div>
             </div>
           </div>
         </div>
@@ -162,13 +162,13 @@ export default function Home() {
       <section className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">지금 바로 시작해보세요!</h2>
-          <p className="text-gray-300 mb-8">우리 동네에서 안전하고 쉬운 중고거래를 경험해보세요.</p>
+          <p className="text-gray-300 dark:text-gray-400 mb-8">우리 동네에서 안전하고 쉬운 중고거래를 경험해보세요.</p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/products" className="px-8 py-4 bg-orange-500 text-white rounded-lg font-bold hover:bg-orange-600 transition-colors duration-200">
               중고거래 둘러보기
             </Link>
-            <button className="px-8 py-4 border border-gray-600 text-gray-300 rounded-lg font-bold hover:bg-gray-800 transition-colors duration-200">
+            <button className="px-8 py-4 border border-gray-600 dark:border-gray-500 text-gray-300 dark:text-gray-400 rounded-lg font-bold hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200">
               앱 스토어에서 다운로드
             </button>
           </div>

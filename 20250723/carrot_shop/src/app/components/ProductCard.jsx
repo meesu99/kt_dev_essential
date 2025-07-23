@@ -18,7 +18,7 @@ export default function ProductCard({ product }) {
 
   return (
     <Link href={`/products/${product.id}`} className="block">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200 cursor-pointer">
       {/* 상품 이미지 */}
       <div className="relative aspect-square">
         <img 
@@ -41,28 +41,28 @@ export default function ProductCard({ product }) {
       
       {/* 상품 정보 */}
       <div className="p-3">
-        <h3 className="font-medium text-gray-900 text-sm leading-tight mb-1 line-clamp-2">
+        <h3 className="font-medium text-gray-900 dark:text-white text-sm leading-tight mb-1 line-clamp-2">
           {product.title}
         </h3>
         
         {product.desc && (
-          <p className="text-xs text-gray-600 mb-2 line-clamp-2 leading-relaxed">
+                     <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2 leading-relaxed">
             {product.desc}
           </p>
         )}
         
-        <div className="flex items-center text-xs text-gray-500 mb-2">
+        <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-2">
           <span>{product.location}</span>
           <span className="mx-1">•</span>
           <span>{formatTimeAgo(product.timeAgo)}</span>
         </div>
         
         <div className="flex items-center justify-between">
-          <span className="font-bold text-gray-900">
+          <span className="font-bold text-gray-900 dark:text-white">
             {formatPrice(product.price)}
           </span>
           
-          <div className="flex items-center space-x-2 text-xs text-gray-500">
+          <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
             {product.likes > 0 && (
               <div className="flex items-center">
                 <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">

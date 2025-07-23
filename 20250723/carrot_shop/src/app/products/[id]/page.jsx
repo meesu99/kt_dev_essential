@@ -10,6 +10,11 @@ export default function ProductDetailPage({ params }) {
   const [isLiked, setIsLiked] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // 좋아요 개수 및 댓글 기능
+  const [likes, setLikes] = useState(0);
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
 
   // 샘플 상품 데이터 (실제로는 API에서 가져올 데이터)
   const sampleProducts = [
@@ -249,6 +254,31 @@ export default function ProductDetailPage({ params }) {
     return price.toLocaleString() + "원";
   };
 
+  // 댓글 추가 함수
+  const addComment = () => {
+    if (comment.trim()) {
+      const newComment = {
+        id: Date.now(),
+        text: comment.trim(),
+        author: '익명',
+        timestamp: new Date().toLocaleString('ko-KR')
+      };
+      setComments(prev => [...prev, newComment]);
+      setComment('');
+    }
+  };
+
+  // 댓글 삭제 함수
+  const removeComment = (commentId) => {
+    setComments(prev => prev.filter(c => c.id !== commentId));
+  };
+
+  // 좋아요 증가 함수
+  const handleLikeClick = () => {
+    setLikes(prev => prev + 1);
+    setIsLiked(true);
+  };
+
   useEffect(() => {
     // URL에서 상품 ID 추출
     const productId = parseInt(params.id);
@@ -262,6 +292,8 @@ export default function ProductDetailPage({ params }) {
     
     if (foundProduct) {
       setProduct(foundProduct);
+      // 상품의 기본 좋아요 수 설정
+      setLikes(foundProduct.likes || 0);
     }
     
     setLoading(false);
@@ -300,10 +332,10 @@ export default function ProductDetailPage({ params }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-16 md:pt-0 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 md:pt-0 flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-          <div className="text-gray-600">상품 정보를 불러오는 중...</div>
+          <div className="text-gray-600 dark:text-gray-400">상품 정보를 불러오는 중...</div>
         </div>
       </div>
     );
@@ -311,10 +343,10 @@ export default function ProductDetailPage({ params }) {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-16 md:pt-0 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 md:pt-0 flex items-center justify-center transition-colors duration-300">
         <div className="text-center">
           <div className="text-6xl mb-4">😵</div>
-          <div className="text-xl text-gray-600 mb-4">상품을 찾을 수 없습니다</div>
+          <div className="text-xl text-gray-600 dark:text-gray-400 mb-4">상품을 찾을 수 없습니다</div>
           <Link 
             href="/products"
             className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200"
@@ -327,14 +359,14 @@ export default function ProductDetailPage({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16 md:pt-0">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 md:pt-0 transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
         {/* 헤더 */}
-        <div className="bg-white border-b border-gray-200 sticky top-16 md:top-0 z-10">
+                  <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-16 md:top-0 z-10 transition-colors duration-300">
           <div className="flex items-center justify-between px-4 py-3">
             <button 
               onClick={() => router.back()}
-              className="flex items-center text-gray-600 hover:text-gray-900"
+              className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
             >
               <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -343,7 +375,7 @@ export default function ProductDetailPage({ params }) {
             </button>
             
             <div className="flex items-center space-x-3">
-              <button className="p-2 text-gray-600 hover:text-gray-900">
+              <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
                 </svg>
@@ -360,7 +392,7 @@ export default function ProductDetailPage({ params }) {
           </div>
         </div>
 
-        <div className="bg-white">
+        <div className="bg-white dark:bg-gray-800 transition-colors duration-300">
           {/* 상품 이미지 */}
           <div className="relative">
             <div 
@@ -407,7 +439,7 @@ export default function ProductDetailPage({ params }) {
           <div className="p-6">
             {/* 판매자 정보 */}
             {product.seller && (
-              <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-200">
+              <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center">
                   <img 
                     src={product.seller.profileImage} 
@@ -415,14 +447,14 @@ export default function ProductDetailPage({ params }) {
                     className="w-12 h-12 rounded-full object-cover mr-3"
                   />
                   <div>
-                    <div className="font-medium text-gray-900">{product.seller.name}</div>
-                    <div className="text-sm text-gray-500">
+                    <div className="font-medium text-gray-900 dark:text-white">{product.seller.name}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">
                       ⭐ {product.seller.rating} ({product.seller.reviewCount}개 리뷰) • 
                       응답률 {product.seller.responseRate}%
                     </div>
                   </div>
                 </div>
-                <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
                   프로필 보기
                 </button>
               </div>
@@ -430,11 +462,11 @@ export default function ProductDetailPage({ params }) {
 
             {/* 상품 제목과 가격 */}
             <div className="mb-4">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.title}</h1>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{product.title}</h1>
               <div className="text-3xl font-bold text-orange-500 mb-2">
                 {formatPrice(product.price)}
               </div>
-              <div className="flex items-center text-sm text-gray-500 mb-4">
+              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
                 <span>{product.location}</span>
                 <span className="mx-2">•</span>
                 <span>{formatTimeAgo(product.timeAgo)}</span>
@@ -445,40 +477,119 @@ export default function ProductDetailPage({ params }) {
 
             {/* 상품 설명 */}
             <div className="mb-8">
-              <h2 className="text-lg font-semibold text-gray-900 mb-3">상품 정보</h2>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">상품 정보</h2>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
                 {product.desc}
               </p>
             </div>
 
             {/* 관심, 채팅 통계 */}
-            <div className="flex items-center space-x-6 mb-8 text-sm text-gray-500">
-              <div className="flex items-center">
-                <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                <div className="flex items-center">
+                  <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                  </svg>
+                  관심 {likes}
+                </div>
+                <div className="flex items-center">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  채팅 {product.chats}
+                </div>
+                <div className="flex items-center">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  댓글 {comments.length}
+                </div>
+              </div>
+              
+              {/* 좋아요 버튼 */}
+              <button 
+                onClick={handleLikeClick}
+                className="flex items-center px-4 py-2 bg-red-50 border border-red-200 text-red-600 rounded-lg hover:bg-red-100 transition-colors duration-200"
+              >
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                 </svg>
-                관심 {product.likes}
+                                 좋아요
+               </button>
+             </div>
+
+            {/* 댓글 섹션 */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">댓글 ({comments.length})</h3>
+              
+              {/* 댓글 작성 */}
+              <div className="mb-6">
+                <div className="flex space-x-3">
+                  <input
+                    type="text"
+                    value={comment}
+                    onChange={e => setComment(e.target.value)}
+                    placeholder="댓글을 입력해주세요"
+                    className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-800 transition-colors duration-200"
+                    onKeyPress={e => e.key === 'Enter' && addComment()}
+                  />
+                  <button
+                    onClick={addComment}
+                    className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium"
+                  >
+                    등록
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center">
-                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                채팅 {product.chats}
+
+              {/* 댓글 목록 */}
+              <div className="space-y-4">
+                {comments.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                    <div className="text-4xl mb-2">💬</div>
+                    <div>첫 번째 댓글을 남겨보세요!</div>
+                  </div>
+                ) : (
+                  comments.map((c) => (
+                    <div key={c.id} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center mb-2">
+                            <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-medium mr-3">
+                              {c.author[0]}
+                            </div>
+                            <div>
+                              <div className="font-medium text-gray-900 dark:text-white">{c.author}</div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400">{c.timestamp}</div>
+                            </div>
+                          </div>
+                          <p className="text-gray-700 dark:text-gray-300 leading-relaxed ml-11">{c.text}</p>
+                        </div>
+                        <button
+                          onClick={() => removeComment(c.id)}
+                          className="ml-3 text-gray-400 hover:text-red-500 transition-colors duration-200"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
-          </div>
-        </div>
+           </div>
+         </div>
 
         {/* 하단 고정 버튼 */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 md:relative md:border-t-0 md:p-0 md:mt-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 md:relative md:border-t-0 md:p-0 md:mt-4 transition-colors duration-300">
           <div className="max-w-4xl mx-auto flex space-x-3">
             <button 
-              onClick={() => setIsLiked(!isLiked)}
-              className={`flex-shrink-0 p-3 border border-gray-300 rounded-lg transition-colors duration-200 ${
-                isLiked ? 'bg-red-50 border-red-300 text-red-500' : 'hover:bg-gray-50'
-              }`}
+              onClick={handleLikeClick}
+              className="flex-shrink-0 p-3 bg-red-50 dark:bg-red-900/50 border border-red-300 dark:border-red-600 text-red-500 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/70 transition-colors duration-200"
             >
-              <svg className="w-6 h-6" fill={isLiked ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </button>

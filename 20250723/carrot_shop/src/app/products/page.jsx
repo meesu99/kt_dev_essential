@@ -213,7 +213,7 @@ export default function ProductsPage() {
   }, [allProducts, selectedCategory, searchKeyword, sortBy]);
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16 md:pt-0">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 md:pt-0 transition-colors duration-300">
       {/* 검색 및 필터 섹션 */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex flex-col space-y-4 mb-4">
@@ -224,7 +224,7 @@ export default function ProductsPage() {
               placeholder="상품명, 설명, 지역으로 검색해보세요"
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-gray-800 transition-colors duration-200"
             />
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -252,7 +252,7 @@ export default function ProductsPage() {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
                   selectedCategory === category
                     ? 'bg-orange-500 text-white'
-                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
               >
                 {category}
@@ -262,7 +262,7 @@ export default function ProductsPage() {
           
           {/* 상품 개수 정보 및 필터 상태 */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 dark:text-gray-400">
               {searchKeyword || selectedCategory !== '전체' ? (
                 <span>
                   {filteredProducts.length}개의 상품 
@@ -279,7 +279,7 @@ export default function ProductsPage() {
                 className={`text-sm transition-colors duration-200 ${
                   sortBy === 'latest' 
                     ? 'text-orange-500 font-medium' 
-                    : 'text-gray-500 hover:text-gray-700'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
                 최신순
@@ -290,7 +290,7 @@ export default function ProductsPage() {
                 className={`text-sm transition-colors duration-200 ${
                   sortBy === 'price_asc' 
                     ? 'text-orange-500 font-medium' 
-                    : 'text-gray-500 hover:text-gray-700'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
                 낮은 가격순
@@ -301,7 +301,7 @@ export default function ProductsPage() {
                 className={`text-sm transition-colors duration-200 ${
                   sortBy === 'price_desc' 
                     ? 'text-orange-500 font-medium' 
-                    : 'text-gray-500 hover:text-gray-700'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
                 높은 가격순
