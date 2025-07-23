@@ -1,10 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import ProductCard from '../components/ProductCard';
 
-export default function ProductsPage() {
+// useSearchParams를 사용하는 컴포넌트를 분리
+function ProductsContent() {
   const searchParams = useSearchParams();
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -377,5 +378,27 @@ export default function ProductsPage() {
         </svg>
       </Link>
     </div>
+  );
+}
+
+// 로딩 컴포넌트
+function ProductsLoading() {
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-16 md:pt-0 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 메인 컴포넌트 - Suspense로 감싸기
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<ProductsLoading />}>
+      <ProductsContent />
+    </Suspense>
   );
 } 
