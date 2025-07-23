@@ -2,3 +2,4 @@
 
 프론트엔드 기초 (NEXT.js)
 - app-routing-practice
+- carrot_shop
