@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function ProductCard({ product }) {
   const formatTimeAgo = (minutes) => {
     if (minutes < 60) return `${minutes}분 전`;
@@ -15,7 +17,8 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 cursor-pointer">
+    <Link href={`/products/${product.id}`} className="block">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 cursor-pointer">
       {/* 상품 이미지 */}
       <div className="relative aspect-square">
         <img 
@@ -81,5 +84,6 @@ export default function ProductCard({ product }) {
         </div>
       </div>
     </div>
+    </Link>
   );
 }

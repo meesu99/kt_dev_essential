@@ -82,7 +82,14 @@ export default function AddProductPage() {
       timeAgo: 0,
       likes: 0,
       chats: 0,
-      status: '판매중'
+      status: '판매중',
+      seller: {
+        name: '나',
+        profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&crop=face',
+        rating: 4.5,
+        reviewCount: 0,
+        responseRate: 100
+      }
     };
 
     // 로컬 스토리지에 저장 (실제 앱에서는 API 호출)
