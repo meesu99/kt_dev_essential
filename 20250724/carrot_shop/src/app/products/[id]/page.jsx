@@ -7,11 +7,16 @@ export default function ProductDetailPage({ params }) {
   const router = useRouter();
   const resolvedParams = use(params);
   const [product, setProduct] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+  const [authorName, setAuthorName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchProduct();
+    fetchComments();
   }, [resolvedParams.id]);
 
   const fetchProduct = async () => {
@@ -32,6 +37,73 @@ export default function ProductDetailPage({ params }) {
       setError('네트워크 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(`/api/comments?product_id=${resolvedParams.id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setComments(data);
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+    if (!newComment.trim()) return;
+
+    setIsSubmittingComment(true);
+    try {
+      const response = await fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: resolvedParams.id,
+          author_name: authorName.trim() || '익명',
+          content: newComment.trim()
+        })
+      });
+
+      if (response.ok) {
+        const newCommentData = await response.json();
+        setComments([...comments, newCommentData]);
+        setNewComment('');
+        setAuthorName('');
+      } else {
+        alert('댓글 작성에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+      alert('댓글 작성 중 오류가 발생했습니다.');
+    } finally {
+      setIsSubmittingComment(false);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    if (!confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/comments/${commentId}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        setComments(comments.filter(comment => comment.id !== commentId));
+      } else {
+        alert('댓글 삭제에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      alert('댓글 삭제 중 오류가 발생했습니다.');
     }
   };
 
@@ -56,21 +128,43 @@ export default function ProductDetailPage({ params }) {
 
   const handleChat = async () => {
     try {
-      const response = await fetch(`/api/products/${resolvedParams.id}`, {
-        method: 'PATCH',
+      const response = await fetch('/api/chat-rooms', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ action: 'chat' })
+        body: JSON.stringify({
+          product_id: resolvedParams.id,
+          buyer_name: '구매자', // 실제로는 로그인한 사용자 이름
+          seller_name: '판매자' // 실제로는 상품 등록자 이름
+        })
       });
 
       if (response.ok) {
-        const updatedProduct = await response.json();
-        setProduct(updatedProduct);
-        alert('채팅방이 생성되었습니다!');
+        const chatRoom = await response.json();
+        
+        // 상품의 채팅 수 증가
+        const updateResponse = await fetch(`/api/products/${resolvedParams.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ action: 'chat' })
+        });
+
+        if (updateResponse.ok) {
+          const updatedProduct = await updateResponse.json();
+          setProduct(updatedProduct);
+        }
+
+        // 채팅방으로 이동
+        router.push(`/chat/${chatRoom.id}`);
+      } else {
+        alert('채팅방 생성에 실패했습니다.');
       }
     } catch (error) {
-      console.error('Error updating chats:', error);
+      console.error('Error creating chat room:', error);
+      alert('채팅방 생성 중 오류가 발생했습니다.');
     }
   };
 
@@ -175,7 +269,7 @@ export default function ProductDetailPage({ params }) {
           상품 목록으로 돌아가기
         </Link>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
             {/* 상품 이미지 */}
             <div className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
@@ -283,6 +377,77 @@ export default function ProductDetailPage({ params }) {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* 댓글 섹션 */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+            댓글 ({comments.length})
+          </h3>
+
+          {/* 댓글 작성 폼 */}
+          <form onSubmit={handleSubmitComment} className="mb-6">
+            <div className="mb-3">
+              <input
+                type="text"
+                placeholder="닉네임 (선택사항)"
+                value={authorName}
+                onChange={(e) => setAuthorName(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+              />
+            </div>
+            <div className="flex space-x-3">
+              <textarea
+                placeholder="댓글을 작성해주세요..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                rows={3}
+                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white resize-none"
+              />
+              <button
+                type="submit"
+                disabled={!newComment.trim() || isSubmittingComment}
+                className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              >
+                {isSubmittingComment ? '작성중...' : '댓글 작성'}
+              </button>
+            </div>
+          </form>
+
+          {/* 댓글 목록 */}
+          <div className="space-y-4">
+            {comments.length === 0 ? (
+              <p className="text-gray-500 dark:text-gray-400 text-center py-8">
+                아직 댓글이 없습니다. 첫 번째 댓글을 작성해보세요!
+              </p>
+            ) : (
+              comments.map((comment) => (
+                <div key={comment.id} className="border-b border-gray-200 dark:border-gray-700 pb-4 last:border-b-0">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-1">
+                        <span className="font-medium text-gray-900 dark:text-white text-sm">
+                          {comment.author_name}
+                        </span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {formatTimeAgo(comment.created_at)}
+                        </span>
+                      </div>
+                      <p className="text-gray-700 dark:text-gray-300 text-sm">
+                        {comment.content}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteComment(comment.id)}
+                      className="text-red-500 hover:text-red-600 text-xs ml-2"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

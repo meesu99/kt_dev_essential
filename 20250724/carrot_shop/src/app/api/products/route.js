@@ -43,10 +43,19 @@ export async function POST(request) {
     const body = await request.json()
     const { title, description, price, image, category, location } = body
 
-    // 필수 필드 검증
-    if (!title || !description || !price || !category || !location) {
+    // 필수 필드 검증 (price는 0일 수 있으므로 별도 처리)
+    if (!title || !description || price === undefined || price === null || !category || !location) {
       return NextResponse.json(
         { error: '필수 필드가 누락되었습니다.' },
+        { status: 400 }
+      )
+    }
+
+    // 가격이 음수인지 검증
+    const numericPrice = parseInt(price)
+    if (isNaN(numericPrice) || numericPrice < 0) {
+      return NextResponse.json(
+        { error: '가격은 0 이상의 숫자여야 합니다.' },
         { status: 400 }
       )
     }
@@ -57,7 +66,7 @@ export async function POST(request) {
         {
           title,
           description,
-          price: parseInt(price),
+          price: numericPrice,
           image: image || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop',
           category,
           location,

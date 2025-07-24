@@ -14,6 +14,35 @@ CREATE TABLE products (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- 댓글 테이블 생성
+CREATE TABLE comments (
+  id BIGSERIAL PRIMARY KEY,
+  product_id BIGINT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  author_name VARCHAR(50) NOT NULL DEFAULT '익명',
+  content TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 채팅방 테이블 생성
+CREATE TABLE chat_rooms (
+  id BIGSERIAL PRIMARY KEY,
+  product_id BIGINT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  buyer_name VARCHAR(50) NOT NULL DEFAULT '구매자',
+  seller_name VARCHAR(50) NOT NULL DEFAULT '판매자',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 채팅 메시지 테이블 생성
+CREATE TABLE chat_messages (
+  id BIGSERIAL PRIMARY KEY,
+  chat_room_id BIGINT NOT NULL REFERENCES chat_rooms(id) ON DELETE CASCADE,
+  sender_name VARCHAR(50) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- 업데이트 시간 자동 갱신을 위한 트리거 함수 생성
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -29,23 +58,60 @@ CREATE TRIGGER update_products_updated_at
     FOR EACH ROW 
     EXECUTE FUNCTION update_updated_at_column();
 
+CREATE TRIGGER update_comments_updated_at 
+    BEFORE UPDATE ON comments 
+    FOR EACH ROW 
+    EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_chat_rooms_updated_at 
+    BEFORE UPDATE ON chat_rooms 
+    FOR EACH ROW 
+    EXECUTE FUNCTION update_updated_at_column();
+
 -- RLS (Row Level Security) 활성화
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE comments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE chat_rooms ENABLE ROW LEVEL SECURITY;
+ALTER TABLE chat_messages ENABLE ROW LEVEL SECURITY;
 
--- 모든 사용자가 상품을 조회할 수 있도록 설정
+-- 상품 테이블 정책
 CREATE POLICY "Enable read access for all users" ON products
     FOR SELECT USING (true);
-
--- 모든 사용자가 상품을 생성할 수 있도록 설정
 CREATE POLICY "Enable insert access for all users" ON products
     FOR INSERT WITH CHECK (true);
-
--- 모든 사용자가 상품을 수정할 수 있도록 설정
 CREATE POLICY "Enable update access for all users" ON products
     FOR UPDATE USING (true);
-
--- 모든 사용자가 상품을 삭제할 수 있도록 설정
 CREATE POLICY "Enable delete access for all users" ON products
+    FOR DELETE USING (true);
+
+-- 댓글 테이블 정책
+CREATE POLICY "Enable read access for all users" ON comments
+    FOR SELECT USING (true);
+CREATE POLICY "Enable insert access for all users" ON comments
+    FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable update access for all users" ON comments
+    FOR UPDATE USING (true);
+CREATE POLICY "Enable delete access for all users" ON comments
+    FOR DELETE USING (true);
+
+-- 채팅방 테이블 정책
+CREATE POLICY "Enable read access for all users" ON chat_rooms
+    FOR SELECT USING (true);
+CREATE POLICY "Enable insert access for all users" ON chat_rooms
+    FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable update access for all users" ON chat_rooms
+    FOR UPDATE USING (true);
+CREATE POLICY "Enable delete access for all users" ON chat_rooms
+    FOR DELETE USING (true);
+
+-- 채팅 메시지 테이블 정책
+CREATE POLICY "Enable read access for all users" ON chat_messages
+    FOR SELECT USING (true);
+CREATE POLICY "Enable insert access for all users" ON chat_messages
+    FOR INSERT WITH CHECK (true);
+CREATE POLICY "Enable update access for all users" ON chat_messages
+    FOR UPDATE USING (true);
+CREATE POLICY "Enable delete access for all users" ON chat_messages
     FOR DELETE USING (true);
 
 -- 샘플 데이터 삽입
@@ -67,4 +133,29 @@ UPDATE products SET likes = 20, chats = 12 WHERE title = '닌텐도 스위치 OL
 UPDATE products SET likes = 6, chats = 2 WHERE title = '무인양품 원목 책상';
 UPDATE products SET likes = 25, chats = 15 WHERE title = '에어팟 프로 2세대';
 UPDATE products SET likes = 9, chats = 4 WHERE title = '다이슨 청소기 V11';
+UPDATE products SET likes = 35, chats = 20 WHERE title = '커피머신 (나눔)';
+
+-- 샘플 댓글 데이터 삽입
+INSERT INTO comments (product_id, author_name, content) VALUES
+(1, '김철수', '상태가 정말 좋아 보이네요! 직거래 가능한가요?'),
+(1, '이영희', '가격 네고 가능할까요?'),
+(2, '박민수', '맥북 성능은 어떤가요? 발열은 심하지 않나요?'),
+(3, '최지혜', '버즈 케이스도 같이 주시나요?'),
+(8, '홍길동', '감사합니다! 좋은 분이시네요 ㅎㅎ');
+
+-- 샘플 채팅방 데이터 삽입
+INSERT INTO chat_rooms (product_id, buyer_name, seller_name) VALUES
+(1, '김철수', '아이폰판매자'),
+(2, '박민수', '맥북판매자'),
+(3, '최지혜', '버즈판매자');
+
+-- 샘플 채팅 메시지 삽입
+INSERT INTO chat_messages (chat_room_id, sender_name, message) VALUES
+(1, '김철수', '안녕하세요! 아이폰 상태 궁금해서 연락드려요'),
+(1, '아이폰판매자', '안녕하세요! 정말 깨끗하게 사용했어요. 직거래 가능합니다!'),
+(1, '김철수', '네! 언제 만날 수 있을까요?'),
+(2, '박민수', '맥북 성능은 어떤가요?'),
+(2, '맥북판매자', '과제용으로만 사용해서 성능은 문제없어요!'),
+(3, '최지혜', '버즈 케이스도 함께 주시나요?'),
+(3, '버즈판매자', '네! 케이스와 이어팁도 새것으로 드려요'); 
 UPDATE products SET likes = 35, chats = 20 WHERE title = '커피머신 (나눔)'; 
