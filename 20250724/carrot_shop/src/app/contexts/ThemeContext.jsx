@@ -5,9 +5,16 @@ const ThemeContext = createContext();
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
+  
+  // Provider가 없을 때 기본값 제공
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    return {
+      isDarkMode: false,
+      toggleTheme: () => {},
+      isLoading: false
+    };
   }
+  
   return context;
 };
 

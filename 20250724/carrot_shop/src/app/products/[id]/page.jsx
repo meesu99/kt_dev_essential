@@ -1,22 +1,23 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function ProductDetailPage({ params }) {
   const router = useRouter();
+  const resolvedParams = use(params);
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchProduct();
-  }, [params.id]);
+  }, [resolvedParams.id]);
 
   const fetchProduct = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/products/${params.id}`);
+      const response = await fetch(`/api/products/${resolvedParams.id}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -36,7 +37,7 @@ export default function ProductDetailPage({ params }) {
 
   const handleLike = async () => {
     try {
-      const response = await fetch(`/api/products/${params.id}`, {
+      const response = await fetch(`/api/products/${resolvedParams.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ export default function ProductDetailPage({ params }) {
 
   const handleChat = async () => {
     try {
-      const response = await fetch(`/api/products/${params.id}`, {
+      const response = await fetch(`/api/products/${resolvedParams.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ export default function ProductDetailPage({ params }) {
     }
 
     try {
-      const response = await fetch(`/api/products/${params.id}`, {
+      const response = await fetch(`/api/products/${resolvedParams.id}`, {
         method: 'DELETE'
       });
 

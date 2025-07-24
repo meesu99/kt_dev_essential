@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase'
 // GET - 특정 상품 조회
 export async function GET(request, { params }) {
   try {
-    const { id } = params
+    const { id } = await params
 
     const { data: product, error } = await supabase
       .from('products')
@@ -30,7 +30,7 @@ export async function GET(request, { params }) {
 // PUT - 상품 정보 수정
 export async function PUT(request, { params }) {
   try {
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
     const { title, description, price, image, category, location, status } = body
 
@@ -70,7 +70,7 @@ export async function PUT(request, { params }) {
 // DELETE - 상품 삭제
 export async function DELETE(request, { params }) {
   try {
-    const { id } = params
+    const { id } = await params
 
     const { error } = await supabase
       .from('products')
@@ -92,14 +92,26 @@ export async function DELETE(request, { params }) {
 // PATCH - 상품 좋아요/채팅 수 업데이트
 export async function PATCH(request, { params }) {
   try {
-    const { id } = params
+    const { id } = await params
     const body = await request.json()
     const { action } = body
 
     if (action === 'like') {
+      // 먼저 현재 좋아요 수를 가져온 다음 1 증가시킴
+      const { data: currentProduct, error: fetchError } = await supabase
+        .from('products')
+        .select('likes')
+        .eq('id', id)
+        .single()
+
+      if (fetchError) {
+        console.error('Error fetching current likes:', fetchError)
+        return NextResponse.json({ error: fetchError.message }, { status: 500 })
+      }
+
       const { data: product, error } = await supabase
         .from('products')
-        .update({ likes: supabase.raw('likes + 1') })
+        .update({ likes: (currentProduct.likes || 0) + 1 })
         .eq('id', id)
         .select()
         .single()
@@ -113,9 +125,21 @@ export async function PATCH(request, { params }) {
     }
 
     if (action === 'chat') {
+      // 먼저 현재 채팅 수를 가져온 다음 1 증가시킴
+      const { data: currentProduct, error: fetchError } = await supabase
+        .from('products')
+        .select('chats')
+        .eq('id', id)
+        .single()
+
+      if (fetchError) {
+        console.error('Error fetching current chats:', fetchError)
+        return NextResponse.json({ error: fetchError.message }, { status: 500 })
+      }
+
       const { data: product, error } = await supabase
         .from('products')
-        .update({ chats: supabase.raw('chats + 1') })
+        .update({ chats: (currentProduct.chats || 0) + 1 })
         .eq('id', id)
         .select()
         .single()
