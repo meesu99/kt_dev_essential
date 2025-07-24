@@ -1,58 +1,48 @@
 'use client';
 import Link from 'next/link';
 import ProductCard from './components/ProductCard';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const featuredProducts = [
-    { 
-      id: 1, 
-      title: '아이폰 14 Pro 128GB 딥퍼플', 
-      desc: '1년 사용, 케이스 끼고 사용해서 깨끗해요', 
-      price: 850000, 
-      image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=400&fit=crop',
-      location: '서초구 반포동',
-      timeAgo: 30,
-      likes: 12,
-      chats: 5,
-      status: '판매중'
-    },
-    { 
-      id: 2, 
-      title: '맥북 에어 M2 13인치', 
-      desc: '대학교 과제용으로 사용했습니다. 정말 깨끗해요!', 
-      price: 1200000, 
-      image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&h=400&fit=crop',
-      location: '강남구 역삼동',
-      timeAgo: 120,
-      likes: 8,
-      chats: 3,
-      status: '판매중'
-    },
-    { 
-      id: 3, 
-      title: '갤럭시 버즈 프로 2', 
-      desc: '구매한지 3개월 됐고 거의 안써서 새것 같아요', 
-      price: 120000, 
-      image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=400&fit=crop',
-      location: '마포구 홍대입구',
-      timeAgo: 45,
-      likes: 15,
-      chats: 8,
-      status: '예약중'
-    },
-    { 
-      id: 4, 
-      title: '닌텐도 스위치 OLED', 
-      desc: '작년에 구매했는데 게임을 잘 안해서 팝니다', 
-      price: 280000, 
-      image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=400&fit=crop',
-      location: '송파구 잠실동',
-      timeAgo: 180,
-      likes: 20,
-      chats: 12,
-      status: '판매중'
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchFeaturedProducts();
+  }, []);
+
+  const fetchFeaturedProducts = async () => {
+    try {
+      const response = await fetch('/api/products?limit=4');
+      if (response.ok) {
+        const products = await response.json();
+        setFeaturedProducts(products.slice(0, 4)); // 처음 4개만 가져오기
+      } else {
+        console.error('Failed to fetch products');
+        // 실패시 더미 데이터 사용
+        setFeaturedProducts([
+          { 
+            id: 1, 
+            title: '아이폰 14 Pro 128GB 딥퍼플', 
+            description: '1년 사용, 케이스 끼고 사용해서 깨끗해요', 
+            price: 850000, 
+            image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&h=400&fit=crop',
+            location: '서초구 반포동',
+            timeAgo: 30,
+            likes: 12,
+            chats: 5,
+            status: '판매중'
+          }
+        ]);
+      }
+    } catch (error) {
+      console.error('Error fetching featured products:', error);
+      // 에러시 더미 데이터 사용
+      setFeaturedProducts([]);
+    } finally {
+      setIsLoading(false);
     }
-  ];
+  };
 
   const categories = [
     { name: '디지털기기', icon: '📱', count: 234 },
@@ -121,11 +111,26 @@ export default function Home() {
             </Link>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {featuredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 animate-pulse">
+                  <div className="aspect-square bg-gray-300 dark:bg-gray-600 rounded-t-lg"></div>
+                  <div className="p-3">
+                    <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded mb-2"></div>
+                    <div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-2/3"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {featuredProducts.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

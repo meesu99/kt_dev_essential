@@ -1,10 +1,17 @@
 import Link from 'next/link';
 
 export default function ProductCard({ product }) {
-  const formatTimeAgo = (minutes) => {
-    if (minutes < 60) return `${minutes}분 전`;
-    if (minutes < 1440) return `${Math.floor(minutes / 60)}시간 전`;
-    return `${Math.floor(minutes / 1440)}일 전`;
+  const formatTimeAgo = (dateString) => {
+    if (!dateString) return '방금 전';
+    
+    const now = new Date();
+    const createdAt = new Date(dateString);
+    const diffInMinutes = Math.floor((now - createdAt) / (1000 * 60));
+    
+    if (diffInMinutes < 1) return '방금 전';
+    if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
+    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}시간 전`;
+    return `${Math.floor(diffInMinutes / 1440)}일 전`;
   };
 
   const formatPrice = (price) => {
@@ -15,6 +22,11 @@ export default function ProductCard({ product }) {
   const handleImageError = (e) => {
     e.target.src = 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop';
   };
+
+  // 데이터베이스에서 온 데이터와 기존 더미 데이터를 모두 지원
+  const description = product.description || product.desc || '';
+  const createdAt = product.created_at || null;
+  const timeAgo = createdAt ? null : product.timeAgo; // 더미 데이터는 timeAgo 사용
 
   return (
     <Link href={`/products/${product.id}`} className="block">
@@ -45,16 +57,16 @@ export default function ProductCard({ product }) {
           {product.title}
         </h3>
         
-        {product.desc && (
-                     <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2 leading-relaxed">
-            {product.desc}
+        {description && (
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2 leading-relaxed">
+            {description}
           </p>
         )}
         
         <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-2">
           <span>{product.location}</span>
           <span className="mx-1">•</span>
-          <span>{formatTimeAgo(product.timeAgo)}</span>
+          <span>{createdAt ? formatTimeAgo(createdAt) : formatTimeAgo(timeAgo)}</span>
         </div>
         
         <div className="flex items-center justify-between">
