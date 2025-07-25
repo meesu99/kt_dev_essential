@@ -24,11 +24,6 @@ export default function QuizPage() {
   }, [selectedLanguage]);
 
   const loadNewQuestion = () => {
-    if (questionCount >= totalQuestions) {
-      setIsQuizCompleted(true);
-      return;
-    }
-
     // 오늘의 단어 목록에서 랜덤하게 선택
     import('../../data/word-of-the-day.json').then(wordOfTheDayData => {
       const wordsArray = wordOfTheDayData.default[selectedLanguage] || [];
@@ -51,8 +46,15 @@ export default function QuizPage() {
   };
 
   const handleNext = () => {
-    setQuestionCount(questionCount + 1);
-    loadNewQuestion();
+    const nextQuestionCount = questionCount + 1;
+    setQuestionCount(nextQuestionCount);
+    
+    // 다음 문제 개수가 총 문제 수에 도달하면 퀴즈 완료
+    if (nextQuestionCount >= totalQuestions) {
+      setIsQuizCompleted(true);
+    } else {
+      loadNewQuestion();
+    }
   };
 
   const resetQuiz = () => {
@@ -67,6 +69,8 @@ export default function QuizPage() {
     setScore(0);
     setQuestionCount(0);
     setIsQuizCompleted(false);
+    // 언어 변경 시 새로운 문제 로드
+    setTimeout(() => loadNewQuestion(), 0);
   };
 
   if (isQuizCompleted) {
