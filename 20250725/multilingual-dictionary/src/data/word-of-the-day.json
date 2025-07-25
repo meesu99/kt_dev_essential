@@ -1,0 +1,134 @@
+{
+  "english": [
+    {
+      "word": "serendipity",
+      "meaning": "The occurrence of events by chance in a fortunate way",
+      "example": "Finding this book was pure serendipity.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "ephemeral",
+      "meaning": "Lasting for a very short time",
+      "example": "The beauty of cherry blossoms is ephemeral.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "wanderlust",
+      "meaning": "A strong desire to travel and explore the world",
+      "example": "Her wanderlust led her to visit 30 countries.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "mellifluous",
+      "meaning": "Sweet or musical; pleasant to hear",
+      "example": "The singer's mellifluous voice captivated the audience.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "resilience",
+      "meaning": "The ability to recover quickly from difficulties",
+      "example": "Her resilience helped her overcome many challenges.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "quintessential",
+      "meaning": "Representing the most perfect example of a quality",
+      "example": "This café serves quintessential Italian coffee.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "ubiquitous",
+      "meaning": "Present, appearing, or found everywhere",
+      "example": "Smartphones have become ubiquitous in modern society.",
+      "partOfSpeech": "adjective"
+    }
+  ],
+  "korean": [
+    {
+      "word": "설렘",
+      "meaning": "기대하거나 기다리는 마음에 가슴이 두근거리는 느낌",
+      "example": "첫 데이트 전날 밤 설렘으로 잠을 이룰 수 없었다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "한가로움",
+      "meaning": "할 일이 없어 여유롭고 편안한 상태",
+      "example": "주말의 한가로움을 만끽했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "그리움",
+      "meaning": "떨어져 있는 사람이나 지나간 일을 간절히 생각하는 마음",
+      "example": "고향에 대한 그리움이 깊어진다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "애틋함",
+      "meaning": "안타깝고 가련하게 여기는 마음",
+      "example": "어머니의 애틋한 마음을 느꼈다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "벅참",
+      "meaning": "감격이나 감동으로 가슴이 찬 느낌",
+      "example": "졸업식에서 벅참을 느꼈다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "훈훈함",
+      "meaning": "마음이 따뜻하고 좋은 느낌",
+      "example": "이웃의 따뜻한 배려에 훈훈함을 느꼈다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "아련함",
+      "meaning": "가물가물하여 뚜렷하지 않은 느낌",
+      "example": "옛 추억이 아련하게 떠올랐다.",
+      "partOfSpeech": "명사"
+    }
+  ],
+  "japanese": [
+    {
+      "word": "物の哀れ",
+      "meaning": "人生の無常や自然の移ろいに対する深い感情",
+      "example": "桜の散る様子に物の哀れを感じた。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "侘寂",
+      "meaning": "不完全なものや老いたものの中に見出す美",
+      "example": "古い茶室に侘寂の美を感じる。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "一期一会",
+      "meaning": "一生に一度だけの出会い",
+      "example": "この出会いを一期一会と思って大切にしよう。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "木漏れ日",
+      "meaning": "木の葉の間から漏れる日光",
+      "example": "公園の木漏れ日が美しかった。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "懐かしい",
+      "meaning": "昔のことを思い出して心に温かい感情を覚える",
+      "example": "故郷の景色が懐かしい。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "切ない",
+      "meaning": "胸が締め付けられるような辛い気持ち",
+      "example": "別れの時が近づいて切ない。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "おもてなし",
+      "meaning": "心のこもった接客やサービス",
+      "example": "日本のおもてなしの心は世界的に有名だ。",
+      "partOfSpeech": "名詞"
+    }
+  ]
+} 

@@ -1,0 +1,72 @@
+{
+  "안녕하세요": {
+    "word": "안녕하세요",
+    "partOfSpeech": "감탄사",
+    "definition": "처음 만나거나 헤어질 때 하는 인사말",
+    "example": "안녕하세요, 만나서 반갑습니다.",
+    "pronunciation": "an-nyeong-ha-se-yo"
+  },
+  "감사합니다": {
+    "word": "감사합니다",
+    "partOfSpeech": "감탄사",
+    "definition": "고마움을 표현하는 말",
+    "example": "도와주셔서 감사합니다.",
+    "pronunciation": "gam-sa-ham-ni-da"
+  },
+  "사랑": {
+    "word": "사랑",
+    "partOfSpeech": "명사",
+    "definition": "상대방을 아끼고 소중히 여기는 마음",
+    "example": "가족에 대한 사랑은 무엇과도 바꿀 수 없다.",
+    "pronunciation": "sa-rang"
+  },
+  "행복": {
+    "word": "행복",
+    "partOfSpeech": "명사",
+    "definition": "생활에서 충분한 만족과 기쁨을 느끼는 마음",
+    "example": "작은 것에서도 행복을 찾을 수 있다.",
+    "pronunciation": "haeng-bok"
+  },
+  "꿈": {
+    "word": "꿈",
+    "partOfSpeech": "명사",
+    "definition": "잠자는 동안 의식 없이 하는 생각이나 앞으로 이루고 싶은 일",
+    "example": "꿈을 포기하지 말고 계속 노력하자.",
+    "pronunciation": "kkum"
+  },
+  "친구": {
+    "word": "친구",
+    "partOfSpeech": "명사",
+    "definition": "서로 친하게 지내는 사람",
+    "example": "오랜 친구와 함께 시간을 보냈다.",
+    "pronunciation": "chin-gu"
+  },
+  "학교": {
+    "word": "학교",
+    "partOfSpeech": "명사",
+    "definition": "교육을 목적으로 하는 기관",
+    "example": "매일 아침 학교에 갑니다.",
+    "pronunciation": "hak-gyo"
+  },
+  "음식": {
+    "word": "음식",
+    "partOfSpeech": "명사",
+    "definition": "사람이 먹을 수 있도록 만든 것",
+    "example": "한국 음식은 매우 맛있습니다.",
+    "pronunciation": "eum-sik"
+  },
+  "시간": {
+    "word": "시간",
+    "partOfSpeech": "명사",
+    "definition": "어떤 때나 동안을 나타내는 말",
+    "example": "시간이 정말 빨리 지나간다.",
+    "pronunciation": "si-gan"
+  },
+  "가족": {
+    "word": "가족",
+    "partOfSpeech": "명사",
+    "definition": "혈연이나 혼인 관계로 이루어진 공동체",
+    "example": "가족과 함께하는 시간이 소중하다.",
+    "pronunciation": "ga-jok"
+  }
+} 

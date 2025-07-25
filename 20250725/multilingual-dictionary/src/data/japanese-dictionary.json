@@ -1,0 +1,72 @@
+{
+  "こんにちは": {
+    "word": "こんにちは",
+    "partOfSpeech": "感嘆詞",
+    "definition": "昼間の挨拶の言葉",
+    "example": "こんにちは、お元気ですか？",
+    "pronunciation": "kon-ni-chi-wa"
+  },
+  "ありがとう": {
+    "word": "ありがとう",
+    "partOfSpeech": "感嘆詞",
+    "definition": "感謝の気持ちを表す言葉",
+    "example": "手伝ってくれてありがとう。",
+    "pronunciation": "a-ri-ga-to-u"
+  },
+  "愛": {
+    "word": "愛",
+    "partOfSpeech": "名詞",
+    "definition": "人や物を大切に思う気持ち",
+    "example": "家族への愛は何よりも大切だ。",
+    "pronunciation": "ai"
+  },
+  "幸せ": {
+    "word": "幸せ",
+    "partOfSpeech": "名詞・形容動詞",
+    "definition": "満足で喜ばしい状態",
+    "example": "小さなことにも幸せを感じる。",
+    "pronunciation": "shi-a-wa-se"
+  },
+  "夢": {
+    "word": "夢",
+    "partOfSpeech": "名詞",
+    "definition": "睡眠中に見る幻覚や将来の希望",
+    "example": "夢を諦めずに頑張ろう。",
+    "pronunciation": "yu-me"
+  },
+  "友達": {
+    "word": "友達",
+    "partOfSpeech": "名詞",
+    "definition": "親しく付き合っている人",
+    "example": "古い友達と一緒に時間を過ごした。",
+    "pronunciation": "to-mo-da-chi"
+  },
+  "学校": {
+    "word": "学校",
+    "partOfSpeech": "名詞",
+    "definition": "教育を行う施設",
+    "example": "毎朝学校に行きます。",
+    "pronunciation": "gak-ko-u"
+  },
+  "食べ物": {
+    "word": "食べ物",
+    "partOfSpeech": "名詞",
+    "definition": "人が食べるもの",
+    "example": "日本の食べ物はとても美味しいです。",
+    "pronunciation": "ta-be-mo-no"
+  },
+  "時間": {
+    "word": "時間",
+    "partOfSpeech": "名詞",
+    "definition": "ある時点や期間",
+    "example": "時間が本当に早く過ぎる。",
+    "pronunciation": "ji-kan"
+  },
+  "家族": {
+    "word": "家族",
+    "partOfSpeech": "名詞",
+    "definition": "血縁や婚姻で結ばれた集団",
+    "example": "家族と一緒にいる時間が大切だ。",
+    "pronunciation": "ka-zo-ku"
+  }
+} 
