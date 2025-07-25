@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { isAuthenticated, logout, getRemainingTime } from '@/utils/auth';
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,30 @@ export default function AddProduct() {
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(null);
+
+  // 인증 상태 및 만료 시간 체크
+  useEffect(() => {
+    // 초기 인증 체크
+    if (!isAuthenticated()) {
+      logout('/login');
+      return;
+    }
+
+    // 남은 시간 업데이트
+    const updateRemainingTime = () => {
+      const timeInfo = getRemainingTime();
+      if (!timeInfo) {
+        logout('/login');
+        return;
+      }
+      setRemainingTime(timeInfo);
+    };
+
+    updateRemainingTime();
+    const timer = setInterval(updateRemainingTime, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -72,7 +97,16 @@ export default function AddProduct() {
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <h1 className="text-3xl font-bold text-gray-900">상품 등록</h1>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">상품 등록</h1>
+              {remainingTime && (
+                <p className="text-sm text-gray-600 mt-1">
+                  ⏰ 로그인 만료까지: <span className="font-mono font-semibold text-orange-600">
+                    {remainingTime.formatted}
+                  </span>
+                </p>
+              )}
+            </div>
             <div className="flex space-x-4">
               <Link
                 href="/products"
@@ -85,6 +119,12 @@ export default function AddProduct() {
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
               >
                 보호된 페이지
+              </Link>
+              <Link
+                href="/logout"
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                로그아웃
               </Link>
             </div>
           </div>

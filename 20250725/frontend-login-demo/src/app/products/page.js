@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { isAuthenticated, logout, getRemainingTime } from '@/utils/auth';
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,11 +35,70 @@ export default function Products() {
     fetchProducts();
   }, []);
 
+  // 인증 상태 및 만료 시간 체크
+  useEffect(() => {
+    // 초기 인증 체크
+    if (!isAuthenticated()) {
+      logout('/login');
+      return;
+    }
+
+    // 남은 시간 업데이트
+    const updateRemainingTime = () => {
+      const timeInfo = getRemainingTime();
+      if (!timeInfo) {
+        // 시간이 만료되었거나 쿠키가 없는 경우
+        logout('/login');
+        return;
+      }
+      setRemainingTime(timeInfo);
+    };
+
+    // 초기 시간 설정
+    updateRemainingTime();
+
+    // 1초마다 남은 시간 업데이트
+    const timer = setInterval(() => {
+      updateRemainingTime();
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   const handleLogout = () => {
-    // 쿠키 삭제
-    document.cookie = 'auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    alert('로그아웃되었습니다.');
-    window.location.href = '/login';
+    logout('/login');
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    if (!confirm(`상품 #${productId}를 정말로 삭제하시겠습니까?`)) {
+      return;
+    }
+
+    try {
+      // DELETE API 요청
+      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${productId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // 성공 시 상품 목록에서 제거
+      setProducts(prevProducts => 
+        prevProducts.filter(product => product.id !== productId)
+      );
+
+      alert(`상품 #${productId}가 성공적으로 삭제되었습니다!`);
+      console.log('Delete successful for product ID:', productId);
+
+    } catch (error) {
+      alert(`상품 삭제에 실패했습니다: ${error.message}`);
+      console.error('Delete error:', error);
+    }
   };
 
   if (loading) {
@@ -73,7 +134,16 @@ export default function Products() {
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <h1 className="text-3xl font-bold text-gray-900">상품 목록</h1>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">상품 목록</h1>
+              {remainingTime && (
+                <p className="text-sm text-gray-600 mt-1">
+                  ⏰ 로그인 만료까지: <span className="font-mono font-semibold text-orange-600">
+                    {remainingTime.formatted}
+                  </span>
+                </p>
+              )}
+            </div>
             <div className="flex space-x-4">
               <Link
                 href="/add-product"
@@ -87,11 +157,17 @@ export default function Products() {
               >
                 보호된 페이지
               </Link>
+              <Link
+                href="/logout"
+                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+              >
+                로그아웃 페이지
+              </Link>
               <button
                 onClick={handleLogout}
                 className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
               >
-                로그아웃
+                즉시 로그아웃
               </button>
             </div>
           </div>
@@ -121,9 +197,17 @@ export default function Products() {
                     <span className="text-xs text-gray-500">
                       사용자 ID: {product.userId}
                     </span>
-                    <button className="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
-                      자세히 보기
-                    </button>
+                    <div className="flex space-x-2">
+                      <button className="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                        자세히 보기
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteProduct(product.id)}
+                        className="text-red-600 hover:text-red-800 text-sm font-medium"
+                      >
+                        삭제
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

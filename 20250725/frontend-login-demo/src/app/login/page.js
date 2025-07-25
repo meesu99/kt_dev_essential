@@ -15,10 +15,14 @@ export default function Login() {
 
     // 간단한 검증 (실제로는 서버 검증이 필요)
     if (username && password) {
-      // 쿠키에 인증 토큰 저장
-      document.cookie = 'auth=authenticated; path=/; max-age=3600'; // 1시간
+      // 현재 시간 + 10분 (테스트용으로 짧게 설정)
+      const expirationTime = new Date(Date.now() + 10 * 60 * 1000).toISOString();
       
-      alert('로그인 성공!');
+      // 쿠키에 인증 토큰과 만료 시간 저장
+      document.cookie = `auth=authenticated; path=/; max-age=600`; // 10분
+      document.cookie = `authExpiration=${expirationTime}; path=/; max-age=600`; // 만료 시간
+      
+      alert('로그인 성공! (10분 후 자동 만료됩니다)');
       
       // products 페이지로 리디렉션
       router.push('/products');

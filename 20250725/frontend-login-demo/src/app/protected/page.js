@@ -2,38 +2,48 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { isAuthenticated, logout, getRemainingTime, getCookie } from '@/utils/auth';
 
 export default function Protected() {
   const [userInfo, setUserInfo] = useState(null);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    // 쿠키에서 인증 정보 확인 (클라이언트 사이드에서도 확인)
-    const authCookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('auth='));
+    // 초기 인증 체크
+    if (!isAuthenticated()) {
+      logout('/login');
+      return;
+    }
+
+    // 인증 정보 설정
+    const authCookie = getCookie('auth');
+    const expirationCookie = getCookie('authExpiration');
     
     if (authCookie) {
       setUserInfo({
         authenticated: true,
         loginTime: new Date().toLocaleString('ko-KR'),
-        cookieValue: authCookie.split('=')[1]
+        cookieValue: authCookie,
+        expirationTime: expirationCookie ? new Date(expirationCookie).toLocaleString('ko-KR') : 'N/A'
       });
     }
 
-    // 현재 시간 업데이트
+    // 현재 시간 업데이트 + 인증 체크
     const timer = setInterval(() => {
       setCurrentTime(new Date());
+      
+      // 주기적으로 인증 상태 체크
+      if (!isAuthenticated()) {
+        logout('/login');
+        return;
+      }
     }, 1000);
 
     return () => clearInterval(timer);
   }, []);
 
   const handleLogout = () => {
-    // 쿠키 삭제
-    document.cookie = 'auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    alert('로그아웃되었습니다.');
-    window.location.href = '/login';
+    logout('/login');
   };
 
   const refreshPage = () => {
@@ -60,11 +70,17 @@ export default function Protected() {
               >
                 상품 등록
               </Link>
+              <Link
+                href="/logout"
+                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+              >
+                로그아웃 페이지
+              </Link>
               <button
                 onClick={handleLogout}
                 className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
               >
-                로그아웃
+                즉시 로그아웃
               </button>
             </div>
           </div>
@@ -107,6 +123,16 @@ export default function Protected() {
                   <div className="flex justify-between">
                     <span className="text-gray-600">접근 시간:</span>
                     <span className="text-gray-800">{userInfo.loginTime}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">만료 시간:</span>
+                    <span className="text-orange-600 font-semibold">{userInfo.expirationTime}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">남은 시간:</span>
+                    <span className="text-red-600 font-mono font-semibold">
+                      {getRemainingTime()?.formatted || '만료됨'}
+                    </span>
                   </div>
                 </div>
               ) : (
