@@ -46,3 +46,10 @@
   - `React.memo()`: 컴포넌트의 props가 바뀌지 않으면 다시 렌더링하지 않음
   - `useMemo()`: 계산 결과를 캐싱하여 반복 계산 방지
   - `useCallback()`: 함수 객체를 캐싱하여 자식 컴포넌트에 동일한 참조 전달
+
+> Image
+  - Next.js에서 이미지 사용할 때는 'next/image' import해서 사용하기.
+  - 자동 최적화, lazy loading, WebP
+  - 외부 이미지 사용 시 next.config.js에서 domain whitelist 설정 필요
+  * <unsplash> : 무료 이미지 사이트
+
