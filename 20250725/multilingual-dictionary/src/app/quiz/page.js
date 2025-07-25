@@ -12,6 +12,7 @@ export default function QuizPage() {
   const [questionCount, setQuestionCount] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(10);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  const [usedWords, setUsedWords] = useState([]); // 이미 나온 단어들 추적
 
   const languages = [
     { code: 'english', label: '영어', flag: '🇺🇸' },
@@ -25,17 +26,31 @@ export default function QuizPage() {
   }, [selectedLanguage]);
 
   const loadNewQuestion = () => {
-    // 오늘의 단어 목록에서 랜덤하게 선택
+    // 오늘의 단어 목록에서 중복되지 않게 선택
     import('../../data/word-of-the-day.json').then(wordOfTheDayData => {
       const wordsArray = wordOfTheDayData.default[selectedLanguage] || [];
       if (wordsArray.length > 0) {
-        const randomIndex = Math.floor(Math.random() * wordsArray.length);
-        const word = wordsArray[randomIndex];
-        const correctAnswer = word.meaning;
-        const wrongOptions = generateQuizOptions(word, selectedLanguage, 3);
+        // 아직 사용하지 않은 단어들만 필터링
+        const availableWords = wordsArray.filter(word => 
+          !usedWords.some(usedWord => usedWord.word === word.word)
+        );
         
-        setCurrentWord(word);
-        setQuizOptions(wrongOptions);
+        // 사용 가능한 단어가 있는 경우
+        if (availableWords.length > 0) {
+          const randomIndex = Math.floor(Math.random() * availableWords.length);
+          const word = availableWords[randomIndex];
+          const correctAnswer = word.meaning;
+          const wrongOptions = generateQuizOptions(word, selectedLanguage, 3);
+          
+          setCurrentWord(word);
+          setQuizOptions(wrongOptions);
+          
+          // 사용된 단어 목록에 추가
+          setUsedWords(prev => [...prev, word]);
+        } else {
+          // 모든 단어를 다 사용했으면 퀴즈 완료
+          setIsQuizCompleted(true);
+        }
       }
     });
   };
@@ -62,6 +77,7 @@ export default function QuizPage() {
     setScore(0);
     setQuestionCount(0);
     setIsQuizCompleted(false);
+    setUsedWords([]); // 사용된 단어 목록 초기화
     loadNewQuestion();
   };
 
@@ -70,6 +86,7 @@ export default function QuizPage() {
     setScore(0);
     setQuestionCount(0);
     setIsQuizCompleted(false);
+    setUsedWords([]); // 언어 변경 시 사용된 단어 목록 초기화
     // useEffect가 selectedLanguage 변경을 감지해서 자동으로 새 문제를 로드함
   };
 
