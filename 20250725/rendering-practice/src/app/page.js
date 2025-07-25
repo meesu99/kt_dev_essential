@@ -83,6 +83,13 @@ export default function Home() {
           >
             다시 로드하기
           </button>
+          
+          <a
+            href="/ssr"
+            className="rounded-full bg-purple-500 hover:bg-purple-600 text-white transition-colors flex items-center justify-center font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+          >
+            SSR 실습 페이지 →
+          </a>
         </div>
       </main>
     </div>
