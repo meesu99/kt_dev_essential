@@ -16,7 +16,8 @@ export default function QuizPage() {
   const languages = [
     { code: 'english', label: '영어', flag: '🇺🇸' },
     { code: 'korean', label: '한국어', flag: '🇰🇷' },
-    { code: 'japanese', label: '일본어', flag: '🇯🇵' }
+    { code: 'japanese', label: '일본어', flag: '🇯🇵' },
+    { code: 'slang', label: '신조어', flag: '🔥' }
   ];
 
   useEffect(() => {
@@ -69,8 +70,7 @@ export default function QuizPage() {
     setScore(0);
     setQuestionCount(0);
     setIsQuizCompleted(false);
-    // 언어 변경 시 새로운 문제 로드
-    setTimeout(() => loadNewQuestion(), 0);
+    // useEffect가 selectedLanguage 변경을 감지해서 자동으로 새 문제를 로드함
   };
 
   if (isQuizCompleted) {

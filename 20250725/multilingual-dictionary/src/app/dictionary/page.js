@@ -17,7 +17,8 @@ export default function DictionaryPage() {
   const languages = [
     { code: 'korean', label: '한국어', flag: '🇰🇷' },
     { code: 'japanese', label: '일본어', flag: '🇯🇵' },
-    { code: 'english', label: '영어 (오늘의 단어)', flag: '🇺🇸' }
+    { code: 'english', label: '영어 (오늘의 단어)', flag: '🇺🇸' },
+    { code: 'slang', label: '신조어', flag: '🔥' }
   ];
 
   const getAllWords = (language) => {
@@ -32,6 +33,8 @@ export default function DictionaryPage() {
         return [...japaneseWords, ...customJapaneseWords];
       case 'english':
         return wordOfTheDayData.english || [];
+      case 'slang':
+        return wordOfTheDayData.slang || [];
       default:
         return [];
     }

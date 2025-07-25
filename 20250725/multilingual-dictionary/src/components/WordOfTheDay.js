@@ -17,7 +17,8 @@ export default function WordOfTheDay() {
   const languages = [
     { code: 'english', label: '영어', flag: '🇺🇸' },
     { code: 'korean', label: '한국어', flag: '🇰🇷' },
-    { code: 'japanese', label: '일본어', flag: '🇯🇵' }
+    { code: 'japanese', label: '일본어', flag: '🇯🇵' },
+    { code: 'slang', label: '신조어', flag: '🔥' }
   ];
 
   const handleAddToFavorites = (language) => {

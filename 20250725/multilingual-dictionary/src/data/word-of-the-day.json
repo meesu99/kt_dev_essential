@@ -910,5 +910,79 @@
       "example": "心から感謝している。",
       "partOfSpeech": "名詞"
     }
+  ],
+  "slang": [
+    {
+      "word": "MZ세대",
+      "meaning": "밀레니얼 세대와 Z세대를 합친 말로, 1980년대~2010년대 초 출생자",
+      "example": "MZ세대는 디지털 네이티브 세대로 불린다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "갓생",
+      "meaning": "갓(God) + 인생의 줄임말로, 모범적이고 성실한 삶",
+      "example": "오늘부터 갓생을 살아보자고 다짐했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "워라밸",
+      "meaning": "Work-Life Balance의 줄임말로, 일과 삶의 균형",
+      "example": "요즘 직장인들은 워라밸을 중요하게 생각한다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "편세권",
+      "meaning": "편의점 + 세력권의 합성어로, 편의점 접근이 용이한 지역",
+      "example": "이 아파트는 편세권이라서 생활하기 편해요.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "확찐자",
+      "meaning": "확실히 찐(살이) 자의 줄임말로, 살이 많이 찐 사람",
+      "example": "집콕 생활로 확찐자가 되었다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "뇌섹남/뇌섹녀",
+      "meaning": "뇌가 섹시한 남자/여자의 줄임말로, 지적 매력이 있는 사람",
+      "example": "그는 정말 뇌섹남이라서 대화가 재미있다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "소확행",
+      "meaning": "소소하지만 확실한 행복의 줄임말",
+      "example": "따뜻한 커피 한 잔이 나에게는 소확행이다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "flex",
+      "meaning": "자랑하다, 과시하다는 의미의 영어 슬랭",
+      "example": "새로 산 명품 가방을 flex하고 있다.",
+      "partOfSpeech": "동사"
+    },
+    {
+      "word": "킹받다",
+      "meaning": "매우 화가 나다, 열받다는 의미의 신조어",
+      "example": "지하철에서 새치기하는 사람 보면 킹받아.",
+      "partOfSpeech": "형용사"
+    },
+    {
+      "word": "취준생",
+      "meaning": "취업 준비생의 줄임말",
+      "example": "취준생 시절이 가장 힘들었다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "갓직업",
+      "meaning": "갓(God) + 직업의 합성어로, 매우 좋은 직업",
+      "example": "공무원은 여전히 갓직업으로 여겨진다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "인싸",
+      "meaning": "인사이더(insider)의 줄임말로, 무리의 중심이 되는 사람",
+      "example": "그는 학교에서 유명한 인싸다.",
+      "partOfSpeech": "명사"
+    }
   ]
 } 
