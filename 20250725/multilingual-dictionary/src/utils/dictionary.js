@@ -1,5 +1,6 @@
 import koreanDictionary from '../data/korean-dictionary.json';
 import japaneseDictionary from '../data/japanese-dictionary.json';
+import { getCustomWordsByLanguage } from './dictionaryManager';
 
 // 영어 사전 API 호출
 export async function searchEnglishWord(word) {
@@ -26,21 +27,39 @@ export async function searchEnglishWord(word) {
   }
 }
 
-// 한국어 사전 검색
+// 한국어 사전 검색 (기본 + 커스텀)
 export function searchKoreanWord(word) {
-  const result = koreanDictionary[word];
+  // 먼저 기본 사전에서 검색
+  let result = koreanDictionary[word];
   if (result) {
     return result;
   }
+  
+  // 커스텀 사전에서 검색
+  const customWords = getCustomWordsByLanguage('korean');
+  result = customWords[word];
+  if (result) {
+    return result;
+  }
+  
   return null;
 }
 
-// 일본어 사전 검색
+// 일본어 사전 검색 (기본 + 커스텀)
 export function searchJapaneseWord(word) {
-  const result = japaneseDictionary[word];
+  // 먼저 기본 사전에서 검색
+  let result = japaneseDictionary[word];
   if (result) {
     return result;
   }
+  
+  // 커스텀 사전에서 검색
+  const customWords = getCustomWordsByLanguage('japanese');
+  result = customWords[word];
+  if (result) {
+    return result;
+  }
+  
   return null;
 }
 

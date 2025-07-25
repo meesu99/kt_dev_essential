@@ -37,14 +37,14 @@ export default function WordCard({
         {showFavoriteButton && (
           <button
             onClick={isFavorited ? onRemoveFromFavorites : onAddToFavorites}
-            className={`text-2xl transition-colors ${
+            className={`text-2xl transition-all duration-200 transform hover:scale-110 ${
               isFavorited 
-                ? 'text-yellow-500 hover:text-yellow-600' 
-                : 'text-gray-400 hover:text-yellow-500'
+                ? 'text-yellow-500 hover:text-yellow-600 drop-shadow-md' 
+                : 'text-gray-300 hover:text-yellow-400'
             }`}
             title={isFavorited ? '즐겨찾기에서 제거' : '즐겨찾기에 추가'}
           >
-            ⭐
+            {isFavorited ? '⭐' : '☆'}
           </button>
         )}
       </div>
