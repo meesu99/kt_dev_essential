@@ -29,14 +29,19 @@ export default function QuizPage() {
       return;
     }
 
-    const word = getWordOfTheDay(selectedLanguage);
-    if (word) {
-      const correctAnswer = word.meaning;
-      const wrongOptions = generateQuizOptions(word, selectedLanguage, 3);
-      
-      setCurrentWord(word);
-      setQuizOptions(wrongOptions);
-    }
+    // 오늘의 단어 목록에서 랜덤하게 선택
+    import('../../data/word-of-the-day.json').then(wordOfTheDayData => {
+      const wordsArray = wordOfTheDayData.default[selectedLanguage] || [];
+      if (wordsArray.length > 0) {
+        const randomIndex = Math.floor(Math.random() * wordsArray.length);
+        const word = wordsArray[randomIndex];
+        const correctAnswer = word.meaning;
+        const wrongOptions = generateQuizOptions(word, selectedLanguage, 3);
+        
+        setCurrentWord(word);
+        setQuizOptions(wrongOptions);
+      }
+    });
   };
 
   const handleAnswer = (isCorrect) => {

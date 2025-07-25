@@ -41,6 +41,264 @@
       "meaning": "Present, appearing, or found everywhere",
       "example": "Smartphones have become ubiquitous in modern society.",
       "partOfSpeech": "adjective"
+    },
+    {
+      "word": "eloquent",
+      "meaning": "Fluent or persuasive in speaking or writing",
+      "example": "She gave an eloquent speech about human rights.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "perseverance",
+      "meaning": "The quality of continuing with something despite difficulty",
+      "example": "His perseverance paid off when he finally graduated.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "luminous",
+      "meaning": "Giving off light; bright or shining",
+      "example": "The luminous moon lit up the night sky.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "nostalgia",
+      "meaning": "A sentimental longing for the past",
+      "example": "The old photographs filled her with nostalgia.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "tranquil",
+      "meaning": "Free from disturbance; calm and peaceful",
+      "example": "The tranquil lake reflected the mountains perfectly.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "magnificent",
+      "meaning": "Extremely beautiful, elaborate, or impressive",
+      "example": "The cathedral was a magnificent piece of architecture.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "compassion",
+      "meaning": "Sympathetic pity and concern for others' suffering",
+      "example": "Her compassion for animals led her to become a veterinarian.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "ingenious",
+      "meaning": "Clever, original, and inventive",
+      "example": "His ingenious solution saved the company millions.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "harmonious",
+      "meaning": "Forming a pleasing or consistent whole",
+      "example": "The colors in the painting were perfectly harmonious.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "enthusiasm",
+      "meaning": "Intense and eager enjoyment or interest",
+      "example": "Her enthusiasm for the project was contagious.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "exquisite",
+      "meaning": "Extremely beautiful and delicate",
+      "example": "The exquisite jewelry caught everyone's attention.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "integrity",
+      "meaning": "The quality of being honest and having strong moral principles",
+      "example": "His integrity made him a trusted leader.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "profound",
+      "meaning": "Very great or intense; having deep meaning",
+      "example": "The book had a profound impact on her worldview.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "inspiration",
+      "meaning": "The process of being mentally stimulated to do something creative",
+      "example": "Nature was her greatest source of inspiration.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "vivacious",
+      "meaning": "Attractively lively and animated",
+      "example": "Her vivacious personality lit up every room.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "benevolent",
+      "meaning": "Well-meaning and kindly",
+      "example": "The benevolent king was loved by his people.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "gratitude",
+      "meaning": "The quality of being thankful",
+      "example": "She expressed her gratitude for all the help she received.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "sophisticated",
+      "meaning": "Having great knowledge or experience of the world",
+      "example": "Her sophisticated taste in art impressed everyone.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "optimism",
+      "meaning": "Hopefulness and confidence about the future",
+      "example": "His optimism helped the team through difficult times.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "magnificent",
+      "meaning": "Impressively beautiful, elaborate, or extravagant",
+      "example": "The sunset over the ocean was truly magnificent.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "determination",
+      "meaning": "Firmness of purpose; resoluteness",
+      "example": "Her determination to succeed never wavered.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "gracious",
+      "meaning": "Courteous, kind, and pleasant",
+      "example": "The gracious host made everyone feel welcome.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "prosperity",
+      "meaning": "The state of being prosperous; success",
+      "example": "The country enjoyed a period of great prosperity.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "authentic",
+      "meaning": "Of undisputed origin; genuine",
+      "example": "The authentic Italian restaurant served traditional recipes.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "serenity",
+      "meaning": "The state of being calm, peaceful, and untroubled",
+      "example": "The garden provided a sense of serenity and peace.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "magnificent",
+      "meaning": "Extremely beautiful, elaborate, or impressive",
+      "example": "The palace was a magnificent example of baroque architecture.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "wisdom",
+      "meaning": "The quality of having experience, knowledge, and good judgment",
+      "example": "His wisdom came from years of life experience.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "radiant",
+      "meaning": "Sending out light; shining or glowing brightly",
+      "example": "Her radiant smile brightened everyone's day.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "courage",
+      "meaning": "The ability to do something that frightens one; bravery",
+      "example": "It took courage to stand up for what she believed in.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "splendid",
+      "meaning": "Magnificent; very impressive",
+      "example": "The view from the mountain top was absolutely splendid.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "creativity",
+      "meaning": "The use of imagination or original ideas",
+      "example": "Her creativity knew no bounds when it came to art.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "brilliant",
+      "meaning": "Exceptionally clever or talented",
+      "example": "She came up with a brilliant solution to the problem.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "harmony",
+      "meaning": "The combination of simultaneously sounded musical notes",
+      "example": "The choir sang in perfect harmony.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "elegant",
+      "meaning": "Graceful and stylish in appearance or manner",
+      "example": "She wore an elegant dress to the formal dinner.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "adventure",
+      "meaning": "An unusual and exciting experience or activity",
+      "example": "Their trip to the Amazon was quite an adventure.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "generous",
+      "meaning": "Showing a readiness to give more than is necessary",
+      "example": "The generous donation helped build the new library.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "freedom",
+      "meaning": "The power or right to act, speak, or think as one wants",
+      "example": "Freedom of speech is a fundamental human right.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "magnificent",
+      "meaning": "Extremely beautiful, elaborate, or impressive",
+      "example": "The fireworks display was absolutely magnificent.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "happiness",
+      "meaning": "The feeling of being happy; joy",
+      "example": "True happiness comes from within.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "peaceful",
+      "meaning": "Free from disturbance; tranquil",
+      "example": "The peaceful morning was perfect for meditation.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "knowledge",
+      "meaning": "Facts, information, and skills acquired through experience",
+      "example": "Knowledge is the key to understanding the world.",
+      "partOfSpeech": "noun"
+    },
+    {
+      "word": "wonderful",
+      "meaning": "Inspiring delight, pleasure, or admiration; excellent",
+      "example": "They had a wonderful time at the festival.",
+      "partOfSpeech": "adjective"
+    },
+    {
+      "word": "friendship",
+      "meaning": "The emotions or conduct of friends; mutual affection",
+      "example": "Their friendship lasted for over thirty years.",
+      "partOfSpeech": "noun"
     }
   ],
   "korean": [
@@ -85,6 +343,264 @@
       "meaning": "가물가물하여 뚜렷하지 않은 느낌",
       "example": "옛 추억이 아련하게 떠올랐다.",
       "partOfSpeech": "명사"
+    },
+    {
+      "word": "포근함",
+      "meaning": "따뜻하고 편안한 느낌",
+      "example": "어머니 품의 포근함이 그리웠다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "여운",
+      "meaning": "어떤 일이 끝난 뒤에도 남아 있는 느낌이나 기운",
+      "example": "감동적인 영화의 여운이 오래 남았다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "뿌듯함",
+      "meaning": "마음이 흡족하고 자랑스러운 느낌",
+      "example": "아이의 성장을 보며 뿌듯함을 느꼈다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "살풀이",
+      "meaning": "마음속의 한이나 시름을 춤으로 표현하여 푸는 것",
+      "example": "전통 살풀이춤을 보며 깊은 감동을 받았다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "단아함",
+      "meaning": "깔끔하고 우아한 아름다움",
+      "example": "한복의 단아함이 돋보였다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "정겨움",
+      "meaning": "친근하고 따뜻한 느낌",
+      "example": "시골 마을의 정겨운 풍경이 마음을 편안하게 했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "소담함",
+      "meaning": "작고 예쁘게 생긴 모양",
+      "example": "소담한 꽃들이 정원을 아름답게 꾸몄다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "은은함",
+      "meaning": "뚜렷하지 않으면서도 아름다운 느낌",
+      "example": "달빛의 은은한 아름다움에 취했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "멋스러움",
+      "meaning": "품위 있고 세련된 아름다움",
+      "example": "전통 건축물의 멋스러움에 감탄했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "뭉클함",
+      "meaning": "가슴이 찡하고 울컥하는 느낌",
+      "example": "오랜만에 만난 친구와의 재회에 뭉클함을 느꼈다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "정취",
+      "meaning": "그윽하고 아름다운 분위기나 맛",
+      "example": "가을 단풍의 정취를 만끽했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "운치",
+      "meaning": "멋있고 아름다운 경치나 분위기",
+      "example": "달밤의 운치가 특별히 아름다웠다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "흥취",
+      "meaning": "즐겁고 신나는 기분",
+      "example": "축제의 흥취에 빠져 시간 가는 줄 몰랐다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "여유",
+      "meaning": "마음이나 생활에 넉넉함이 있는 상태",
+      "example": "바쁜 일상 속에서도 여유를 잃지 않으려 노력한다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "정성",
+      "meaning": "마음을 다하여 성의를 보이는 것",
+      "example": "어머니의 정성이 담긴 음식을 먹었다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "배려",
+      "meaning": "남을 도와주거나 돌보아 주려는 마음",
+      "example": "그의 세심한 배려에 감동받았다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "감사",
+      "meaning": "고마워하는 마음",
+      "example": "도움을 주신 분들께 깊은 감사를 드린다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "희망",
+      "meaning": "앞으로 좋은 일이 있을 것이라고 기대하는 마음",
+      "example": "어려운 시기에도 희망을 잃지 않았다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "용기",
+      "meaning": "어려움을 이겨낼 수 있는 마음의 힘",
+      "example": "새로운 도전에는 용기가 필요하다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "인내",
+      "meaning": "어려움을 참고 견디는 마음",
+      "example": "성공을 위해서는 인내심이 중요하다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "지혜",
+      "meaning": "사물을 정확히 판단하고 처리할 수 있는 능력",
+      "example": "선조들의 지혜가 담긴 속담을 배웠다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "성실",
+      "meaning": "참되고 거짓이 없는 마음가짐",
+      "example": "그의 성실한 태도가 인상적이었다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "겸손",
+      "meaning": "자신을 낮추어 남을 존중하는 마음",
+      "example": "겸손한 태도가 그를 더욱 존경받게 했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "진실",
+      "meaning": "거짓이 아닌 참된 것",
+      "example": "진실을 말하는 것이 중요하다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "평화",
+      "meaning": "조용하고 온화한 상태",
+      "example": "세계 평화를 위해 노력해야 한다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "행복",
+      "meaning": "생활에서 충분한 만족과 기쁨을 느끼는 마음",
+      "example": "가족과 함께하는 시간이 가장 행복하다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "기쁨",
+      "meaning": "즐겁고 좋아하는 마음",
+      "example": "아이의 웃음소리에서 큰 기쁨을 느꼈다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "보람",
+      "meaning": "일을 한 뒤에 느끼는 만족감",
+      "example": "학생들을 가르치는 일에서 큰 보람을 느낀다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "추억",
+      "meaning": "지나간 일을 그리워하며 생각하는 것",
+      "example": "어린 시절의 소중한 추억들을 간직하고 있다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "꿈",
+      "meaning": "이루고 싶은 일에 대한 희망이나 소원",
+      "example": "어릴 때부터 가졌던 꿈을 포기하지 않았다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "열정",
+      "meaning": "어떤 일에 열렬한 마음으로 몰두하는 감정",
+      "example": "그의 일에 대한 열정이 놀라웠다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "신념",
+      "meaning": "굳게 믿는 마음이나 생각",
+      "example": "강한 신념이 그를 성공으로 이끌었다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "의지",
+      "meaning": "어떤 일을 이루려고 하는 마음",
+      "example": "강한 의지로 목표를 달성했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "노력",
+      "meaning": "목표를 이루기 위해 힘을 다하는 것",
+      "example": "꾸준한 노력이 결실을 맺었다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "정신",
+      "meaning": "마음이나 의식의 작용",
+      "example": "굳건한 정신력으로 시련을 극복했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "마음",
+      "meaning": "생각하고 느끼는 능력이나 그 바탕",
+      "example": "따뜻한 마음씨가 사람들을 끌어당겼다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "정",
+      "meaning": "사람이나 사물에 대한 깊은 애정",
+      "example": "고향에 대한 정이 깊다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "인연",
+      "meaning": "사람과 사람 사이의 만남이나 관계",
+      "example": "소중한 인연을 만났다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "우정",
+      "meaning": "친구 사이의 정다운 마음",
+      "example": "오랜 세월 변하지 않는 우정을 나누고 있다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "사랑",
+      "meaning": "상대방을 아끼고 소중히 여기는 마음",
+      "example": "가족에 대한 사랑은 무조건적이다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "자유",
+      "meaning": "외부의 구속이나 압박을 받지 않는 상태",
+      "example": "생각의 자유는 인간의 기본권이다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "자연",
+      "meaning": "인공이 아닌 천연 그대로의 상태",
+      "example": "자연의 아름다움에 감탄했다.",
+      "partOfSpeech": "명사"
+    },
+    {
+      "word": "아름다움",
+      "meaning": "보기에 좋고 예쁜 상태",
+      "example": "진정한 아름다움은 마음에서 나온다.",
+      "partOfSpeech": "명사"
     }
   ],
   "japanese": [
@@ -128,6 +644,270 @@
       "word": "おもてなし",
       "meaning": "心のこもった接客やサービス",
       "example": "日本のおもてなしの心は世界的に有名だ。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "儚い",
+      "meaning": "すぐに消えてしまいそうで頼りない",
+      "example": "人生の儚さを感じる瞬間がある。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "雅び",
+      "meaning": "上品で優美な美しさ",
+      "example": "平安時代の雅びな文化に憧れる。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "風情",
+      "meaning": "その場の情緒や味わい",
+      "example": "古い街並みには昔ながらの風情がある。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "余韻",
+      "meaning": "何かが終わった後も残る感情や印象",
+      "example": "美しい音楽の余韻が心に残る。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "情緒",
+      "meaning": "心に感じる微妙な感情",
+      "example": "秋の夕暮れに情緒を感じる。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "粋",
+      "meaning": "洗練された美意識や態度",
+      "example": "江戸っ子の粋な心意気に感動した。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "和み",
+      "meaning": "心が穏やかになること",
+      "example": "温泉に浸かって心が和んだ。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "癒し",
+      "meaning": "心や体の疲れを回復させること",
+      "example": "自然の中で心の癒しを求めた。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "優雅",
+      "meaning": "上品で美しい様子",
+      "example": "舞踊の優雅な姿に見とれた。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "繊細",
+      "meaning": "細かく美しい、または敏感な",
+      "example": "彼女の繊細な心遣いに感謝している。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "穏やか",
+      "meaning": "静かで落ち着いている様子",
+      "example": "穏やかな海を眺めながら考え事をした。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "清らか",
+      "meaning": "汚れがなく美しい様子",
+      "example": "清らかな水が山から流れてくる。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "麗しい",
+      "meaning": "美しく上品な様子",
+      "example": "麗しい花が庭に咲いている。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "慈しみ",
+      "meaning": "深い愛情を持って大切にすること",
+      "example": "母親の慈しみ深い眼差しを感じた。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "思いやり",
+      "meaning": "他人の気持ちを察して配慮すること",
+      "example": "彼の思いやりある行動に心を打たれた。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "謙虚",
+      "meaning": "控えめで素直な態度",
+      "example": "謙虚な姿勢で学び続けることが大切だ。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "誠実",
+      "meaning": "真面目で偽りがないこと",
+      "example": "誠実な人柄が多くの人に愛される理由だ。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "勤勉",
+      "meaning": "真面目に努力すること",
+      "example": "勤勉な学習態度が成果につながった。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "忍耐",
+      "meaning": "辛いことを我慢して耐えること",
+      "example": "成功には忍耐力が必要だ。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "希望",
+      "meaning": "将来に対する期待や願い",
+      "example": "困難な時でも希望を捨ててはいけない。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "勇気",
+      "meaning": "困難に立ち向かう心の強さ",
+      "example": "新しい挑戦には勇気が必要だ。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "智慧",
+      "meaning": "物事を正しく判断する能力",
+      "example": "祖母の智慧に従って行動した。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "真心",
+      "meaning": "偽りのない純粋な心",
+      "example": "真心を込めて手紙を書いた。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "感謝",
+      "meaning": "ありがたく思う気持ち",
+      "example": "家族への感謝の気持ちを忘れずにいたい。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "尊敬",
+      "meaning": "その人を高く評価し敬う気持ち",
+      "example": "先生に対する尊敬の念を抱いている。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "愛情",
+      "meaning": "深く愛する気持ち",
+      "example": "親の愛情に支えられて育った。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "友情",
+      "meaning": "友達同士の親しい気持ち",
+      "example": "長年の友情を大切にしている。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "絆",
+      "meaning": "人と人との強い結びつき",
+      "example": "家族との絆を深めたい。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "調和",
+      "meaning": "バランスが取れて美しい状態",
+      "example": "自然との調和を大切にしている。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "平和",
+      "meaning": "争いがなく穏やかな状態",
+      "example": "世界の平和を願っている。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "幸福",
+      "meaning": "満ち足りた幸せな状態",
+      "example": "家族といる時が最も幸福だ。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "喜び",
+      "meaning": "嬉しく楽しい気持ち",
+      "example": "子供の笑顔に大きな喜びを感じる。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "美しい",
+      "meaning": "見た目や心が美しい様子",
+      "example": "美しい夕日を見て感動した。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "素晴らしい",
+      "meaning": "非常に良い、優れている",
+      "example": "素晴らしい演奏に心を奪われた。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "豊か",
+      "meaning": "充実していて満ち足りている",
+      "example": "心豊かな人生を送りたい。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "温かい",
+      "meaning": "心地よい暖かさがある",
+      "example": "温かい家庭で育った。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "優しい",
+      "meaning": "思いやりがあり親切な",
+      "example": "優しい先生に出会えて幸運だった。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "大切",
+      "meaning": "価値があり重要なこと",
+      "example": "家族との時間を大切にしている。",
+      "partOfSpeech": "形容詞"
+    },
+    {
+      "word": "自然",
+      "meaning": "人工でない、ありのままの状態",
+      "example": "自然の美しさに癒される。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "季節",
+      "meaning": "一年の中の特定の時期",
+      "example": "日本の四季の変化は美しい。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "文化",
+      "meaning": "人間の生活様式や価値観",
+      "example": "日本の伝統文化を大切にしたい。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "伝統",
+      "meaning": "昔から受け継がれてきたもの",
+      "example": "伝統的な祭りに参加した。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "精神",
+      "meaning": "心の働きや考え方",
+      "example": "日本人の精神性に興味がある。",
+      "partOfSpeech": "名詞"
+    },
+    {
+      "word": "心",
+      "meaning": "感情や意識の中心",
+      "example": "心から感謝している。",
       "partOfSpeech": "名詞"
     }
   ]

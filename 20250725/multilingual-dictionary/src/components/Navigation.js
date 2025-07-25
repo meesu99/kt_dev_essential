@@ -10,8 +10,10 @@ export default function Navigation() {
   const pathname = usePathname();
   const [user, setUser] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     setUser(getCurrentUser());
   }, []);
 
@@ -20,7 +22,7 @@ export default function Navigation() {
     { href: '/dictionary', label: '단어사전', icon: '📖' },
     { href: '/favorites', label: '즐겨찾기', icon: '⭐' },
     { href: '/quiz', label: '퀴즈', icon: '🧠' },
-    ...(isAdmin() ? [{ href: '/admin', label: '관리자', icon: '⚙️' }] : [])
+    ...(isClient && isAdmin() ? [{ href: '/admin', label: '관리자', icon: '⚙️' }] : [])
   ];
 
   const handleLogin = (userData) => {
@@ -59,30 +61,32 @@ export default function Navigation() {
               ))}
               
               {/* 사용자 정보 및 로그인/로그아웃 */}
-              {user ? (
-                <div className="flex items-center space-x-2 ml-4">
-                  <span className="text-sm text-gray-600">
-                    {user.name} 님
-                    {user.role === 'admin' && (
-                      <span className="ml-1 text-xs bg-red-100 text-red-800 px-2 py-1 rounded">
-                        관리자
-                      </span>
-                    )}
-                  </span>
+              {isClient && (
+                user ? (
+                  <div className="flex items-center space-x-2 ml-4">
+                    <span className="text-sm text-gray-600">
+                      {user.name} 님
+                      {user.role === 'admin' && (
+                        <span className="ml-1 text-xs bg-red-100 text-red-800 px-2 py-1 rounded">
+                          관리자
+                        </span>
+                      )}
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm"
+                    >
+                      로그아웃
+                    </button>
+                  </div>
+                ) : (
                   <button
-                    onClick={handleLogout}
-                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm"
+                    onClick={() => setShowLoginModal(true)}
+                    className="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors ml-4"
                   >
-                    로그아웃
+                    🔑 로그인
                   </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setShowLoginModal(true)}
-                  className="text-gray-600 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors ml-4"
-                >
-                  🔑 로그인
-                </button>
+                )
               )}
             </div>
           </div>
