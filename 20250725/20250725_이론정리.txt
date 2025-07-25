@@ -53,3 +53,4 @@
   - 외부 이미지 사용 시 next.config.js에서 domain whitelist 설정 필요
   * <unsplash> : 무료 이미지 사이트
 
+
