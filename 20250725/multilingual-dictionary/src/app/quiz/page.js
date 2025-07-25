@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getWordOfTheDay, generateQuizOptions } from '../../utils/wordOfTheDay';
 import QuizQuestion from '../../components/QuizQuestion';
 
@@ -21,11 +21,7 @@ export default function QuizPage() {
     { code: 'slang', label: '신조어', flag: '🔥' }
   ];
 
-  useEffect(() => {
-    loadNewQuestion();
-  }, [selectedLanguage]);
-
-  const loadNewQuestion = () => {
+  const loadNewQuestion = useCallback(() => {
     // 오늘의 단어 목록에서 중복되지 않게 선택
     import('../../data/word-of-the-day.json').then(wordOfTheDayData => {
       const wordsArray = wordOfTheDayData.default[selectedLanguage] || [];
@@ -53,7 +49,11 @@ export default function QuizPage() {
         }
       }
     });
-  };
+  }, [selectedLanguage, usedWords]);
+
+  useEffect(() => {
+    loadNewQuestion();
+  }, [loadNewQuestion]);
 
   const handleAnswer = (isCorrect) => {
     if (isCorrect) {

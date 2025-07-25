@@ -90,7 +90,7 @@ export default function WordCard({
         {word.example && (
           <div>
             <h4 className="font-semibold text-gray-800 mb-1">예문:</h4>
-            <p className="text-gray-700 italic">"{word.example}"</p>
+            <p className="text-gray-700 italic">&ldquo;{word.example}&rdquo;</p>
           </div>
         )}
       </div>

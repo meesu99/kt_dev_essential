@@ -134,7 +134,7 @@ export default function QuizQuestion({
           <div className="text-sm text-gray-700">
             <p><strong>정답:</strong> {correctAnswer}</p>
             {word.example && (
-              <p className="mt-2"><strong>예문:</strong> "{word.example}"</p>
+              <p className="mt-2"><strong>예문:</strong> &ldquo;{word.example}&rdquo;</p>
             )}
           </div>
         </div>
