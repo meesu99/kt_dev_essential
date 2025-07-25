@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* Tailwind CSS v4.1 다크모드 설정 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --font-geist-sans: var(--font-geist-sans);
+  --font-geist-mono: var(--font-geist-mono);
+}
+
+/* body의 고정 배경색 제거하여 Tailwind 다크모드가 작동하도록 함 */
+body {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  /* 배경색과 텍스트 색상은 ThemeProvider에서 동적으로 관리 */
+}
+
+/* 다크모드를 위한 기본 스타일 */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 다크모드일 때 전체 페이지 배경 강제 설정 */
+.dark {
+  color-scheme: dark;
+}
+
+.light {
+  color-scheme: light;
+}
+
+/* 스크롤바 다크모드 스타일 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-md;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}

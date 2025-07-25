@@ -1,0 +1,43 @@
+> DOM (Document Object Model)
+ - 웹 페이지의 구조를 트리 형태로 표현한 객체 모델이에요. HTML 태그들을 브라우저가 이해할 수 있게 객체로 표현한 것.
+ - 마운트 : 컴포넌트가 DOM에 삽입
+ - 업데이트 : props나 state가 바뀔 때
+ - 언마운트 : DOM에서 삭제될 때
+
+
+> props (properties)
+ - 컴포넌트에 전달하는 데이터
+
+
+> useEffect()
+ * 함수형 컴포넌트에서는 useEffect()로 이 모든 생명주기를 컨트롤함
+ * useEffect()는 컴포넌트가 처음 렌더링될 때 API 호출에 적합
+
+
+> fetch()
+ * fetch()를 사용하여 REST API 호출
+
+
+> useState()
+ - `useState()`는 React에서 **컴포넌트 안에 상태를 저장**하고 관리하는 가장 기본적인 방법이다.
+ - 상태가 변경되면 해당 컴포넌트가 **자동으로 다시 렌더링**된다.
+ - 전역 상태 관리를 하기 나쁨.
+
+
+> 전역 상태 관리 도구
+  Context API	React 내장 기능		간단, 의존 없음			리렌더링 범위 큼		로그인 상태, 다크모드
+  Redux Toolkit	전통적 전역 상태 관리	구조적, 대규모 앱 적합		설정 복잡, 코드 많음	커머스, 대시보드
+  Zustand	Hook 기반, 경량		배우기 쉬움			초대형 앱엔 불리		개인 프로젝트, 설정 UI
+  Recoil		Facebook 제작, 직관적	비동기 지원, useRecoilState 유사	커뮤니티 작음		설문, 필터 조건 관리
+** 현업에서는 Zustand, 대규모에서는 Redux.
+
+
+> 렌더링 방식
+CSR(Client Side Rendering)		브라우저에서 JS가 렌더링		초기에는 비어 있음, JS 실행 후 내용 표시	대부분의 SPA (예: Gmail)
+SSR(Server Side Rendering)		서버에서 HTML 생성 후 전송		초기 로딩 빠름, SEO 유리			블로그, 뉴스 기사
+SSG(Static Site Generation)		빌드 타임에 HTML 생성		속도 매우 빠름, 정적 내용에 적합		기술 문서, 랜딩 페이지
+ISR(Incremental Static Regeneration)	정적 생성 + 주기적 갱신		최신 데이터 반영 + 속도 모두 잡음		Next.js의 동적 제품 목록 등
+
+* SEO(Search Engine Optimization) : 검색 엔진 최적화
+ - 검색 우선 순위에 대한 점수.
+

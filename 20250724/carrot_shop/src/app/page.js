@@ -4,8 +4,8 @@ import ProductCard from './components/ProductCard';
 import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+    const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchFeaturedProducts();
