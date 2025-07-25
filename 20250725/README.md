@@ -5,3 +5,5 @@
 - CSR/SSR 기본 (rendering-practice)
 - CSR/SSR 실습 (rendering-searching)
 - 미들웨어 실습 (middleware-demo)
+- JSON Response 실습 (json-demo)
+- 프론트엔드 통합 실습 (frontend-login-demo)
