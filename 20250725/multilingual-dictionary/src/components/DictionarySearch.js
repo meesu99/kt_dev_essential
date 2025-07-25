@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { searchWord } from '../utils/dictionary';
-import { addToFavorites, isFavorite } from '../utils/favorites';
+import { addToFavorites } from '../utils/favorites';
 import WordCard from './WordCard';
 
 export default function DictionarySearch() {
@@ -110,7 +110,6 @@ export default function DictionarySearch() {
           language={selectedLanguage}
           showFavoriteButton={true}
           onAddToFavorites={handleAddToFavorites}
-          isFavorited={isFavorite(searchResult.word, selectedLanguage)}
         />
       )}
     </div>

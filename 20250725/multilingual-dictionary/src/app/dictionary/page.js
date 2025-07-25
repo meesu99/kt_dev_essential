@@ -6,7 +6,7 @@ import japaneseDictionary from '../../data/japanese-dictionary.json';
 import wordOfTheDayData from '../../data/word-of-the-day.json';
 import { getCustomWordsByLanguage } from '../../utils/dictionaryManager';
 import WordCard from '../../components/WordCard';
-import { addToFavorites, isFavorite } from '../../utils/favorites';
+import { addToFavorites } from '../../utils/favorites';
 
 export default function DictionaryPage() {
   const [selectedLanguage, setSelectedLanguage] = useState('korean');
@@ -141,13 +141,12 @@ export default function DictionaryPage() {
           <div className="space-y-4 mb-8">
             {currentWords.map((word, index) => (
               <div key={`${word.word}-${index}`}>
-                <WordCard
-                  word={word}
-                  language={selectedLanguage}
-                  showFavoriteButton={true}
-                  onAddToFavorites={() => handleAddToFavorites(word)}
-                  isFavorited={isFavorite(word.word, selectedLanguage)}
-                />
+                                 <WordCard
+                   word={word}
+                   language={selectedLanguage}
+                   showFavoriteButton={true}
+                   onAddToFavorites={() => handleAddToFavorites(word)}
+                 />
               </div>
             ))}
           </div>

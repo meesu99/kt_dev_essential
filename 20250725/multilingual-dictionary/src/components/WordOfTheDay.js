@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { getAllWordsOfTheDay } from '../utils/wordOfTheDay';
-import { addToFavorites, isFavorite } from '../utils/favorites';
+import { addToFavorites } from '../utils/favorites';
 import WordCard from './WordCard';
 
 export default function WordOfTheDay() {
@@ -68,7 +68,6 @@ export default function WordOfTheDay() {
           language={selectedLanguage}
           showFavoriteButton={true}
           onAddToFavorites={() => handleAddToFavorites(selectedLanguage)}
-          isFavorited={isFavorite(currentWord.word, selectedLanguage)}
         />
       ) : (
         <div className="text-center py-8 text-gray-500">

@@ -1,13 +1,32 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { isFavorite } from '../utils/favorites';
+
 export default function WordCard({ 
   word, 
   language, 
   showFavoriteButton = false, 
   onAddToFavorites, 
-  onRemoveFromFavorites,
-  isFavorited = false 
+  onRemoveFromFavorites
 }) {
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setIsFavorited(isFavorite(word.word, language));
+  }, [word.word, language]);
+
+  const handleFavoriteToggle = () => {
+    if (isFavorited) {
+      onRemoveFromFavorites && onRemoveFromFavorites();
+    } else {
+      onAddToFavorites && onAddToFavorites();
+    }
+    // 상태 업데이트
+    setIsFavorited(!isFavorited);
+  };
   const getLanguageIcon = (lang) => {
     switch (lang) {
       case 'english': return '🇺🇸';
@@ -34,9 +53,9 @@ export default function WordCard({
           <span className="text-sm text-gray-600">{getLanguageLabel(language)}</span>
         </div>
         
-        {showFavoriteButton && (
+        {showFavoriteButton && isClient && (
           <button
-            onClick={isFavorited ? onRemoveFromFavorites : onAddToFavorites}
+            onClick={handleFavoriteToggle}
             className={`text-2xl transition-all duration-200 transform hover:scale-110 ${
               isFavorited 
                 ? 'text-yellow-500 hover:text-yellow-600 drop-shadow-md' 

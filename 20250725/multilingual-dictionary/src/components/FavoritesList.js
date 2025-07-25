@@ -31,6 +31,8 @@ export default function FavoritesList() {
     const success = removeFromFavorites(wordId);
     if (success) {
       loadFavorites(); // 목록 새로고침
+      // 강제로 리렌더링을 위해 상태 업데이트
+      setFavorites(prev => prev.filter(fav => fav.id !== wordId));
     }
   };
 
@@ -100,7 +102,6 @@ export default function FavoritesList() {
                   language={favorite.language}
                   showFavoriteButton={true}
                   onRemoveFromFavorites={() => handleRemoveFromFavorites(favorite.id)}
-                  isFavorited={true}
                 />
                 <div className="absolute top-2 right-12 text-xs text-gray-500">
                   추가일: {new Date(favorite.addedAt).toLocaleDateString('ko-KR')}
