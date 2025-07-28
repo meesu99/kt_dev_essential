@@ -29,4 +29,7 @@ public class Main {
 }
 
 
-> 
+> Java의 자료형
+  - 기본형 : int, double, boolean, char
+  - 참조형 : String, Object, Array
+
