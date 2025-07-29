@@ -33,3 +33,8 @@ public class Main {
   - 기본형 : int, double, boolean, char
   - 참조형 : String, Object, Array
 
+
+> Scanner
+  Scanner sc = new Scanner(System.in);
+  String name = sc.nextLine();
+  - nextLine() / next() / nextInt() / nextDouble() / nextBoolean()
