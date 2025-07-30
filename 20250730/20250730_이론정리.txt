@@ -1,0 +1,41 @@
+> ArrayList : 순서 있는 중복 허용 컬렉션
+  ArrayList<String> list = new ArrayList<>();
+  list.add("Java");
+  System.out.println(list.get(1));
+  list.remove("C++");
+
+
+> HashSet : 순서 불필요·중복 불허 컬렉션
+  HashSet<Integer> hs = new HashSet<>();
+  hs.add(5);
+
+  System.out.println(hs);
+
+  // 전체 순회
+  for (String item : set) {
+    System.out.println(item);
+  }
+
+
+> HashMap : 키-값 쌍 저장 컬렉션
+  HashMap<String, String> map = new HashMap<>();
+  map.put("k1", "v1");
+
+  System.out.println(map.entrySet());
+
+  // 전체 순회
+  for (Map.Entry<String, String> entry : map.entrySet()) {
+      System.out.println(entry.getKey() + " : " + entry.getValue());
+  }
+
+
+> Static 메서드
+  - 객체 생성 없이 바로 사용 가능
+  - this 없음, 클래스 상태만 처리 가능
+  - 전역처럼 반복해서 쓰일 순수 함수
+
+
+> 인스턴스 메서드
+  - 객체 상태를 바로 참조, 변경 가능
+  - 객체 생성 부담, 많은 인스턴스 생성시 메모리 사용 증가
+
