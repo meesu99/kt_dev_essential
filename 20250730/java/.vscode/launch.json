@@ -1,0 +1,77 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "ArrList",
+            "request": "launch",
+            "mainClass": "ArrList",
+            "projectName": "java_4da041a5"
+        },
+        {
+            "type": "java",
+            "name": "ArrayPractice",
+            "request": "launch",
+            "mainClass": "ArrayPractice",
+            "projectName": "java_4da041a5"
+        },
+        {
+            "type": "java",
+            "name": "ArrayPractice2",
+            "request": "launch",
+            "mainClass": "ArrayPractice2",
+            "projectName": "java_4da041a5"
+        },
+        {
+            "type": "java",
+            "name": "ArrayPractice3",
+            "request": "launch",
+            "mainClass": "ArrayPractice3",
+            "projectName": "java_4da041a5"
+        },
+        {
+            "type": "java",
+            "name": "BlockScope",
+            "request": "launch",
+            "mainClass": "BlockScope",
+            "projectName": "java_4da041a5"
+        },
+        {
+            "type": "java",
+            "name": "Counter",
+            "request": "launch",
+            "mainClass": "Counter",
+            "projectName": "java_4da041a5"
+        },
+        {
+            "type": "java",
+            "name": "Multiply",
+            "request": "launch",
+            "mainClass": "Multiply",
+            "projectName": "java_4da041a5"
+        },
+        {
+            "type": "java",
+            "name": "PrintArray",
+            "request": "launch",
+            "mainClass": "PrintArray",
+            "projectName": "java_4da041a5"
+        },
+        {
+            "type": "java",
+            "name": "ScopeDemo",
+            "request": "launch",
+            "mainClass": "ScopeDemo",
+            "projectName": "java_4da041a5"
+        }
+    ]
+}
