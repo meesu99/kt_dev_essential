@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 책 목록 - 간단 북스토어</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- 상단 네비게이션 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1><a th:href="@{/}">📚 간단 북스토어</a></h1>
+            <ul class="nav-menu">
+                <li><a th:href="@{/}">🏠 홈</a></li>
+                <li><a th:href="@{/book/list}" class="active">📋 책 목록</a></li>
+                <li><a th:href="@{/book/add}">➕ 책 추가</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>📋 책 목록</h1>
+
+        <!-- 검색 폼 -->
+        <div class="search-section">
+            <form th:action="@{/book/search}" method="get" class="search-form">
+                <div class="search-inputs">
+                    <input type="text" name="keyword" th:value="${keyword}"
+                           placeholder="제목 또는 저자 검색">
+                    <select name="category">
+                        <option value="">전체 카테고리</option>
+                        <option value="소설" th:selected="${category == '소설'}">📖 소설</option>
+                        <option value="과학" th:selected="${category == '과학'}">🔬 과학</option>
+                        <option value="역사" th:selected="${category == '역사'}">📜 역사</option>
+                        <option value="컴퓨터" th:selected="${category == '컴퓨터'}">💻 컴퓨터</option>
+                        <option value="예술" th:selected="${category == '예술'}">🎨 예술</option>
+                    </select>
+                    <button type="submit" class="btn btn-info">🔍 검색</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 검색 결과 정보 -->
+        <div th:if="${keyword != null or category != null}" class="search-info">
+            <p>
+                🔍 검색 결과:
+                <strong th:text="${resultCount} ?: ${#lists.size(books)}">0</strong>권
+                <span th:if="${keyword != null and !keyword.isEmpty()}">
+                    (키워드: "<span th:text="${keyword}">검색어</span>")
+                </span>
+                <span th:if="${category != null and !category.isEmpty()}">
+                    (카테고리: <span th:text="${category}">카테고리</span>)
+                </span>
+            </p>
+            <a th:href="@{/book/list}" class="btn btn-small">전체 목록 보기</a>
+        </div>
+
+        <!-- 책 목록 -->
+        <div class="books-section">
+            <!-- 책이 없을 때 -->
+            <div th:if="${#lists.isEmpty(books)}" class="empty-state">
+                <h3>📚 등록된 책이 없습니다</h3>
+                <p>첫 번째 책을 추가해보세요!</p>
+                <a th:href="@{/book/add}" class="btn btn-primary">➕ 책 추가</a>
+            </div>
+
+            <!-- 책 목록 표시 -->
+            <div th:if="${!#lists.isEmpty(books)}" class="book-grid">
+                <div th:each="book : ${books}" class="book-card">
+                    <div class="book-header">
+                        <span class="category-emoji" th:text="${book.categoryEmoji}">📚</span>
+                        <h3 th:text="${book.title}">책 제목</h3>
+                    </div>
+
+                    <div class="book-info">
+                        <p><strong>✍️ 저자:</strong> <span th:text="${book.author}">저자명</span></p>
+                        <p><strong>📂 카테고리:</strong> <span th:text="${book.category}">카테고리</span></p>
+                        <p><strong>💰 가격:</strong> <span th:text="${book.formattedPrice}">가격</span></p>
+                    </div>
+
+                    <div th:if="${book.description != null and !book.description.isEmpty()}" class="book-description">
+                        <p th:text="${book.description}">책 설명</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 총 개수 표시 -->
+            <div th:if="${!#lists.isEmpty(books)}" class="book-count">
+                <p>📊 총 <strong th:text="${#lists.size(books)}">0</strong>권의 책이 등록되어 있습니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 간단 북스토어 - Spring MVC + Thymeleaf 학습용</p>
+    </footer>
+</body>
+</html>

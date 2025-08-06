@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About Me!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            margin: 0; padding: 30px; color: #333;
+        }
+        .container {
+            max-width: 700px; margin: 0 auto;
+            background: white; padding: 40px; border-radius: 15px;
+        }
+        .profile-header { text-align: center; margin-bottom: 30px; }
+        .info-row {
+            display: flex; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid #eee;
+        }
+        .skill-tag {
+            display: inline-block; background: #11998e; color: white;
+            padding: 5px 15px; border-radius: 20px; margin: 5px;
+        }
+        .back-btn {
+            display: inline-block; padding: 10px 20px;
+            background: #11998e; color: white; text-decoration: none;
+            border-radius: 5px; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <h1 style="font-size:2.5rem; margin-bottom:0.5em;" th:text="${myName}">이름</h1>
+            <div style="font-size:1.2rem; color:#11998e; margin-bottom:1em;">About Me! ✨</div>
+        </div>
+        <div class="info-row">
+            <span style="font-weight:bold;">취미</span>
+            <span th:text="${myHobby}" style="font-size:1.2rem;">취미</span>
+        </div>
+        <div class="info-row">
+            <span style="font-weight:bold;">꿈</span>
+            <span th:text="${myDream}" style="font-size:1.2rem;">꿈</span>
+        </div>
+        <div class="info-row" style="flex-direction:column; align-items:flex-start;">
+            <span style="font-weight:bold; margin-bottom:0.5em;">좋아하는 것들</span>
+            <div>
+                <span th:each="item : ${favorites}" class="skill-tag" th:text="${item}">항목</span>
+            </div>
+        </div>
+        <a href="/thymeleaf-1.0-SNAPSHOT" class="back-btn">🏠 홈으로 돌아가기</a>
+    </div>
+</body>
+</html>

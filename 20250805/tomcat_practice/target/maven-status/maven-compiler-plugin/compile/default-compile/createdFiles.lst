@@ -1,0 +1,5 @@
+com\example\controller\HelloController.class
+com\example\config\WebAppInitializer.class
+com\example\service\MessageService.class
+com\example\App.class
+com\example\config\WebConfig.class

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'📖 ' + ${book.title} + ' - 간단 북스토어'">책 상세 - 간단 북스토어</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- 상단 네비게이션 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1><a th:href="@{/}">📚 간단 북스토어</a></h1>
+            <ul class="nav-menu">
+                <li><a th:href="@{/}">🏠 홈</a></li>
+                <li><a th:href="@{/book/list}">📋 책 목록</a></li>
+                <li><a th:href="@{/book/add}">➕ 책 추가</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 성공 메시지 -->
+        <div th:if="${message}" class="alert alert-success">
+            ✅ <span th:text="${message}">성공 메시지</span>
+        </div>
+
+        <!-- 책 상세 정보 -->
+        <div class="book-detail">
+            <div class="book-detail-header">
+                <span class="category-emoji-large" th:text="${book.categoryEmoji}">📚</span>
+                <h1 th:text="${book.title}">책 제목</h1>
+            </div>
+
+            <div class="book-detail-info">
+                <div class="info-row">
+                    <span class="info-label">✍️ 저자:</span>
+                    <span class="info-value" th:text="${book.author}">저자명</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">📂 카테고리:</span>
+                    <span class="info-value" th:text="${book.category}">카테고리</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">💰 가격:</span>
+                    <span class="info-value price" th:text="${book.formattedPrice}">가격</span>
+                </div>
+
+                <div th:if="${book.description != null and !book.description.isEmpty()}" class="info-row description-row">
+                    <span class="info-label">📝 설명:</span>
+                    <div class="info-value description" th:text="${book.description}">책 설명</div>
+                </div>
+            </div>
+
+            <!-- 액션 버튼들 -->
+            <div class="action-buttons">
+                <a th:href="@{/book/add}" class="btn btn-primary">➕ 새 책 추가</a>
+                <a th:href="@{/book/list}" class="btn btn-secondary">📋 목록으로</a>
+                <a th:href="@{/}" class="btn btn-info">🏠 홈으로</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 간단 북스토어 - Spring MVC + Thymeleaf 학습용</p>
+    </footer>
+</body>
+</html>

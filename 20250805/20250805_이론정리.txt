@@ -1,0 +1,125 @@
+> @Autowired
+  - 의존성 주입을 자동으로 해주는 애너테이션
+  - Spring이 필요한 Bean을 자동으로 주입해주는 어노테이션
+
+  - 생성자 주입을 권장함 (필드 주입 vs 생성자 주입)
+    - 객체 생성 시점에 의존성이 주입되므로 더 안전
+    - final 사용 가능
+    - 테스트 시 Mock 객체 쉽게 주입 가능
+
+
+> @Bean vs @Component
+  - Spring이 생성하고 관리하는 객체
+
+  - @Bean
+    - 메서드 위에 사용
+    - 수동 등록, 객체를 리턴하는 메서드에 사용
+    - 주로 외부 라이브러리 클래스나 소스 수정이 불가능한 클래스에 사용
+
+  - @Component
+    - 클래스 위에 사용
+    - 자동 감지, 클래스에 사용
+    - 컴포넌트 스캔을 설정해야 함.
+
+
+> DispatcherServlet
+  - Spring MVC 핵심 컨트롤러 (프론트 컨트롤러)
+  - 웹 요청이 들어왔을 때 가장 먼저 요청을 받아서 처리 흐름을 조절
+  - 요청 → DispatcherServlet → HandlerMapping → Controller → ViewResolver → 응답
+
+
+> Apache Tomcat
+  - Java 웹 애플리케이션을 실행시켜주는 웹 서버이자 서블릿 컨테이너
+  - Spring 개발, WAR 배포, 웹 서버 대체용으로 사용
+
+  * 웹 서버 
+    - 브라우저(클라이언트)에서 요청한 HTML, CSS, JS, 이미지 등을 전달해주는 서버 역할
+    - Nginx, Apache HTTP Server, Tomat
+
+  * 서블릿 컨테이너
+    - Java 코드로 작성된 웹 프로그램(= 서블릿, JSP 등)을 실행해주는 엔진 
+
+
+> @Controller vs @RestController
+  - @Controller
+    - HTML 화면 반환, 웹사이트 화면에 사용
+
+  - @RestController
+    - JSON 데이터 반환, API 서버에 사용
+
+
+** JavaConfig로 DispatcherServlet 설정하기
+  src/main/java/
+  ├── com/example/config/
+  │   └── WebConfig.java          ← 모든 설정이 여기에!
+  ├── com/example/controller/
+  │   └── HelloController.java    ← 요청 처리
+  └── com/example/service/
+      └── MessageService.java     ← 비즈니스 로직
+
+  src/main/webapp/WEB-INF/views/
+  └── hello.jsp                   ← 화면 출력
+
+
+0단계: pom.xml - 설정하기
+1단계: WebConfig.java
+2단계: Controller 만들기
+3단계: Service 만들기
+4단계: JSP 뷰 파일들 만들기
+5단계: WAR 파일 배포하기
+
+* WAR 파일 : VSCode 좌하단 > MAVEN > 프로젝트 우클릭 > run maven command > package
+* TOMCAT 실행 : C:\apache-tomcat-9.0.107\bin>startup.bat
+* 실행 화면 확인 : http://localhost:9090/(war 파일명)
+
+> JSP
+  - 기본 구조는 HTML과 유사
+
+
+> @RequestMapping
+
+
+> @ResponseBody
+
+** 개발 팁
+  1. URL 규칙 : 항상 `/`로 시작하기 (`"/hello"` ✅, `"hello"` ❌)
+  2. 메서드명 : URL과 비슷하게 지으면 이해하기 쉬움 (`/hello` → `hello()`)
+  3. 패키지 위치 : Controller는 보통 `controller` 패키지에 모아두기
+  4. 테스트 방법 : 브라우저 주소창에 직접 입력해서 확인
+
+** 자주 하는 실수들
+  1. 어노테이션 누락 : `@Controller`나 `@RequestMapping` 빼먹기
+  2. URL 오타 : `/helo` vs `/hello` 같은 철자 실수
+  3. @ResponseBody 빼먹기 : JSP 파일을 찾으려다가 404 에러
+  4. 패키지 스캔 누락 : `@ComponentScan`에 controller 패키지가 포함되어 있는지 확인
+
+
+> Thymeleaf
+  - /views 대신에 /templates 디렉토리를, jsp 대신에 html을 사용
+
+ << 프로젝트 구조 >>
+my-spring-thymeleaf-project/
+├── pom.xml                                    ← Maven 설정 파일
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/
+│       │       └── example/
+│       │           ├── config/
+│       │           │   ├── WebConfig.java          ← Thymeleaf 설정
+│       │           │   └── WebAppInitializer.java  ← 웹 앱 초기화
+│       │           └── controller/
+│       │               └── HelloController.java    ← 컨트롤러
+│       ├── resources/
+│       │   └── (설정 파일들 - 현재는 비어있음)
+│       └── webapp/
+│           ├── WEB-INF/
+│           │   └── templates/                ← Thymeleaf 템플릿 폴더
+│           │       ├── hello.html           ← 메인 페이지
+│           │       ├── profile.html         ← 프로필 페이지
+│           │       └── about.html           ← 소개 페이지 (실습용)
+│           └── css/                         ← CSS 파일들 (선택사항)
+│               └── style.css
+└── target/                                  ← 빌드 결과물 (자동 생성)
+
+* Tymeleaf 문법 공부 필요

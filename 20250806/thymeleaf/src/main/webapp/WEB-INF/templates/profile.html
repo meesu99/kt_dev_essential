@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>프로필</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            margin: 0; padding: 30px; color: #333;
+        }
+        .container {
+            max-width: 700px; margin: 0 auto;
+            background: white; padding: 40px; border-radius: 15px;
+        }
+        .profile-header { text-align: center; margin-bottom: 30px; }
+        .info-row {
+            display: flex; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid #eee;
+        }
+        .skill-tag {
+            display: inline-block; background: #11998e; color: white;
+            padding: 5px 15px; border-radius: 20px; margin: 5px;
+        }
+        .back-btn {
+            display: inline-block; padding: 10px 20px;
+            background: #11998e; color: white; text-decoration: none;
+            border-radius: 5px; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <h1>👨‍💻 개발자 프로필</h1>
+        </div>
+
+        <!-- 기본 정보 -->
+        <div class="info-row">
+            <strong>이름:</strong>
+            <span th:text="${name}">이름</span>
+        </div>
+        <div class="info-row">
+            <strong>나이:</strong>
+            <span th:text="${age} + '세'">나이</span>
+        </div>
+        <div class="info-row">
+            <strong>직업:</strong>
+            <span th:text="${job}">직업</span>
+        </div>
+
+        <!-- 기술 스택 (반복문) -->
+        <div style="margin: 30px 0;">
+            <h3>💻 기술 스택</h3>
+            <div>
+                <!-- th:each - 리스트 반복 출력 -->
+                <span th:each="skill : ${skills}"
+                      th:text="${skill}"
+                      class="skill-tag">기술</span>
+            </div>
+            <p style="margin-top: 15px; color: #666;">
+                총 <span th:text="${#lists.size(skills)}">0</span>개 기술 보유
+            </p>
+        </div>
+
+        <a href="/thymeleaf-1.0-SNAPSHOT/" class="back-btn">🏠 홈으로 돌아가기</a>
+    </div>
+</body>
+</html>

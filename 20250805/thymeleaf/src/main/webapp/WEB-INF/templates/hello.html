@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">기본 제목</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0; padding: 50px; color: white; text-align: center;
+        }
+        .container {
+            max-width: 600px; margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            padding: 40px; border-radius: 15px;
+        }
+        h1 { font-size: 3em; margin-bottom: 30px; }
+        .info-box {
+            background: rgba(255,255,255,0.2);
+            padding: 20px; border-radius: 10px; margin: 20px 0;
+        }
+        a {
+            display: inline-block; padding: 15px 30px;
+            background: rgba(255,255,255,0.3); color: white;
+            text-decoration: none; border-radius: 8px; margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 🎯 Thymeleaf 표현식으로 데이터 출력 -->
+        <h1 th:text="${title}">기본 제목</h1>
+
+        <div class="info-box">
+            <h2 th:text="${message}">기본 메시지</h2>
+            <p>🎉 축하합니다! Thymeleaf 연동 완료!</p>
+        </div>
+
+        <div>
+            <a th:href="@{/profile}" style="color: black; display: inline-block; margin: 10px; padding: 10px 20px; background: rgba(255,255,255,0.5); border-radius: 8px;">👤 프로필 보기</a>
+            <a th:href="@{/about}" style="color: black; display: inline-block; margin: 10px; padding: 10px 20px; background: rgba(255,255,255,0.5); border-radius: 8px;">👤 내 정보</a>
+        </div>
+
+        <div class="info-box">
+            <h3>⏰ 현재 시간</h3>
+            <!-- 날짜 포맷팅 -->
+            <p th:text="${currentTime}">시간 표시</p>
+            <!-- <p th:text="${#temporals.format(currentTime, 'yyyy년 MM월 dd일 HH:mm:ss')}">
+                시간 표시
+            </p> -->
+        </div>
+
+        <div class="info-box">
+            <h3>💡 핵심 포인트</h3>
+            <ul style="text-align: left;">
+                <li><strong>th:text</strong> - 텍스트 출력</li>
+                <li><strong>${변수명}</strong> - Controller 데이터</li>
+                <li><strong>#temporals</strong> - 날짜 유틸리티</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>➕ 책 추가 - 간단 북스토어</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- 상단 네비게이션 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1><a th:href="@{/}">📚 간단 북스토어</a></h1>
+            <ul class="nav-menu">
+                <li><a th:href="@{/}">🏠 홈</a></li>
+                <li><a th:href="@{/book/list}">📋 책 목록</a></li>
+                <li><a th:href="@{/book/add}" class="active">➕ 책 추가</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>➕ 새 책 추가하기</h1>
+
+        <!-- 에러 메시지 표시 -->
+        <div th:if="${error}" class="alert alert-error">
+            ❌ <span th:text="${error}">에러 메시지</span>
+        </div>
+
+        <!-- 책 추가 폼 -->
+        <form th:action="@{/book/add}" method="post" class="book-form">
+
+            <!-- 도서명 -->
+            <div class="form-group">
+                <label for="title">📖 도서명 *</label>
+                <input type="text" id="title" name="title" required
+                       placeholder="예: 스프링 입문서">
+            </div>
+
+            <!-- 저자 -->
+            <div class="form-group">
+                <label for="author">✍️ 저자 *</label>
+                <input type="text" id="author" name="author" required
+                       placeholder="예: 김개발">
+            </div>
+
+            <!-- 카테고리 -->
+            <div class="form-group">
+                <label for="category">📂 카테고리 *</label>
+                <select id="category" name="category" required>
+                    <option value="">선택해주세요</option>
+                    <option value="소설">📖 소설</option>
+                    <option value="과학">🔬 과학</option>
+                    <option value="역사">📜 역사</option>
+                    <option value="컴퓨터">💻 컴퓨터</option>
+                    <option value="예술">🎨 예술</option>
+                </select>
+            </div>
+
+            <!-- 가격 -->
+            <div class="form-group">
+                <label for="price">💰 가격 *</label>
+                <input type="number" id="price" name="price" required
+                       min="1" placeholder="예: 25000">
+                <small>단위: 원</small>
+            </div>
+
+            <!-- 설명 -->
+            <div class="form-group">
+                <label for="description">📝 책 소개</label>
+                <textarea id="description" name="description" rows="4"
+                          placeholder="이 책에 대한 간단한 소개를 써주세요..."></textarea>
+            </div>
+
+            <!-- 버튼들 -->
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">💾 책 추가</button>
+                <button type="reset" class="btn btn-secondary">🔄 초기화</button>
+                <a th:href="@{/book/list}" class="btn btn-info">📋 목록으로</a>
+            </div>
+        </form>
+
+        <!-- 안내 메시지 -->
+        <div class="info-box">
+            <h3>💡 안내사항</h3>
+            <ul>
+                <li>* 표시된 항목은 필수 입력사항입니다</li>
+                <li>가격은 숫자만 입력해주세요 (단위: 원)</li>
+                <li>책 소개는 선택사항입니다</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 간단 북스토어 - Spring MVC + Thymeleaf 학습용</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 간단 북스토어</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- 상단 네비게이션 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1><a th:href="@{/}">📚 간단 북스토어</a></h1>
+            <ul class="nav-menu">
+                <li><a th:href="@{/}">🏠 홈</a></li>
+                <li><a th:href="@{/book/list}">📋 책 목록</a></li>
+                <li><a th:href="@{/book/add}">➕ 책 추가</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- 환영 메시지 -->
+        <div class="welcome-section">
+            <h1 th:text="${message}">환영합니다!</h1>
+            <p>원하는 기능을 선택해주세요.</p>
+        </div>
+
+        <!-- 메뉴 카드들 -->
+        <div class="menu-cards">
+            <div class="card">
+                <h3>📋 책 목록 보기</h3>
+                <p>등록된 모든 책들을 확인하세요</p>
+                <a th:href="@{/book/list}" class="btn btn-primary">목록 보기</a>
+            </div>
+
+            <div class="card">
+                <h3>➕ 새 책 추가</h3>
+                <p>새로운 책을 등록해보세요</p>
+                <a th:href="@{/book/add}" class="btn btn-success">책 추가</a>
+            </div>
+
+            <div class="card">
+                <h3>🔍 책 검색</h3>
+                <p>원하는 책을 찾아보세요</p>
+                <form th:action="@{/book/search}" method="get" class="search-form">
+                    <input type="text" name="keyword" placeholder="제목 또는 저자 검색">
+                    <button type="submit" class="btn btn-info">검색</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 간단 북스토어 - Spring MVC + Thymeleaf 학습용</p>
+    </footer>
+</body>
+</html>

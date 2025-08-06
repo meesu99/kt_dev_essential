@@ -1,0 +1,6 @@
+com\example\config\WebAppInitializer.class
+com\example\App.class
+com\example\model\Book.class
+com\example\controller\BookController.class
+com\example\config\WebConfig.class
+com\example\controller\HomeController.class

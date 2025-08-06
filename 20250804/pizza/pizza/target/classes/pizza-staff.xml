@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 피자 셰프 등록 -->
+    <!-- com.example 인 경우는 에러가 날 수 있어요. 기존에 만들었던 example 이나 -->
+    <!-- 본인이 설정한 경로로 설정하면 됩니다 -->
+    <bean id="chef" class="com.example.pizza.PizzaChef"/>
+
+    <!-- 웨이터 등록 -->
+    <bean id="waiter" class="com.example.pizza.Waiter"/>
+
+    <!-- 계산원 등록 -->
+    <bean id="cashier" class="com.example.pizza.Cashier"/>
+
+</beans>
