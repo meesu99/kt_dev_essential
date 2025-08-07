@@ -1,0 +1,75 @@
+< HTML 폼과 HTTP 요청 >
+1. **HTML 폼 구조**
+    - `<form>` 태그가 전체를 감쌈
+    - `action`은 보낼 주소, `method`는 보내는 방식
+    - 다양한 `<input>` 타입으로 데이터 입력받기
+
+2. **GET vs POST 차이**
+    - GET: URL에 보임, 조회용, 북마크 가능
+    - POST: 숨겨짐, 등록/수정용, 보안 좋음
+
+3. **데이터 전송 과정**
+    - 사용자 입력 → 브라우저가 HTTP 요청으로 변환 → 서버 전송
+    - `name` 속성이 서버에서 받을 때 변수명이 됨
+
+
+
+< Spring MVC + Thymeleaf 폼 >
+1.  **web.xml 없이 Java 설정만으로!**
+    - `WebAppInitializer`가 web.xml 역할 대신
+    - 모든 설정을 Java 코드로 처리
+    - 더 현대적이고 이해하기 쉬운 방식
+
+2. **폼 처리의 핵심**
+    - **GET**: 폼 보여주기 (`@GetMapping`)
+    - **POST**: 폼 데이터 처리 (`@PostMapping`)
+    - **자동 바인딩**: Spring이 폼 데이터를 객체로 자동 변환
+    - **검증**: 간단한 유효성 검사 추가
+
+3. **Thymeleaf 활용**
+    - `th:text`: 텍스트 출력
+    - `th:if`: 조건부 표시
+    - `th:each`: 반복 처리
+    - `th:href="@{/url}"`: URL 생성
+    - `th:action="@{/url}"`: 폼 액션 URL
+
+
+
+< ModelAttribute >
+1. **@ModelAttribute의 역할**
+    - HTTP 요청 파라미터를 Java 객체로 자동 변환
+    - Spring이 리플렉션을 통해 setter 메서드 자동 호출
+    - 개발자는 객체만 받으면 됨!
+
+2. **바인딩 과정**
+    - 요청 파라미터 수집 → 타입 변환 → setter 호출 → 객체 완성
+    - name 속성과 필드명/setter명 매칭
+    - 자동 타입 변환 (String → int, boolean, LocalDate 등)
+
+3. **에러 처리**
+    - BindingResult로 바인딩 에러 정보 확인
+    - hasErrors()로 에러 존재 여부 체크
+    - 개별 필드 에러 메시지 출력 가능
+
+4. **바인딩 규칙**
+    - 기본 생성자 필수
+    - Getter/Setter 메서드 필요
+    - 필드명과 요청 파라미터명 일치
+    - 컬렉션 타입도 자동 바인딩
+
+
+
+< DTO(MemberDTO) >
+1. **DTO 클래스 작성**
+    - 데이터를 담는 택배 상자 역할
+    - getter/setter 메서드로 안전하게 데이터 주고받기
+
+2. **Thymeleaf 폼 작성**
+    - `th:field`로 자동 바인딩
+    - `th:object`로 폼 객체 연결
+    - 자연스러운 HTML 문법
+
+3. **컨트롤러에서 폼 처리**
+    - `@ModelAttribute`로 폼 데이터 받기
+    - Spring이 자동으로 DTO에 바인딩
+    - `Model`로 뷰에 데이터 전달

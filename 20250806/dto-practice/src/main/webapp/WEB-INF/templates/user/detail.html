@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사용자 상세정보</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .info-card {
+            border: 1px solid #ddd; padding: 20px; border-radius: 8px;
+            background-color: #f9f9f9; max-width: 400px;
+        }
+        .info-row { margin-bottom: 10px; }
+        .label { font-weight: bold; color: #333; }
+        .value { color: #666; }
+        .btn { padding: 10px 20px; margin-right: 10px; text-decoration: none; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+    <h1>👤 사용자 상세정보</h1>
+
+    <div class="info-card" th:if="${user}">
+        <div class="info-row">
+            <span class="label">🆔 ID:</span>
+            <span class="value" th:text="${user.id}"></span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">👤 이름:</span>
+            <span class="value" th:text="${user.name}"></span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">📧 이메일:</span>
+            <span class="value" th:text="${user.email}"></span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">🎂 나이:</span>
+            <span class="value" th:text="${user.age}"></span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">📱 전화번호:</span>
+            <span class="value" th:text="${user.phone}"></span>
+        </div>
+    </div>
+
+    <div th:unless="${user}">
+        <p>❌ 사용자를 찾을 수 없습니다.</p>
+    </div>
+
+    <br>
+    <a th:href="@{/users/{id}/edit(id=${user.id})}" class="btn btn-primary">✏️ 수정</a>
+    <a th:href="@{/users}" class="btn btn-secondary">📋 목록으로</a>
+</body>
+</html>

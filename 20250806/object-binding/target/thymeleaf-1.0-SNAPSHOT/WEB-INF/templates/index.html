@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>@ModelAttribute 바인딩 실습</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        h1 { color: #333; text-align: center; }
+        .menu { text-align: center; margin: 30px 0; }
+        .btn { display: inline-block; padding: 15px 30px; margin: 10px; background: #007bff; color: white;
+               text-decoration: none; border-radius: 5px; font-size: 16px; }
+        .btn:hover { background: #0056b3; }
+        .info { background: #e7f3ff; padding: 20px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👨‍🎓 @ModelAttribute 바인딩 실습</h1>
+
+        <div class="info">
+            <h3>🎯 학습 목표</h3>
+            <ul>
+                <li>@ModelAttribute로 폼 데이터를 객체로 자동 변환</li>
+                <li>바인딩 에러 처리 방법 이해</li>
+                <li>HTTP 파라미터 → Java 객체 과정 체험</li>
+            </ul>
+        </div>
+
+        <div class="menu">
+            <a href="/thymeleaf-1.0-SNAPSHOT/student/form" class="btn">📝 학생 등록하기</a>
+        </div>
+
+        <div class="info">
+            <h3>💡 테스트 방법</h3>
+            <p>1. 정상 데이터로 등록 테스트</p>
+            <p>2. 나이에 문자를 입력해서 에러 테스트</p>
+            <p>3. 서버 콘솔에서 바인딩 과정 로그 확인</p>
+        </div>
+    </div>
+</body>
+</html>

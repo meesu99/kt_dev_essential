@@ -1,0 +1,8 @@
+com\example\config\WebAppInitializer.class
+com\example\App.class
+com\example\dto\UserCreateDto.class
+com\example\dto\UserUpdateDto.class
+com\example\service\UserService.class
+com\example\model\User.class
+com\example\config\WebConfig.class
+com\example\controller\UserController.class

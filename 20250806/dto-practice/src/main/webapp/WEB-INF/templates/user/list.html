@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사용자 목록</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { padding: 5px 10px; margin: 2px; text-decoration: none; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-info { background-color: #17a2b8; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🧑‍💼 사용자 목록</h1>
+
+    <a href="/users/create" class="btn btn-primary">➕ 새 사용자 추가</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>나이</th>
+                <th>전화번호</th>
+                <th>액션</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.age}"></td>
+                <td th:text="${user.phone}"></td>
+                <td>
+                    <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-info">👀 보기</a>
+                    <a th:href="@{/users/{id}/edit(id=${user.id})}" class="btn btn-primary">✏️ 수정</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

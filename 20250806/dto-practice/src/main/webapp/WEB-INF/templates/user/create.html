@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>새 사용자 추가</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="email"], input[type="number"] {
+            width: 300px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;
+        }
+        .btn { padding: 10px 20px; margin-right: 10px; text-decoration: none; }
+        .btn-primary { background-color: #007bff; color: white; border: none; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+    <h1>➕ 새 사용자 추가</h1>
+
+    <!-- 여기에 폼을 작성해보세요! -->
+    <!-- 힌트: -->
+    <!-- 1. form 태그에 th:action과 th:object 사용 -->
+    <!-- 2. 각 input에 th:field 사용 -->
+    <!-- 3. name, email, age, phone 필드 모두 만들기 -->
+
+    <form th:action="@{/users/create}" method="post" th:object="${userCreateDto}">
+
+        <!-- 이름 입력 필드 -->
+        <div class="form-group">
+            <label for="name">👤 이름:</label>
+            <input type="text" id="name" th:field="*{name}" placeholder="이름을 입력하세요" required />
+        </div>
+
+        <!-- 이메일 입력 필드 -->
+        <div class="form-group">
+            <label for="email">📧 이메일:</label>
+            <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력하세요" required />
+        </div>
+
+        <!-- 나이 입력 필드 -->
+        <div class="form-group">
+            <label for="age">🎂 나이:</label>
+            <input type="number" id="age" th:field="*{age}" placeholder="나이를 입력하세요" min="0" required />
+        </div>
+
+        <!-- 전화번호 입력 필드 -->
+        <div class="form-group">
+            <label for="phone">📱 전화번호:</label>
+            <input type="text" id="phone" th:field="*{phone}" placeholder="전화번호를 입력하세요" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">💾 저장</button>
+        <a href="/users" class="btn btn-secondary">❌ 취소</a>
+    </form>
+
+    <hr>
+    <h3>💡 ModelAttribute 이해하기</h3>
+    <p><strong>th:field="*{name}"</strong> → 이게 바로 ModelAttribute의 마법!</p>
+    <p>폼에서 입력한 데이터가 자동으로 UserCreateDto 객체의 name 필드에 들어가요!</p>
+</body>
+</html>

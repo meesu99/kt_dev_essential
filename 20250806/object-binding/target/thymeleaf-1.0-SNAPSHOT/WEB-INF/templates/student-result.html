@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>등록 완료</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+        .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .student-info { background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .info-row { margin: 10px 0; }
+        .label { font-weight: bold; color: #495057; }
+        .value { color: #212529; }
+        .btn { display: inline-block; padding: 12px 24px; margin: 5px; background: #007bff;
+               color: white; text-decoration: none; border-radius: 4px; }
+        .btn:hover { background: #0056b3; }
+        .debug { background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 등록 완료!</h1>
+
+        <div class="success">
+            <h3 th:text="${message}">등록 성공!</h3>
+            <p>@ModelAttribute가 폼 데이터를 성공적으로 Student 객체로 변환했습니다!</p>
+        </div>
+
+        <!-- 등록된 학생 정보 -->
+        <div class="student-info">
+            <h3>📋 등록된 학생 정보</h3>
+
+            <div class="info-row">
+                <span class="label">이름:</span>
+                <span class="value" th:text="${student.name}">이름</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">나이:</span>
+                <span class="value" th:text="${student.age}">나이</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">이메일:</span>
+                <span class="value" th:text="${student.email}">이메일</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">장학금:</span>
+                <span class="value" th:text="${student.scholarship} ? '수혜함 🏆' : '수혜 안함'">장학금</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">취미:</span>
+                <span class="value">
+                    <span th:if="${student.hobbies != null and !#lists.isEmpty(student.hobbies)}">
+                        <span th:each="hobby, stat : ${student.hobbies}">
+                            <span th:text="${hobby}">취미</span>
+                            <span th:if="${!stat.last}">, </span>
+                        </span>
+                    </span>
+                    <span th:if="${student.hobbies == null or #lists.isEmpty(student.hobbies)}">없음</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- 바인딩 분석 -->
+        <div class="debug">
+            <h3>🔍 바인딩 분석</h3>
+            <p><strong>바인딩 성공:</strong></p>
+            <ul>
+                <li>name (String): 텍스트 그대로 바인딩</li>
+                <li>age (int): 문자열 → 숫자 자동 변환</li>
+                <li>email (String): 텍스트 그대로 바인딩</li>
+                <li>scholarship (boolean): 체크박스 → true/false 변환</li>
+                <li>hobbies (List&lt;String&gt;): 여러 체크박스 → 리스트 자동 수집</li>
+            </ul>
+
+            <p><strong>완전한 객체:</strong></p>
+            <pre th:text="${student.toString()}">Student 객체</pre>
+        </div>
+
+        <!-- 액션 버튼 -->
+        <div>
+            <a href="/thymeleaf-1.0-SNAPSHOT/student/form" class="btn">📝 새 학생 등록</a>
+            <a href="/thymeleaf-1.0-SNAPSHOT" class="btn">🏠 홈으로</a>
+        </div>
+
+        <!-- 학습 정리 -->
+        <div class="debug">
+            <h3>📚 이번 실습에서 배운 것</h3>
+            <ul>
+                <li><strong>자동 바인딩:</strong> @ModelAttribute가 HTTP 파라미터를 자동으로 객체에 매핑</li>
+                <li><strong>타입 변환:</strong> 문자열을 int, boolean, List 등으로 자동 변환</li>
+                <li><strong>에러 안전성:</strong> 변환 실패시에도 애플리케이션이 중단되지 않음</li>
+                <li><strong>컬렉션 처리:</strong> 같은 이름의 여러 파라미터를 List로 자동 수집</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

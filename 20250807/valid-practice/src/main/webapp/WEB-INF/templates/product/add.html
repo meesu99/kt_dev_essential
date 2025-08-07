@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 등록</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input.error, textarea.error, select.error {
+            border-color: #dc3545;
+            background-color: #fff5f5;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .global-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>상품 등록</h2>
+
+        <form th:action="@{/product/add}" th:object="${product}" method="post">
+        
+        <!-- 글로벌 오류 메시지 -->
+        <div th:if="${#fields.hasGlobalErrors()}" class="global-error">
+            <strong>오류가 발생했습니다:</strong>
+            <ul>
+                <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+            </ul>
+        </div>
+
+            <!-- 상품명 -->
+            <div class="form-group">
+                <label>상품명 *</label>
+                <input type="text"
+                       th:field="*{name}"
+                       th:classappend="${#fields.hasErrors('name')} ? 'error' : ''"
+                       placeholder="상품명을 입력하세요">
+                <div th:if="${#fields.hasErrors('name')}"
+                     th:errors="*{name}"
+                     class="error-message"></div>
+            </div>
+
+            <!-- 가격 -->
+            <div class="form-group">
+                <label>가격 *</label>
+                <input type="number"
+                       th:field="*{price}"
+                       th:classappend="${#fields.hasErrors('price')} ? 'error' : ''"
+                       placeholder="가격을 입력하세요">
+                <div th:if="${#fields.hasErrors('price')}"
+                     th:errors="*{price}"
+                     class="error-message"></div>
+            </div>
+
+            <!-- 상품 설명 -->
+            <div class="form-group">
+                <label>상품 설명 *</label>
+                <textarea th:field="*{description}"
+                          th:classappend="${#fields.hasErrors('description')} ? 'error' : ''"
+                          rows="4"
+                          placeholder="상품 설명을 입력하세요"></textarea>
+                <div th:if="${#fields.hasErrors('description')}"
+                     th:errors="*{description}"
+                     class="error-message"></div>
+            </div>
+
+            <!-- 카테고리 -->
+            <div class="form-group">
+                <label>카테고리 *</label>
+                <select th:field="*{category}"
+                        th:classappend="${#fields.hasErrors('category')} ? 'error' : ''">
+                    <option value="">카테고리를 선택하세요</option>
+                    <option value="electronics">전자제품</option>
+                    <option value="clothing">의류</option>
+                    <option value="books">도서</option>
+                    <option value="food">식품</option>
+                </select>
+                <div th:if="${#fields.hasErrors('category')}"
+                     th:errors="*{category}"
+                     class="error-message"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">상품 등록</button>
+        </form>
+    </div>
+</body>
+</html>
