@@ -1,5 +1,13 @@
 package com.example.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.model.Student;
+import com.example.repository.StudentRepository;
+
 // service/StudentService.java
 @Service
 public class StudentService {

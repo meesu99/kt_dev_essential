@@ -1,5 +1,12 @@
 package com.example.repository;
 
+import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.example.model.Student;
+
 // repository/StudentRepository.java
 @Repository
 public class StudentRepository {
@@ -46,5 +53,10 @@ public class StudentRepository {
             student.setScore(rs.getInt("score"));
             return student;
         });
+    }
+
+    public Object getJdbcTemplate() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getJdbcTemplate'");
     }
 }
