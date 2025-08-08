@@ -1,0 +1,34 @@
+> Transaction
+  - @Transactional
+  - @EnableTransactionManagement
+  1. **트랜잭션**: 여러 작업을 하나로 묶어 전부 성공 또는 전부 실패하도록 보장
+  2. **ACID 특성**:
+      - 원자성(전부/전무), 일관성(규칙 준수), 격리성(동시 실행 보호), 지속성(영구 저장)
+  3. **커밋**: 모든 작업 성공 시 변경사항을 영구 저장
+  4. **롤백**: 실패 시 모든 작업을 취소하고 원래 상태로 복구
+
+
+> Transaction 의존성 추가
+<!-- Spring 트랜잭션 지원 -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-tx</artifactId>
+    <version>5.3.23</version>
+</dependency>
+
+<!-- Spring AOP (트랜잭션용) -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aop</artifactId>
+    <version>5.3.23</version>
+</dependency>
+
+<!-- AspectJ -->
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjweaver</artifactId>
+    <version>1.9.9</version>
+</dependency>
+
+
+> 

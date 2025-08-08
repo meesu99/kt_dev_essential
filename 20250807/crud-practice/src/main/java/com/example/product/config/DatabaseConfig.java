@@ -2,14 +2,12 @@ package com.example.product.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 import org.h2.tools.Server;
 
 @Configuration
-@ComponentScan(basePackages = "com.example.product")
 public class DatabaseConfig {
 
     // 데이터소스 설정
@@ -19,18 +17,18 @@ public class DatabaseConfig {
         dataSource.setDriverClassName("org.h2.Driver");
         // 사용자 홈 디렉토리에 데이터베이스 파일 생성
         String dbPath = "C:/Users/meesu/spring_products";
-        dataSource.setUrl("jdbc:h2:file:" + dbPath + ";AUTO_SERVER=true;MODE=MySQL;DB_CLOSE_DELAY=-1");
+        dataSource.setUrl("jdbc:h2:file:" + dbPath + ";AUTO_SERVER=TRUE;MODE=MySQL;DB_CLOSE_DELAY=-1");
+        System.out.println("H2 데이터베이스 경로: " + dbPath);
         dataSource.setUsername("sa");
         dataSource.setPassword("");
-        System.out.println("H2 데이터베이스 경로: " + dbPath);
         return dataSource;
     }
 
-    // H2 웹 콘솔 서버 활성화 - 이 부분 추가
-    @Bean(initMethod = "start", destroyMethod = "stop")
-    public Server h2WebServer() throws Exception {
-        return Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082");
-    }
+    // H2 웹 콘솔 서버 비활성화 (별도 실행)
+    // @Bean(initMethod = "start", destroyMethod = "stop")
+    // public Server h2WebServer() throws Exception {
+    //     return Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8084");
+    // }
 
     // JdbcTemplate 설정
     @Bean
@@ -56,8 +54,7 @@ public class DatabaseConfig {
                     "name VARCHAR(255) NOT NULL, " +
                     "description TEXT, " +
                     "price INT NOT NULL, " +
-                    "stock INT NOT NULL DEFAULT 0, " +
-                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                    "stock INT NOT NULL DEFAULT 0" +
                     ")";
             jdbcTemplate.execute(createTableSql);
 

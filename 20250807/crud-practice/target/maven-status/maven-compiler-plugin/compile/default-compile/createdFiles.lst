@@ -1,9 +1,11 @@
-com\example\product\model\Product.class
+com\example\product\repository\ProductRepository$ProductRowMapper.class
 com\example\product\repository\ProductRepository.class
 com\example\product\service\ProductService.class
 com\example\product\config\WebConfig.class
+com\example\product\model\Product.class
 com\example\product\dao\ProductDao.class
 com\example\App.class
+com\example\product\controller\HomeController.class
 com\example\product\config\DatabaseConfig.class
 com\example\product\config\WebAppInitializer.class
 com\example\product\controller\ProductController.class

@@ -1,0 +1,46 @@
+<!-- templates/students/list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>학생 관리</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .success { color: green; padding: 10px; background: #e7f5e7; }
+        .error { color: red; padding: 10px; background: #f5e7e7; }
+    </style>
+</head>
+<body>
+    <h1>📚 학생 관리 시스템</h1>
+
+    <!-- 메시지 출력 -->
+    <div th:if="${message}" class="success" th:text="${message}"></div>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <!-- 학생 목록 -->
+    <h2>📋 학생 목록</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>점수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.score} + '점'"></td>
+            </tr>
+            <tr th:if="${students.empty}">
+                <td colspan="2" style="text-align: center; color: #999;">
+                    등록된 학생이 없습니다.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/students/test">🧪 트랜잭션 테스트하기</a>
+</body>
+</html>

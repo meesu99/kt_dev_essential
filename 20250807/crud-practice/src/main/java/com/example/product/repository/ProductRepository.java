@@ -1,48 +1,76 @@
 package com.example.product.repository;
 
 import com.example.product.model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
-// 데이터 저장과 관련한 작업은 Repository에서 한다고 했죠?
-// Controller -> Service -> Repository 
 @Repository
 public class ProductRepository {
 
-    private final Map<Long, Product> products = new HashMap<>();
-    private final AtomicLong idGenerator = new AtomicLong(1);
+    private final JdbcTemplate jdbcTemplate;
 
-    public ProductRepository() {
-        // 초기 데이터 추가
-        save(new Product(null, "노트북", "고성능 게이밍 노트북", 1500000, 10, java.time.LocalDateTime.now()));
-        save(new Product(null, "스마트폰", "최신형 5G 스마트폰", 1200000, 20, java.time.LocalDateTime.now()));
-        save(new Product(null, "태블릿", "대화면 태블릿 PC", 800000, 15, java.time.LocalDateTime.now()));
-        save(new Product(null, "이어폰", "무선 블루투스 이어폰", 300000, 30, java.time.LocalDateTime.now()));
+    @Autowired
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<Product> findAll() {
-        return new ArrayList<>(products.values());
+        String sql = "SELECT id, name, description, price, stock, created_at FROM products";
+        return jdbcTemplate.query(sql, new ProductRowMapper());
     }
 
     public Product findById(Long id) {
-        return products.get(id);
+        String sql = "SELECT id, name, description, price, stock, created_at FROM products WHERE id = ?";
+        List<Product> results = jdbcTemplate.query(sql, new ProductRowMapper(), id);
+        return results.isEmpty() ? null : results.get(0);
     }
 
     public Product save(Product product) {
         if (product.getId() == null) {
-            product.setId(idGenerator.getAndIncrement());
+            // 새 상품 추가
+            String sql = "INSERT INTO products (name, description, price, stock) VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(sql, product.getName(), product.getDescription(), product.getPrice(), product.getStock());
+            
+            // 생성된 ID 조회
+            String idSql = "SELECT LAST_INSERT_ID()";
+            Long id = jdbcTemplate.queryForObject(idSql, Long.class);
+            product.setId(id);
+        } else {
+            // 기존 상품 수정
+            String sql = "UPDATE products SET name = ?, description = ?, price = ?, stock = ? WHERE id = ?";
+            jdbcTemplate.update(sql, product.getName(), product.getDescription(), product.getPrice(), product.getStock(), product.getId());
         }
-        products.put(product.getId(), product);
         return product;
     }
 
     public void deleteById(Long id) {
-        products.remove(id);
+        String sql = "DELETE FROM products WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     public boolean existsById(Long id) {
-        return products.containsKey(id);
+        String sql = "SELECT COUNT(*) FROM products WHERE id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        return count != null && count > 0;
+    }
+
+    private static class ProductRowMapper implements RowMapper<Product> {
+        @Override
+        public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Product product = new Product();
+            product.setId(rs.getLong("id"));
+            product.setName(rs.getString("name"));
+            product.setDescription(rs.getString("description"));
+            product.setPrice(rs.getInt("price"));
+            product.setStock(rs.getInt("stock"));
+            product.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+            return product;
+        }
     }
 }

@@ -13,7 +13,7 @@
 
 
 > Jetty 사용
-<plugins>
+  <plugins>
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
@@ -48,3 +48,5 @@
 </dependencies>
 
 
+> H2 Jetty와 중복 사용.
+java -cp "C:/Users/meesu/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar" org.h2.tools.Server -web -webAllowOthers -webPort 8084
