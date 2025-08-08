@@ -153,7 +153,7 @@
         <version>9.4.48.v20220622</version>
         <configuration>
           <httpConnector>
-            <port>8080</port>
+            <port>8081</port>
           </httpConnector>
           <webApp>
             <contextPath>/</contextPath>

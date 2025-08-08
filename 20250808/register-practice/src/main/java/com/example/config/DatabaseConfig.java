@@ -65,24 +65,55 @@ public class DatabaseConfig {
 
     private void initializeDatabase(JdbcTemplate jdbcTemplate) {
         try {
-            // students 테이블 존재 여부 확인
-            jdbcTemplate.queryForObject("SELECT COUNT(*) FROM students", Integer.class);
-            System.out.println("[DB 정상 동작] students 테이블 확인");
-        } catch (Exception e) {
-            System.out.println("students 테이블을 생성합니다...");
-            String createStudentsSql = "CREATE TABLE students (" +
-                    "name VARCHAR(50) PRIMARY KEY, " +
-                    "score INT NOT NULL)";
-            jdbcTemplate.execute(createStudentsSql);
-            System.out.println("students 테이블이 성공적으로 생성되었습니다.");
+            // users 테이블 생성
+            jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS users (" +
+                    "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+                    "username VARCHAR(50) NOT NULL UNIQUE, " +
+                    "password VARCHAR(100) NOT NULL, " +
+                    "email VARCHAR(100) NOT NULL UNIQUE)");
+            System.out.println("✅ users 테이블이 준비되었습니다.");
             
-            // 초기 데이터 삽입 (선택사항)
+            // user_profiles 테이블 생성
+            jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS user_profiles (" +
+                    "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+                    "user_id BIGINT NOT NULL, " +
+                    "nickname VARCHAR(50) NOT NULL, " +
+                    "bio TEXT, " +
+                    "FOREIGN KEY (user_id) REFERENCES users(id))");
+            System.out.println("✅ user_profiles 테이블이 준비되었습니다.");
+            
+            // welcome_messages 테이블 생성
+            jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS welcome_messages (" +
+                    "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+                    "user_id BIGINT NOT NULL, " +
+                    "message TEXT NOT NULL, " +
+                    "created_at TIMESTAMP NOT NULL, " +
+                    "FOREIGN KEY (user_id) REFERENCES users(id))");
+            System.out.println("✅ welcome_messages 테이블이 준비되었습니다.");
+            
+            // students 테이블 생성 (기존 코드 유지)
             try {
-                jdbcTemplate.update("INSERT INTO students (name, score) VALUES (?, ?)", "테스트학생", 100);
-                System.out.println("초기 테스트 데이터가 삽입되었습니다.");
-            } catch (Exception insertException) {
-                System.out.println("초기 데이터 삽입 중 오류 (무시됨): " + insertException.getMessage());
+                jdbcTemplate.queryForObject("SELECT COUNT(*) FROM students", Integer.class);
+                System.out.println("[DB 정상 동작] students 테이블 확인");
+            } catch (Exception e) {
+                System.out.println("students 테이블을 생성합니다...");
+                String createStudentsSql = "CREATE TABLE students (" +
+                        "name VARCHAR(50) PRIMARY KEY, " +
+                        "score INT NOT NULL)";
+                jdbcTemplate.execute(createStudentsSql);
+                System.out.println("students 테이블이 성공적으로 생성되었습니다.");
+                
+                // 초기 데이터 삽입 (선택사항)
+                try {
+                    jdbcTemplate.update("INSERT INTO students (name, score) VALUES (?, ?)", "테스트학생", 100);
+                    System.out.println("초기 테스트 데이터가 삽입되었습니다.");
+                } catch (Exception insertException) {
+                    System.out.println("초기 데이터 삽입 중 오류 (무시됨): " + insertException.getMessage());
+                }
             }
+            
+        } catch (Exception e) {
+            System.out.println("데이터베이스 초기화 중 오류: " + e.getMessage());
         }
     }
 }

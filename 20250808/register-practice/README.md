@@ -1,60 +1,60 @@
-# 🚀 트랜잭션 연습 프로젝트
+# Spring MVC + Thymeleaf + @Transactional 실습 프로젝트
 
-Spring Framework의 트랜잭션 관리 기능을 학습하기 위한 예제 프로젝트입니다.
+## 🚀 프로젝트 개요
 
-## 📚 프로젝트 소개
-
-이 프로젝트는 다음과 같은 기능을 제공합니다:
-
-- **트랜잭션이 없는 경우의 위험성** 시연
-- **트랜잭션이 있는 경우의 안전성** 시연
-- **H2 데이터베이스**를 활용한 실습
-- **웹 인터페이스**를 통한 직관적인 테스트
+이 프로젝트는 Spring MVC, Thymeleaf, 그리고 @Transactional 어노테이션을 활용한 트랜잭션 관리 실습을 위한 웹 애플리케이션입니다.
 
 ## 🛠️ 기술 스택
 
-- **Java 17**
-- **Spring Framework 5.3.23**
-- **Spring MVC**
-- **Thymeleaf 3.0.15**
-- **H2 Database**
-- **Maven**
-- **Jetty (내장 서버)**
+- **Spring MVC 5.3.23** - 웹 프레임워크
+- **Thymeleaf 3.0.15** - 템플릿 엔진
+- **H2 Database 1.4.200** - 인메모리 데이터베이스
+- **Spring JDBC** - 데이터베이스 접근
+- **Spring Transaction** - 트랜잭션 관리
+- **Maven** - 빌드 도구
 
-## 🚀 실행 방법
+## 📋 주요 기능
 
-### 1. 프로젝트 컴파일
+### ✅ 구현된 기능들
+
+1. **회원가입 기능**
+   - User 정보 저장
+   - UserProfile 자동 생성
+   - WelcomeMessage 자동 생성
+   - @Transactional을 활용한 트랜잭션 관리
+
+2. **사용자 목록 조회**
+   - 등록된 모든 사용자 정보 표시
+   - 비밀번호 마스킹 처리
+
+3. **트랜잭션 롤백 테스트**
+   - 의도적 에러 발생으로 롤백 테스트
+   - 모든 데이터가 롤백되는 것을 확인
+
+4. **H2 데이터베이스 연동**
+   - 자동 테이블 생성
+   - H2 웹 콘솔 제공 (포트: 8082)
+
+## 🏃‍♂️ 실행 방법
+
+### 1. 프로젝트 빌드
 ```bash
 mvn clean compile
 ```
 
-### 2. 웹 서버 실행
+### 2. 애플리케이션 실행
 ```bash
 mvn jetty:run
 ```
 
 ### 3. 접속
 - **메인 페이지**: http://localhost:8080
-- **학생 관리**: http://localhost:8080/students
-- **트랜잭션 테스트**: http://localhost:8080/students/test
-- **H2 데이터베이스 콘솔**: http://localhost:8082
+- **H2 콘솔**: http://localhost:8082
+  - JDBC URL: `jdbc:h2:~/transaction_example`
+  - Username: `sa`
+  - Password: (비어있음)
 
-## 📖 사용법
-
-### 1. 메인 페이지
-- 프로젝트 소개와 바로가기 링크를 제공합니다.
-
-### 2. 학생 관리 시스템
-- 현재 등록된 학생 목록을 확인할 수 있습니다.
-- 트랜잭션 테스트 페이지로 이동할 수 있습니다.
-
-### 3. 트랜잭션 테스트
-- **위험한 방법 (트랜잭션 없음)**: 오류 발생 시 일부 데이터만 저장됩니다.
-- **안전한 방법 (트랜잭션 있음)**: 오류 발생 시 모든 데이터가 롤백됩니다.
-- **정상 추가**: 오류 없이 안전하게 데이터를 추가합니다.
-- **데이터 초기화**: 모든 데이터를 삭제하고 테이블을 초기화합니다.
-
-## 🏗️ 프로젝트 구조
+## 📁 프로젝트 구조
 
 ```
 src/main/java/com/example/
@@ -63,69 +63,116 @@ src/main/java/com/example/
 │   ├── WebAppInitializer.java  # 웹 애플리케이션 초기화
 │   └── WebConfig.java          # 웹 설정
 ├── controller/
-│   ├── HomeController.java     # 메인 페이지 컨트롤러
-│   └── StudentController.java  # 학생 관리 컨트롤러
+│   ├── HomeController.java      # 메인 페이지 컨트롤러
+│   └── UserController.java      # 사용자 관련 컨트롤러
 ├── model/
-│   └── Student.java           # 학생 모델
+│   ├── User.java               # 사용자 모델
+│   ├── UserProfile.java        # 사용자 프로필 모델
+│   └── WelcomeMessage.java     # 환영 메시지 모델
 ├── repository/
-│   └── StudentRepository.java # 데이터 접근 계층
+│   ├── UserRepository.java      # 사용자 저장소
+│   ├── UserProfileRepository.java # 프로필 저장소
+│   └── WelcomeMessageRepository.java # 메시지 저장소
 └── service/
-    └── StudentService.java    # 비즈니스 로직 계층
+    └── UserService.java         # 사용자 서비스 (트랜잭션 관리)
 ```
 
-## 🧪 트랜잭션 테스트 시나리오
+## 🎯 학습 목표
 
-### 시나리오 1: 트랜잭션 없이 데이터 추가
-1. "트랜잭션 없이 추가 (위험!)" 버튼 클릭
-2. 오류가 발생하지만 일부 데이터는 저장됨
-3. 학생 목록에서 확인
+### @Transactional 어노테이션 이해
+- **정상 케이스**: User, UserProfile, WelcomeMessage가 모두 성공적으로 저장
+- **에러 케이스**: 하나라도 실패하면 모든 데이터가 롤백
 
-### 시나리오 2: 트랜잭션으로 데이터 추가
-1. "트랜잭션으로 추가 (안전!)" 버튼 클릭
-2. 오류가 발생하면 모든 데이터가 롤백됨
-3. 학생 목록에서 확인
+### 트랜잭션의 ACID 속성
+- **Atomicity (원자성)**: 모든 작업이 성공하거나 모두 실패
+- **Consistency (일관성)**: 데이터베이스 상태가 일관되게 유지
+- **Isolation (격리성)**: 동시 실행되는 트랜잭션들이 서로 격리
+- **Durability (지속성)**: 커밋된 트랜잭션은 영구적으로 저장
 
-### 시나리오 3: 정상적인 데이터 추가
-1. "정상적으로 추가" 버튼 클릭
-2. 모든 데이터가 성공적으로 저장됨
-3. 학생 목록에서 확인
+## 🧪 테스트 시나리오
 
-## 🔧 데이터베이스 설정
+### 1. 정상 회원가입 테스트
+1. http://localhost:8080/users/register 접속
+2. 사용자 정보 입력 후 "정상 회원가입" 버튼 클릭
+3. 성공 페이지 확인
+4. H2 콘솔에서 users, user_profiles, welcome_messages 테이블 확인
 
-- **데이터베이스**: H2 (파일 기반)
-- **파일 위치**: `~/transaction_example`
-- **웹 콘솔**: http://localhost:8082
-- **JDBC URL**: `jdbc:h2:~/transaction_example;AUTO_SERVER=true;MODE=MySQL`
+### 2. 롤백 테스트
+1. 회원가입 폼에서 정보 입력
+2. "의도적 실패" 버튼 클릭
+3. 에러 메시지 확인
+4. H2 콘솔에서 데이터가 저장되지 않았음을 확인
 
-## 📝 주요 학습 포인트
+## 🔧 데이터베이스 스키마
 
-1. **트랜잭션의 중요성**
-   - 데이터 일관성 보장
-   - 오류 발생 시 롤백
-
-2. **Spring의 트랜잭션 관리**
-   - `@Transactional` 어노테이션
-   - 선언적 트랜잭션 관리
-
-3. **데이터베이스 연동**
-   - JdbcTemplate 사용
-   - H2 데이터베이스 활용
-
-## 🐛 문제 해결
-
-### 컴파일 오류가 발생하는 경우
-```bash
-mvn clean compile
+### users 테이블
+```sql
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
+);
 ```
 
-### 서버가 시작되지 않는 경우
-- 포트 8080이 사용 중인지 확인
-- 다른 포트로 변경하려면 `pom.xml`의 Jetty 설정 수정
+### user_profiles 테이블
+```sql
+CREATE TABLE user_profiles (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    nickname VARCHAR(50) NOT NULL,
+    bio TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+```
 
-### 데이터베이스 연결 오류
-- H2 콘솔에서 데이터베이스 파일 확인
-- 데이터베이스 파일 삭제 후 재시작
+### welcome_messages 테이블
+```sql
+CREATE TABLE welcome_messages (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+```
 
-## 📄 라이선스
+## 🎨 UI/UX 특징
 
-이 프로젝트는 교육 목적으로 제작되었습니다.
+- **반응형 디자인**: 모바일과 데스크톱 모두 지원
+- **모던한 UI**: 깔끔하고 직관적인 인터페이스
+- **사용자 친화적**: 명확한 네비게이션과 피드백
+- **에러 처리**: 명확한 에러 메시지 표시
+
+## 📝 TODO 항목 완료 현황
+
+- ✅ UserProfile 모델의 getter/setter 구현
+- ✅ UserProfileRepository의 SQL 문 완성
+- ✅ UserService의 @Transactional 메서드 구현
+- ✅ UserController 완전 구현
+- ✅ 데이터베이스 테이블 생성 로직 수정
+- ✅ 템플릿 파일들 구현 (index.html, success.html, list.html)
+- ✅ CSS 스타일링 개선
+
+## 🚀 향후 개선 사항
+
+1. **보안 강화**
+   - 비밀번호 암호화
+   - 입력값 검증 강화
+
+2. **기능 확장**
+   - 사용자 정보 수정
+   - 사용자 삭제
+   - 페이징 처리
+
+3. **테스트 코드**
+   - 단위 테스트 작성
+   - 통합 테스트 작성
+
+## 📞 문의사항
+
+프로젝트에 대한 질문이나 개선 제안이 있으시면 언제든지 연락해주세요!
+
+---
+
+**Happy Coding! 🎉**

@@ -20,7 +20,7 @@ public class UserProfileRepository {
     public UserProfile save(UserProfile profile) {
         if (profile.getId() == null) {
         // "TODO : sql 문을 완성해보세요!"
-            String sql = 
+            String sql = "INSERT INTO user_profiles(user_id, nickname, bio) VALUES(?, ?, ?)";
             KeyHolder kh = new GeneratedKeyHolder();
             jdbcTemplate.update(con -> {
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

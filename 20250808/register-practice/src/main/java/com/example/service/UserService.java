@@ -35,12 +35,15 @@ public class UserService {
         }
         
         // TODO : 1. User 정보 저장
-        
+        User savedUser = userRepository.save(user);
         
         // TODO : 2. profile 새로 만들어서 저장하기
-
+        UserProfile userProfile = new UserProfile(savedUser.getId(), savedUser.getUsername());
+        userProfileRepository.save(userProfile);
         
         // TODO : 3. WelcomeMessage 저장하기
+        WelcomeMessage welcomeMessage = new WelcomeMessage(savedUser.getId());
+        welcomeMessageRepository.save(welcomeMessage);
 
         return savedUser;
     }

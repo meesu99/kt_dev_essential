@@ -1,32 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>결과</title>
+    <title>회원가입 성공</title>
     <meta charset="UTF-8">
     <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; text-align: center; }
-        .success { color: green; }
-        .info { color: orange; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 600px; 
+            margin: 50px auto; 
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 4em;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+        h1 { 
+            color: #2c3e50; 
+            margin-bottom: 20px;
+        }
+        .message {
+            color: #34495e;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #229954;
+        }
     </style>
 </head>
 <body>
-    <div th:if="${message and not rollbackTest}" class="success">
-        <h2>✅ 성공!</h2>
-        <p th:text="${message}"></p>
-        <p>📋 데이터베이스를 확인해보세요. 사용자, 프로필, 환영메시지가 모두 저장되었습니다!</p>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        <h1>🎉 회원가입 성공!</h1>
+        <div class="message">
+            <p><strong>트랜잭션이 성공적으로 완료되었습니다!</strong></p>
+            <p>User, UserProfile, WelcomeMessage가 모두 데이터베이스에 저장되었습니다.</p>
+        </div>
+        
+        <div>
+            <a href="/users" class="btn btn-success">
+                📋 사용자 목록 보기
+            </a>
+            <a href="/users/register" class="btn btn-primary">
+                ➕ 다른 사용자 등록
+            </a>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <a href="/" style="color: #7f8c8d; text-decoration: none;">
+                ← 메인 페이지로 돌아가기
+            </a>
+        </div>
     </div>
-
-    <div th:if="${rollbackTest}" class="info">
-        <h2>🔄 롤백 테스트 완료!</h2>
-        <p th:text="${message}"></p>
-        <p>📋 데이터베이스를 확인해보세요. 사용자 정보가 저장되지 않았을 것입니다!</p>
-        <p><strong>이것이 바로 @Transactional의 힘입니다! 🚀</strong></p>
-    </div>
-
-    <hr style="margin: 30px 0;">
-    <p>
-        <a th:href="@{/users/register}">🔙 다시 회원가입하기</a> |
-        <a th:href="@{/users}">📋 사용자 목록 보기</a>
-    </p>
 </body>
 </html>
