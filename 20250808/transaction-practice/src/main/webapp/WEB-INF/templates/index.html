@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>트랜잭션 연습 프로젝트</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .card { border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .btn { display: inline-block; padding: 10px 20px; margin: 5px; 
+               text-decoration: none; background: #007bff; color: white; border-radius: 3px; }
+        .btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 트랜잭션 연습 프로젝트</h1>
+        
+        <div class="card">
+            <h2>📚 프로젝트 소개</h2>
+            <p>이 프로젝트는 Spring Framework의 트랜잭션 관리 기능을 학습하기 위한 예제입니다.</p>
+            <ul>
+                <li>트랜잭션이 없는 경우의 위험성</li>
+                <li>트랜잭션이 있는 경우의 안전성</li>
+                <li>H2 데이터베이스를 활용한 실습</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🔗 바로가기</h2>
+            <a href="/students" class="btn">학생 관리 시스템</a>
+            <a href="/students/test" class="btn">트랜잭션 테스트</a>
+        </div>
+
+        <div class="card">
+            <h2>📖 사용법</h2>
+            <ol>
+                <li>학생 관리 시스템에서 학생 목록을 확인합니다.</li>
+                <li>트랜잭션 테스트 페이지에서 다양한 시나리오를 테스트합니다.</li>
+                <li>H2 콘솔(http://localhost:8082)에서 데이터베이스 상태를 확인합니다.</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

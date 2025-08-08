@@ -17,9 +17,6 @@ public class StudentRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // TODO : 테이블 생성은 안전하게 DatabaseConfig 안에서 진행.
-    // 혹은 h2 DB console 에서 직접 CREATE TABLE 로 테이블 만든 후 실행 !
-
     // 학생 저장
     public void save(Student student) {
         String sql = "INSERT INTO students (name, score) VALUES (?, ?) " +
@@ -55,8 +52,17 @@ public class StudentRepository {
         });
     }
 
-    public Object getJdbcTemplate() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getJdbcTemplate'");
+    // JdbcTemplate 반환 메서드 수정
+    public JdbcTemplate getJdbcTemplate() {
+        return this.jdbcTemplate;
+    }
+
+    // 테이블 생성 메서드 추가
+    public void createTable() {
+        String createStudentsSql = "CREATE TABLE students (" +
+                "name VARCHAR(50) PRIMARY KEY, " +
+                "score INT NOT NULL)";
+        jdbcTemplate.execute(createStudentsSql);
+        System.out.println("students 테이블이 생성되었습니다.");
     }
 }

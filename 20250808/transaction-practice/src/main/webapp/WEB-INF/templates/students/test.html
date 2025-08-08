@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>트랜잭션 테스트</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .test-section { border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .danger { border-left: 5px solid #dc3545; background: #f8d7da; }
+        .safe { border-left: 5px solid #28a745; background: #d4edda; }
+        .btn { display: inline-block; padding: 10px 20px; margin: 5px; 
+               text-decoration: none; background: #007bff; color: white; border-radius: 3px; border: none; cursor: pointer; }
+        .btn-danger { background: #dc3545; }
+        .btn-success { background: #28a745; }
+        .btn:hover { opacity: 0.8; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; padding: 10px; border-radius: 3px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 트랜잭션 테스트</h1>
+        
+        <div class="info">
+            <h3>📖 테스트 설명</h3>
+            <p>아래 버튼들을 클릭하여 트랜잭션의 차이점을 확인해보세요.</p>
+            <ul>
+                <li><strong>위험한 방법:</strong> 트랜잭션 없이 데이터를 추가합니다. 오류 발생 시 일부 데이터만 저장됩니다.</li>
+                <li><strong>안전한 방법:</strong> 트랜잭션으로 데이터를 추가합니다. 오류 발생 시 모든 데이터가 롤백됩니다.</li>
+                <li><strong>정상 추가:</strong> 오류 없이 안전하게 데이터를 추가합니다.</li>
+            </ul>
+        </div>
+
+        <div class="test-section danger">
+            <h2>⚠️ 위험한 방법 (트랜잭션 없음)</h2>
+            <p>이 방법은 트랜잭션 없이 데이터를 추가합니다. 오류가 발생하면 일부 데이터만 저장되고 나머지는 손실됩니다.</p>
+            <form action="/students/add-without-tx" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">트랜잭션 없이 추가 (위험!)</button>
+            </form>
+        </div>
+
+        <div class="test-section safe">
+            <h2>✅ 안전한 방법 (트랜잭션 있음)</h2>
+            <p>이 방법은 트랜잭션으로 데이터를 추가합니다. 오류가 발생하면 모든 데이터가 롤백되어 안전합니다.</p>
+            <form action="/students/add-with-tx" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-success">트랜잭션으로 추가 (안전!)</button>
+            </form>
+        </div>
+
+        <div class="test-section">
+            <h2>📝 정상 추가</h2>
+            <p>오류 없이 안전하게 학생 데이터를 추가합니다.</p>
+            <form action="/students/add-safely" method="post" style="display: inline;">
+                <button type="submit" class="btn">정상적으로 추가</button>
+            </form>
+        </div>
+
+        <div class="test-section">
+            <h2>🗑️ 데이터 초기화</h2>
+            <p>모든 학생 데이터를 삭제하고 테이블을 초기화합니다.</p>
+            <form action="/students/clear" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">모든 데이터 삭제</button>
+            </form>
+        </div>
+
+        <br>
+        <a href="/students" class="btn">← 학생 목록으로 돌아가기</a>
+        <a href="/" class="btn">🏠 홈으로</a>
+    </div>
+</body>
+</html>

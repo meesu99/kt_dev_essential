@@ -21,6 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setTemplateMode("HTML");
+        templateResolver.setCacheable(false); // 개발 중에는 캐시 비활성화
         return templateResolver;
     }
 
@@ -41,9 +43,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**")
+               .addResourceLocations("/static/");
         registry.addResourceHandler("/css/**")
-               .addResourceLocations("/WEB-INF/resources/static/css/");
+               .addResourceLocations("/static/css/");
         registry.addResourceHandler("/js/**")
-               .addResourceLocations("/WEB-INF/resources/static/js/");
+               .addResourceLocations("/static/js/");
     }
 }

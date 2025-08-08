@@ -67,9 +67,15 @@ public class StudentService {
     // 데이터 초기화
     @Transactional
     public void clearAllStudents() {
-        // 간단하게 테이블 다시 생성으로 초기화
-        String sql = "DROP TABLE IF EXISTS students";
-        studentRepository.getJdbcTemplate().execute(sql);
-        studentRepository.createTable();
+        try {
+            // 테이블 삭제 후 재생성
+            String dropSql = "DROP TABLE IF EXISTS students";
+            studentRepository.getJdbcTemplate().execute(dropSql);
+            studentRepository.createTable();
+            System.out.println("데이터베이스가 초기화되었습니다.");
+        } catch (Exception e) {
+            System.out.println("초기화 중 오류 발생: " + e.getMessage());
+            throw e;
+        }
     }
 }
