@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원가입</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;
+        }
+        button { padding: 10px 20px; margin-right: 10px; border-radius: 4px; border: none; cursor: pointer; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-warning { background-color: #ffc107; color: black; }
+        .error { color: red; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <h2>🔐 회원가입 (@Transactional 실습)</h2>
+
+    <div th:if="${error}" class="error">
+        ❌ <span th:text="${error}"></span>
+    </div>
+
+    <form th:action="@{/users/register}" th:object="${user}" method="post">
+        <div class="form-group">
+            <label for="username">사용자명:</label>
+            <input type="text" id="username" th:field="*{username}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" th:field="*{password}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">이메일:</label>
+            <input type="email" id="email" th:field="*{email}" required>
+        </div>
+
+        <button type="submit" class="btn-primary">
+            ✅ 정상 회원가입 (트랜잭션 성공 테스트)
+        </button>
+    </form>
+
+    <hr style="margin: 30px 0;">
+
+    <h3>🧪 트랜잭션 롤백 테스트</h3>
+    <form th:action="@{/users/register-with-error}" th:object="${user}" method="post">
+        <input type="hidden" th:field="*{username}">
+        <input type="hidden" th:field="*{password}">
+        <input type="hidden" th:field="*{email}">
+        <button type="submit" class="btn-warning">
+            ⚠️ 의도적 실패 (롤백 테스트)
+        </button>
+    </form>
+
+    <p>
+        <a th:href="@{/users}">📋 사용자 목록 보기</a>
+    </p>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>사용자 목록</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background-color: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <h2>📋 사용자 목록</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>사용자명</th>
+                <th>이메일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(users)}">
+        <p>등록된 사용자가 없습니다.</p>
+    </div>
+
+    <hr style="margin: 30px 0;">
+    <p>
+        <a th:href="@{/users/register}">➕ 새 사용자 등록</a>
+    </p>
+</body>
+</html>

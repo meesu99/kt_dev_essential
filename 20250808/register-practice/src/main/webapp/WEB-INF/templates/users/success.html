@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>결과</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; text-align: center; }
+        .success { color: green; }
+        .info { color: orange; }
+    </style>
+</head>
+<body>
+    <div th:if="${message and not rollbackTest}" class="success">
+        <h2>✅ 성공!</h2>
+        <p th:text="${message}"></p>
+        <p>📋 데이터베이스를 확인해보세요. 사용자, 프로필, 환영메시지가 모두 저장되었습니다!</p>
+    </div>
+
+    <div th:if="${rollbackTest}" class="info">
+        <h2>🔄 롤백 테스트 완료!</h2>
+        <p th:text="${message}"></p>
+        <p>📋 데이터베이스를 확인해보세요. 사용자 정보가 저장되지 않았을 것입니다!</p>
+        <p><strong>이것이 바로 @Transactional의 힘입니다! 🚀</strong></p>
+    </div>
+
+    <hr style="margin: 30px 0;">
+    <p>
+        <a th:href="@{/users/register}">🔙 다시 회원가입하기</a> |
+        <a th:href="@{/users}">📋 사용자 목록 보기</a>
+    </p>
+</body>
+</html>

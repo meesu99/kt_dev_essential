@@ -1,0 +1,8 @@
+com\example\config\WebAppInitializer.class
+com\example\App.class
+com\example\repository\StudentRepository.class
+com\example\controller\StudentController.class
+com\example\model\Student.class
+com\example\service\StudentService.class
+com\example\config\WebConfig.class
+com\example\controller\HomeController.class
