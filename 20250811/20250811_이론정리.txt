@@ -1,0 +1,37 @@
+< Spring Boot 프로젝트 만들기 >
+1. Spring Initializer : Create a Maven Project
+2. 3.5.4
+3. JAVA
+4. JAR
+5. JAVA 17
+6. dependency
+  - spring web
+  - thymeleaf
+
+
+< 프로젝트 구조 >
+spring-boot-hello/
+├── src/main/java/
+│   ├── com/example/
+│   │   ├── SpringBootHelloApplication.java
+│   │   └── HelloController.java
+│   └── resources/
+│       └── templates/
+│           └── hello.html
+└── pom.xml
+
+
+< 패키지 구조 권장사항 >
+com.example.demo/
+├── demoApplication.java  # 메인 클래스
+├── controller/                      # 컨트롤러
+├── service/                         # 서비스 로직
+├── repository/                      # 데이터 접근
+├── dto/                            # 데이터 전송 객체
+└── config/                         # 설정 클래스
+
+static/
+├── css/        # 스타일시트
+├── js/         # 자바스크립트
+├── images/     # 이미지 파일
+└── favicon.ico # 웹사이트 아이콘

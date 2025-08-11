@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: springboot-init
+  thymeleaf:
+    cache: false
+
+app:
+  welcome-message: "🚀 Welcome to My Spring Boot Application!"
+  version: "1.0.0"
+
+logging:
+  level:
+    com.example: INFO
