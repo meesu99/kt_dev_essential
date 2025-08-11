@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메이플샵 - 페리온 무기상점</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+        }
+        input, select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .success { color: #27ae60; }
+        .error { color: #e74c3c; }
+        .info { color: #3498db; }
+        .result {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            border-left: 4px solid #3498db;
+        }
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .item-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background: white;
+        }
+        .item-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .item-stats {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .enhancement {
+            color: #e67e22;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏪 메이플샵 - 페리온 무기상점</h1>
+    
+    <!-- 상점 아이템 조회 -->
+    <div class="container">
+        <h2>🛍️ 상점 아이템 조회</h2>
+        <div class="form-group">
+            <label>무기 종류:</label>
+            <select id="itemTypeFilter">
+                <option value="">전체</option>
+                <option value="한손검">한손검</option>
+                <option value="활">활</option>
+                <option value="지팡이">지팡이</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>최대 가격:</label>
+            <input type="number" id="maxPriceFilter" placeholder="0 = 제한없음">
+        </div>
+        <div class="form-group">
+            <label>최소 레벨:</label>
+            <input type="number" id="minLevelFilter" value="0">
+        </div>
+        <button onclick="getShopItems()">아이템 조회</button>
+        <div id="shopItemsResult" class="result"></div>
+    </div>
+    
+    <!-- 플레이어 관리 -->
+    <div class="container">
+        <h2>👤 플레이어 관리</h2>
+        <div class="form-group">
+            <label>플레이어 ID:</label>
+            <input type="number" id="playerId" value="1">
+        </div>
+        <button onclick="getPlayerInfo()">플레이어 정보 조회</button>
+        <button onclick="getPlayerInventory()">인벤토리 조회</button>
+        <div id="playerResult" class="result"></div>
+    </div>
+    
+    <!-- 아이템 구매 -->
+    <div class="container">
+        <h2>🛒 아이템 구매</h2>
+        <div class="form-group">
+            <label>플레이어 ID:</label>
+            <input type="number" id="purchasePlayerId" value="1">
+        </div>
+        <div class="form-group">
+            <label>아이템 ID:</label>
+            <input type="number" id="purchaseItemId" value="1">
+        </div>
+        <div class="form-group">
+            <label>수량:</label>
+            <input type="number" id="purchaseQuantity" value="1" min="1">
+        </div>
+        <button onclick="purchaseItem()">구매하기</button>
+        <div id="purchaseResult" class="result"></div>
+    </div>
+    
+    <!-- 아이템 판매 -->
+    <div class="container">
+        <h2>💰 아이템 판매</h2>
+        <div class="form-group">
+            <label>플레이어 ID:</label>
+            <input type="number" id="sellPlayerId" value="1">
+        </div>
+        <div class="form-group">
+            <label>아이템 ID:</label>
+            <input type="number" id="sellItemId" value="1">
+        </div>
+        <div class="form-group">
+            <label>수량:</label>
+            <input type="number" id="sellQuantity" value="1" min="1">
+        </div>
+        <button onclick="sellItem()">판매하기</button>
+        <div id="sellResult" class="result"></div>
+    </div>
+    
+    <!-- 아이템 강화 -->
+    <div class="container">
+        <h2>⚡ 아이템 강화</h2>
+        <div class="form-group">
+            <label>플레이어 ID:</label>
+            <input type="number" id="enhancePlayerId" value="1">
+        </div>
+        <div class="form-group">
+            <label>아이템 ID:</label>
+            <input type="number" id="enhanceItemId" value="1">
+        </div>
+        <button onclick="getEnhanceInfo()">강화 정보 조회</button>
+        <button onclick="enhanceItem()">강화하기</button>
+        <div id="enhanceResult" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = '/api/maple-shop';
+        
+        // 상점 아이템 조회
+        async function getShopItems() {
+            const itemType = document.getElementById('itemTypeFilter').value;
+            const maxPrice = document.getElementById('maxPriceFilter').value;
+            const minLevel = document.getElementById('minLevelFilter').value;
+            
+            let url = `${API_BASE}/items?`;
+            if (itemType) url += `itemType=${itemType}&`;
+            if (maxPrice) url += `maxPrice=${maxPrice}&`;
+            if (minLevel) url += `minLevel=${minLevel}`;
+            
+            try {
+                const response = await fetch(url);
+                const items = await response.json();
+                displayItems(items, 'shopItemsResult', '상점 아이템');
+            } catch (error) {
+                document.getElementById('shopItemsResult').innerHTML = `<div class="error">오류: ${error.message}</div>`;
+            }
+        }
+        
+        // 플레이어 정보 조회
+        async function getPlayerInfo() {
+            const playerId = document.getElementById('playerId').value;
+            try {
+                const response = await fetch(`${API_BASE}/players/${playerId}`);
+                const player = await response.json();
+                if (player.id) {
+                    document.getElementById('playerResult').innerHTML = `
+                        <div class="success">
+                            <strong>플레이어 정보</strong><br>
+                            ID: ${player.id}, 이름: ${player.name}, 레벨: ${player.level}, 메소: ${player.meso}
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('playerResult').innerHTML = `<div class="error">플레이어를 찾을 수 없습니다.</div>`;
+                }
+            } catch (error) {
+                document.getElementById('playerResult').innerHTML = `<div class="error">오류: ${error.message}</div>`;
+            }
+        }
+        
+        // 인벤토리 조회
+        async function getPlayerInventory() {
+            const playerId = document.getElementById('playerId').value;
+            try {
+                const response = await fetch(`${API_BASE}/inventory/${playerId}`);
+                const result = await response.json();
+                if (result.success) {
+                    const inventory = result.inventory;
+                    if (inventory.length === 0) {
+                        document.getElementById('playerResult').innerHTML = `<div class="info">인벤토리가 비어있습니다.</div>`;
+                    } else {
+                        displayItems(inventory.map(inv => inv.item), 'playerResult', '인벤토리 아이템');
+                    }
+                } else {
+                    document.getElementById('playerResult').innerHTML = `<div class="error">${result.message}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('playerResult').innerHTML = `<div class="error">오류: ${error.message}</div>`;
+            }
+        }
+        
+        // 아이템 구매
+        async function purchaseItem() {
+            const playerId = document.getElementById('purchasePlayerId').value;
+            const itemId = document.getElementById('purchaseItemId').value;
+            const quantity = document.getElementById('purchaseQuantity').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/purchase?playerId=${playerId}&itemId=${itemId}&quantity=${quantity}`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('purchaseResult').innerHTML = `
+                        <div class="success">
+                            <strong>구매 성공!</strong><br>
+                            ${result.message}<br>
+                            구매한 아이템: ${result.purchasedItem}<br>
+                            수량: ${result.quantity}<br>
+                            비용: ${result.totalCost} 메소<br>
+                            남은 메소: ${result.playerMeso} 메소
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('purchaseResult').innerHTML = `<div class="error">${result.message}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('purchaseResult').innerHTML = `<div class="error">오류: ${error.message}</div>`;
+            }
+        }
+        
+        // 아이템 판매
+        async function sellItem() {
+            const playerId = document.getElementById('sellPlayerId').value;
+            const itemId = document.getElementById('sellItemId').value;
+            const quantity = document.getElementById('sellQuantity').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/sell?playerId=${playerId}&itemId=${itemId}&quantity=${quantity}`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('sellResult').innerHTML = `
+                        <div class="success">
+                            <strong>판매 성공!</strong><br>
+                            ${result.message}<br>
+                            판매한 아이템: ${result.soldItem}<br>
+                            수량: ${result.quantity}<br>
+                            판매가: ${result.sellPrice} 메소<br>
+                            남은 메소: ${result.playerMeso} 메소
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('sellResult').innerHTML = `<div class="error">${result.message}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('sellResult').innerHTML = `<div class="error">오류: ${error.message}</div>`;
+            }
+        }
+        
+        // 강화 정보 조회
+        async function getEnhanceInfo() {
+            const itemId = document.getElementById('enhanceItemId').value;
+            try {
+                const response = await fetch(`${API_BASE}/enhance/info/${itemId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const item = result.item;
+                    document.getElementById('enhanceResult').innerHTML = `
+                        <div class="info">
+                            <strong>강화 정보</strong><br>
+                            아이템: ${item.name}<br>
+                            현재 강화 레벨: +${item.enhancementLevel}<br>
+                            기본 공격력: ${item.attackPower}<br>
+                            강화된 공격력: ${item.getEnhancedAttackPower ? item.getEnhancedAttackPower() : item.attackPower}<br>
+                            강화 비용: ${result.enhanceCost} 메소<br>
+                            성공률: ${result.successRate}%<br>
+                            강화 가능: ${result.canEnhance ? '예' : '아니오'}
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('enhanceResult').innerHTML = `<div class="error">${result.message}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('enhanceResult').innerHTML = `<div class="error">오류: ${error.message}</div>`;
+            }
+        }
+        
+        // 아이템 강화
+        async function enhanceItem() {
+            const playerId = document.getElementById('enhancePlayerId').value;
+            const itemId = document.getElementById('enhanceItemId').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/enhance?playerId=${playerId}&itemId=${itemId}`, {
+                    method: 'POST'
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('enhanceResult').innerHTML = `
+                        <div class="success">
+                            <strong>강화 성공!</strong><br>
+                            ${result.message}<br>
+                            강화 레벨: +${result.enhancementLevel}<br>
+                            강화된 공격력: ${result.enhancedAttackPower}<br>
+                            비용: ${result.cost} 메소<br>
+                            남은 메소: ${result.playerMeso} 메소
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('enhanceResult').innerHTML = `
+                        <div class="error">
+                            <strong>강화 실패</strong><br>
+                            ${result.message}<br>
+                            강화 레벨: +${result.enhancementLevel}<br>
+                            강화된 공격력: ${result.enhancedAttackPower}<br>
+                            비용: ${result.cost} 메소<br>
+                            남은 메소: ${result.playerMeso} 메소
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('enhanceResult').innerHTML = `<div class="error">오류: ${error.message}</div>`;
+            }
+        }
+        
+        // 아이템 목록 표시
+        function displayItems(items, elementId, title) {
+            const container = document.getElementById(elementId);
+            if (items.length === 0) {
+                container.innerHTML = `<div class="info">${title}이 없습니다.</div>`;
+                return;
+            }
+            
+            let html = `<div class="item-grid">`;
+            items.forEach(item => {
+                const enhancedName = item.enhancementLevel > 0 ? `+${item.enhancementLevel} ${item.name}` : item.name;
+                const enhancedAttack = item.getEnhancedAttackPower ? item.getEnhancedAttackPower() : item.attackPower;
+                
+                html += `
+                    <div class="item-card">
+                        <div class="item-name">${enhancedName}</div>
+                        <div class="item-stats">
+                            가격: ${item.price} 메소<br>
+                            공격력: ${enhancedAttack}<br>
+                            종류: ${item.itemType}<br>
+                            필요 레벨: ${item.requiredLevel}<br>
+                            설명: ${item.description}
+                        </div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+        
+        // 페이지 로드 시 상점 아이템 조회
+        window.onload = function() {
+            getShopItems();
+        };
+    </script>
+</body>
+</html>
