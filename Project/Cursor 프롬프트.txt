@@ -1,0 +1,239 @@
+역할: 당신은 시니어 풀스택 엔지니어 겸 코드 생성 에이전트입니다. 질문하지 말고 아래 요구사항을 만족하는 실행 가능한 모노레포 코드를 생성하세요. (비용 0원, 외부 유료 API 금지)
+
+# 기술 스택
+- backend: Spring Boot 3.x, Java 17+, Gradle, Spring Web, Spring Security, JWT(HttpOnly 쿠키), Spring Data JPA, Flyway, PostgreSQL(+ PostGIS), BCrypt
+- frontend: Next.js 14+ (App Router), TypeScript, TailwindCSS, Zustand(or Redux), recharts, Leaflet(OSM), React Hook Form + Zod
+- infra: Docker Compose(postgres, adminer), .env.example 제공
+
+# 핵심 도메인
+- Customer(문자 수신 대상): 더미데이터로만 존재. **Admin 로그인 시에만** CRUD UI/권한 허용.
+- User(문자 발송 주체): 회원가입/로그인 필수. 사업자등록번호/상호/포인트 보유. 로그인 후 대시보드에서 캠페인 생성/발송/통계 확인.
+- 인앱 채널: 실제 SMS 대신 **인앱 채팅(SSE)** 으로 “발송 진행/완료” 알림을 User에게 전달(수신 Customer는 앱 계정이 아님 → 실제 푸시는 없음, 통계만 기록).
+
+# DB 스키마 (Flyway 마이그레이션 생성: V1__init.sql)
+-- 확장
+CREATE EXTENSION IF NOT EXISTS postgis;
+
+-- 유저(발송 주체)
+CREATE TABLE app_users (
+  id BIGSERIAL PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  business_no VARCHAR(20) NOT NULL,
+  company_name TEXT NOT NULL,
+  points BIGINT NOT NULL DEFAULT 0,           -- 포인트(1 point = 1 KRW 개념)
+  role TEXT NOT NULL DEFAULT 'USER',          -- 'USER' | 'ADMIN'
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 고객(수신 대상) : Admin만 CRUD
+CREATE TABLE customers (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  gender VARCHAR(10),                         -- 'male'|'female'|'other'
+  birth_year INT,                             -- 통계/세그먼트용
+  phone VARCHAR(20),
+  road_address TEXT,
+  detail_address TEXT,
+  postal_code VARCHAR(10),
+  sido TEXT,                                  -- 시/도
+  sigungu TEXT,                               -- 시/군/구
+  lat DOUBLE PRECISION,
+  lng DOUBLE PRECISION,
+  geom geography(Point,4326),                 -- 반경 검색용
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE INDEX idx_customers_gender ON customers(gender);
+CREATE INDEX idx_customers_birth_year ON customers(birth_year);
+CREATE INDEX idx_customers_region ON customers(sido, sigungu);
+CREATE INDEX idx_customers_geom ON customers USING GIST(geom);
+
+-- 캠페인(발송 작업)
+CREATE TABLE campaigns (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT REFERENCES app_users(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  message_text TEXT NOT NULL,
+  link TEXT,
+  filters JSONB NOT NULL,                     -- { gender[], ageRange[min,max], region:{sido[],sigungu[]}, radius:{center{lat,lng}, meters} }
+  price_per_recipient INT NOT NULL,           -- 50/70/90/110/130
+  estimated_cost BIGINT NOT NULL,             -- recipients * price_per_recipient
+  final_cost BIGINT,                          -- 발송 완료 시 확정
+  recipients_count INT NOT NULL DEFAULT 0,    -- 타깃 수
+  status TEXT NOT NULL DEFAULT 'DRAFT',       -- DRAFT|SENDING|DONE|FAILED
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 캠페인 대상 스냅샷
+CREATE TABLE campaign_targets (
+  id BIGSERIAL PRIMARY KEY,
+  campaign_id BIGINT REFERENCES campaigns(id) ON DELETE CASCADE,
+  customer_id BIGINT REFERENCES customers(id) ON DELETE CASCADE,
+  delivery_status TEXT NOT NULL DEFAULT 'PENDING',  -- PENDING|SENT|READ|CLICK (READ/CLICK은 시뮬레이션 or 수동)
+  sent_at TIMESTAMPTZ,
+  read_at TIMESTAMPTZ,
+  click_at TIMESTAMPTZ
+);
+CREATE INDEX idx_campaign_targets_campaign ON campaign_targets(campaign_id);
+CREATE INDEX idx_campaign_targets_status ON campaign_targets(delivery_status);
+
+-- 포인트 트랜잭션(모의 과금/충전)
+CREATE TABLE wallet_transactions (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT REFERENCES app_users(id) ON DELETE CASCADE,
+  type TEXT NOT NULL,                          -- 'CHARGE'|'DEBIT_CAMPAIGN'|'REFUND'
+  amount BIGINT NOT NULL,                      -- +충전, -차감
+  balance_after BIGINT NOT NULL,
+  meta JSONB,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- 인앱 채팅(시스템 알림 포함)
+CREATE TABLE chat_messages (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT REFERENCES app_users(id) ON DELETE CASCADE,
+  from_admin BOOLEAN DEFAULT TRUE,             -- 시스템/관리자 알림
+  campaign_id BIGINT REFERENCES campaigns(id),
+  text TEXT,
+  link TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+# 백엔드 요구사항
+
+## 인증/권한
+- BCrypt로 비밀번호 해시.
+- JWT 발급(Access Token) → HttpOnly 쿠키로 반환. 토큰 만료/갱신 로직 포함.
+- /admin/**, 고객 CRUD, 캠페인 조회(타인 소유)는 ROLE 검사.
+- 로그인 성공 시 역할에 따라 프론트 리다이렉션 경로 제공: ADMIN → /admin, USER → /dashboard.
+
+## 엔드포인트
+### Auth
+- POST /auth/signup : {email,password,business_no,company_name} → app_users 생성(role='USER').
+- POST /auth/login : {email,password} → JWT 쿠키.
+- POST /auth/logout : 쿠키 제거.
+- GET  /me : 내 프로필/포인트/역할.
+
+### 포인트(모의 충전)
+- POST /billing/charge : {amount} → points 증가, wallet_transactions 기록. (항상 성공, 실제 결제 없음)
+
+### Admin 전용 (ROLE_ADMIN)
+- Customers CRUD:
+  - GET /admin/customers?query=...&page=...
+  - POST /admin/customers
+  - PATCH /admin/customers/{id}
+  - DELETE /admin/customers/{id}
+- 더미 데이터 시드용 /admin/customers/seed (n명 생성) 제공해도 됨.
+
+### 세그먼트 미리보기 & 가격 책정
+- POST /campaigns/preview : {title, message_text, link?, filters} → 
+  - filters 파싱해 SQL 구성:
+    - gender IN (...)
+    - birth_year BETWEEN (now_y - maxAge) AND (now_y - minAge)
+    - region: sido IN (...) AND sigungu IN (...)
+    - radius: ST_DWithin(geom, ST_SetSRID(ST_MakePoint(lng,lat),4326)::geography, meters)
+    - geom NULL은 radius 필터 시 자동 제외
+  - recipients_count 반환
+  - **필터 개수에 따른 price_per_recipient** 계산:
+    - 활성 필터 수 = gender/ageRange/region/radius 중 비어있지 않은 항목 수
+    - 1→50, 2→70, 3→90, 4→110, 5+→130 (KRW)
+  - estimated_cost = recipients_count * price_per_recipient
+  - 미리보기 결과 반환
+
+### 캠페인 생성/발송(일반 USER)
+- POST /campaigns : {title, message_text, link?, filters} → preview 호출하여 price/estimated_cost/recipients_count 저장, status='DRAFT'
+- POST /campaigns/{id}/send : 
+  1) 권한/소유자 확인
+  2) User 포인트가 estimated_cost 이상인지 확인(미달 시 400)
+  3) 트랜잭션:
+     - 세그먼트로 대상 고객 SELECT하여 campaign_targets INSERT (스냅샷)
+     - app_users.points에서 estimated_cost 차감
+     - wallet_transactions에 DEBIT_CAMPAIGN 기록
+     - campaigns.status='SENDING'
+  4) 비동기 처리(스레드 풀): 모든 대상에 대해 chat_messages(user_id, campaign_id, text/link) INSERT + **SSE push("campaign")**로 진행 상황 알림(예: 10% 단위)
+     - campaign_targets.delivery_status='SENT', sent_at = now()
+  5) 완료 후 campaigns.status='DONE', final_cost=estimated_cost
+  6) chat_messages 로 "캠페인 완료/총 N명" 알림 발송
+
+### 이벤트 트래킹(선택: 시뮬레이션)
+- GET /r/{campaignId}?u={customerId} → READ 기록 (데모용 엔드포인트, 실제 고객 앱 없음)
+- GET /c/{campaignId}?u={customerId}&url={encoded} → CLICK 기록 후 302
+
+### 통계
+- GET /campaigns/my : 로그인 User의 캠페인 목록/요약(비용, 타깃수, 상태).
+- GET /campaigns/{id}/stats : {sent, read, click, byHour:[{hour,count}]} + 대상 리스트 일부.
+- GET /analytics/my : 내가 보낸 누적 통계(캠페인별 성과, 최근 30일 추이).
+- (SQL 예시) 성별/나이대/지역별 고객 분포, ROUND(lat, lng) 그리드 집계.
+
+### SSE
+- GET /api/stream : 인증 필수. 사용자별 SseEmitter 보관(Map<userId, emitter>).
+- 서버 유틸: push(userId, eventName, payload). 캠페인 진행률/완료 알림을 프론트로 푸시.
+
+# 프론트엔드(App Router)
+
+## 라우팅/가드
+- 로그인 후 역할에 따라 리다이렉트:
+  - ADMIN → /admin (사이드바: Customers, Seed, Stats)
+  - USER  → /dashboard (내 포인트, 충전, 캠페인 생성/목록/통계)
+- middleware.ts: /admin/** 접근 시 server-side에서 /me 검사 → ADMIN 아니면 /dashboard로 리다이렉트.
+- 클라이언트에서도 role 기반으로 메뉴/버튼 숨김.
+
+## 페이지
+- /signup : email/password/business_no/company_name
+- /login  : 로그인
+- /dashboard :
+  - 상단 카드: 내 포인트/최근 캠페인/오늘 발송
+  - “포인트 충전” 모달: 금액 클릭 → /billing/charge 호출 후 갱신
+  - “새 캠페인” 버튼
+  - SSE 연결 상태 배지
+- /campaigns/new :
+  - 메시지 작성(text/link)
+  - 세그먼트 빌더:
+    - 성별(멀티), 나이대 슬라이더, 지역(시도→시군구 멀티), 반경 타게팅(Leaflet 지도에서 중심 선택 + 반경 슬라이더)
+    - “미리보기” 클릭 → /campaigns/preview ← 대상 수/건당 단가/총 예상비용 표시
+  - “발송” 버튼: 포인트 잔액 부족 시 충전 유도
+- /campaigns/[id] :
+  - 개요(건당 단가/예상/최종 비용, 대상 수)
+  - 진행률(발송 완료율), SSE로 실시간 업데이트
+  - 통계 탭: sent/read/click, 시간대별 차트(recharts), 일부 대상 리스트
+- /admin :
+  - Customers CRUD 그리드(검색/페이지네이션/정렬)
+  - 생성/수정 폼(주소/위치 지도에서 지정 → lat/lng/geom 저장)
+  - (옵션) 더미 시드 버튼
+  - 고객 분포(성별/나이대/지역) 차트
+
+# 과금 규칙(필터 개수 → 건당 단가)
+- 활성 필터 수 = 다음 항목 중 비어있지 않은 개수: gender, ageRange, region, radius
+- 매핑: 1→50, 2→70, 3→90, 4→110, 5+→130 (KRW)
+- price_per_recipient 적용: estimated_cost = recipients_count * price_per_recipient
+- 캠페인 전송 시 포인트에서 estimated_cost 즉시 차감(모의 결제)
+
+# 구현 디테일
+- BCryptPasswordEncoder 사용.
+- JWT는 Access Token만 사용, HttpOnly Secure 쿠키, SameSite=Lax.
+- CORS: 프론트 출처 허용.
+- 반경 쿼리: ST_DWithin(geom, ST_SetSRID(ST_MakePoint(:lng,:lat),4326)::geography, :meters)
+- geom NULL 고객은 radius 필터 사용 시 제외.
+- 지역 필터 없을 때는 region 조건 생략.
+- 나이대 → birth_year 변환: now_year - age.
+- 더미 Customer 시드: 성별/연령/지역 분포 랜덤 + 서울/수도권 위경도 범위 내 랜덤 좌표. lat/lng → geom 백필.
+
+# 코드 구조/스타일
+- backend: controller → service → repository, DTO/Entity 분리, 예외/검증, 단위 테스트(인증/세그먼트/과금)
+- frontend: app/(routes), 컴포넌트 분리(SegmentBuilder, CampaignForm, ChargeModal, Charts, MapPicker, DataGrid)
+- UI: Tailwind 기반 카드/표/모달, 폼 검증은 zod
+
+# 실행/개발
+- docker-compose up -d (postgres, adminer)
+- backend: ./gradlew bootRun
+- frontend: pnpm dev
+- README 작성: 환경변수, 기본 Admin 계정(seed), 사용법, 제약사항
+
+# 수용 기준(AC)
+- [ ] Admin 로그인 시에만 /admin 고객 CRUD 페이지가 보이고 접근 가능, 일반 User는 접근 시 /dashboard로 리다이렉트
+- [ ] User 회원가입/로그인/로그아웃 가능, 비밀번호는 해시 저장
+- [ ] 포인트 충전(모의) 버튼 클릭 시 즉시 포인트 증가
+- [ ] 세그먼트 미리보기에서 대상 수/건당 단가/총 비용을 확인 가능
+- [ ] 캠페인 전송 시 포인트 차감, 대상 스냅샷 생성, 진행률이 SSE로 실시간 표시, 완료 후 통계 확인 가능
+- [ ] 반경/지역/성별/나이대 필터가 정상 동작, 반경은 PostGIS로 정확히 필터링
+- [ ] 외부 유료 메시징 호출 없음(모두 인앱/시뮬레이션)

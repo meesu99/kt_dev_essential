@@ -1,0 +1,110 @@
+기능명세서 (Function Point 관점)
+
+FP 분류 약어: ILF(내부 논리파일), EIF(외부 인터페이스 파일), EI(외부 입력), EO(외부 출력), EQ(외부 조회)
+
+A. 데이터(파일) 기능
+ID	명칭	유형	설명
+D1	Users(발송 주체)	ILF	app_users 테이블: 로그인/권한/포인트
+D2	Customers(수신 대상)	ILF	관리자만 CRUD 가능한 더미 고객 데이터
+D3	Campaigns	ILF	캠페인 정의(필터·단가·예상/최종 비용·상태)
+D4	CampaignTargets	ILF	발송 시점의 대상 스냅샷 및 전송 상태
+D5	WalletTransactions	ILF	포인트 충전/차감 이력(모의 과금)
+D6	ChatMessages	ILF	인앱 알림/메시지 로그(User에게만)
+D7	GeoTiles/OSM	EIF	Leaflet에서 사용하는 외부 지도 타일(읽기 전용)
+B. 입력(EI), 출력(EO), 조회(EQ) 기능
+B-1. 인증/권한
+ID	기능	유형	배우자	설명/검증
+A1	회원가입(Signup)	EI	User	email/비번(BCrypt), 사업자번호, 상호 저장
+A2	로그인(Login)	EI	User/Admin	JWT(HttpOnly) 발급, role 반환
+A3	로그아웃	EI	User/Admin	JWT 쿠키 무효화
+A4	내 정보 조회(/me)	EQ	User/Admin	email/role/points/회사명 반환
+A5	라우팅 가드	EQ	시스템	role에 따라 /admin//dashboard로 분기
+B-2. 고객(Customer) 관리(관리자 전용)
+ID	기능	유형	배우자	설명
+C1	고객 목록/검색	EQ	Admin	이름/성별/지역/나이 필터 & 페이지네이션
+C2	고객 생성	EI	Admin	기본 인적/주소/좌표 입력(지도 클릭 가능)
+C3	고객 수정	EI	Admin	동일
+C4	고객 삭제	EI	Admin	참조 무결성 확인(타겟팅 이력 등)
+C5	고객 시드	EI	Admin	더미 N명 생성(선택 기능)
+B-3. 캠페인(세그먼트/가격/발송)
+ID	기능	유형	배우자	설명/비즈니스 규칙
+K1	세그먼트 미리보기	EQ	User	filters(JSON) → 대상 수 산출
+K2	단가 계산	EQ	시스템	활성 필터 수에 따른 단가: 1→50, 2→70, 3→90, 4→110, 5+→130
+K3	예상 비용 산정	EQ	시스템	estimated_cost = recipients × 단가
+K4	캠페인 생성	EI	User	title/message/filters/단가/예상비용 저장, status=DRAFT
+K5	포인트 충전(모의)	EI	User	금액 입력 → 잔액/거래내역 갱신
+K6	캠페인 발송	EI	User	포인트 ≥ 예상비용 확인 → 차감 → targets 스냅샷 → 비동기 전송(SSE 알림) → status=DONE
+K7	전송 상태 업데이트	EO	시스템	campaign_targets.delivery_status, sent/read/click 타임스탬프
+K8	결과 알림(SSE)	EO	시스템→User	진행률/완료 메시지 인앱 푸시
+K9	열람/클릭 트래킹	EI	시스템	/r, /c 엔드포인트 경유(선택)
+
+필터 정의(JSON)
+
+{
+  "gender": ["male","female"],
+  "ageRange": [minAge, maxAge],
+  "region": { "sido": ["서울특별시"], "sigungu": ["강남구","관악구"] },
+  "radius": { "center": {"lat": 37.5, "lng": 127.02}, "meters": 2000 }
+}
+
+
+반경 조건:
+
+(권장) PostGIS: ST_DWithin(geom, ST_SetSRID(ST_MakePoint(lng,lat),4326)::geography, meters)
+
+(대안) Haversine: WHERE acos(sin φ1 sin φ2 + cos φ1 cos φ2 cos Δλ) * R <= meters
+
+B-4. 분석/통계(대시보드)
+ID	기능	유형	배우자	설명
+S1	캠페인 리스트(요약)	EQ	User	내 캠페인 목록/예상·최종 비용/타깃 수/상태
+S2	캠페인 상세 통계	EQ/EO	User	sent/read/click 합계 + 시간대별 시계열
+S3	수신자 분포 지도	EO	User	Leaflet 마커/반경 오버레이
+S4	성별/나이/지역 분포	EO	User	recharts(막대/파이/라인)
+S5	Wallet 내역	EQ	User	충전/차감 히스토리 표
+B-5. 시스템/비기능
+
+| ID | 기능 | 유형 | 설명 |
+|---|---|---|
+| N1 | 비밀번호 해시 | EO | BCryptPasswordEncoder 적용 |
+| N2 | JWT 발급/검증 | EO | AccessToken을 HttpOnly 쿠키로 발급 |
+| N3 | 권한검사 | EQ | Controller/미들웨어 수준의 RBAC |
+| N4 | CORS/보안헤더 | EO | 프론트 도메인 화이트리스트 |
+| N5 | 로깅/감사 | EO | 캠페인 생성·발송·차감 로그 |
+
+기능 흐름 요약(시나리오)
+
+Admin 로그인 → /admin에서 Customer CRUD(더미 데이터 준비)
+
+User 회원가입/로그인 → 포인트 충전(모의)
+
+캠페인 생성: 메시지/링크 작성 → 필터 선택(성별·나이·지역·반경) → 미리보기로 대상 수/단가/예상 비용 확인 → 저장(DRAFT)
+
+발송: 잔액 확인 → 포인트 차감 → targets 스냅샷 생성 → 비동기 처리 SSE 알림
+
+통계: 캠페인 리스트/상세에서 recharts 차트 + Leaflet 지도 확인
+
+수용 기준(핵심 체크리스트)
+
+ Admin만 Customer CRUD 화면/엔드포인트 접근 가능(일반 User 차단 + 리다이렉션)
+
+ User는 회원가입/로그인/로그아웃 가능, 비밀번호 해시 저장, JWT 쿠키 운영
+
+ 포인트 충전 버튼 동작(모의), Wallet 내역 반영
+
+ 세그먼트 미리보기: 대상 수/단가(50/70/90/110/130)/예상비용 정확
+
+ 캠페인 발송 시 포인트 차감, 대상 스냅샷 생성, 진행률/완료 SSE 알림
+
+ 통계 화면에서 recharts로 지표, Leaflet로 위치 시각화
+
+구현 팁(당장 만들 때)
+
+DB 시작: 개발 초반엔 ddl-auto=create로 빠르게 → 안정화 후 마이그레이션 파일 고정
+
+반경 필터: PostGIS가 어렵다면 우선 Haversine로 시작, 나중에 PostGIS 인덱스 도입
+
+지도/차트: 먼저 API를 “차트/지도 친화적 JSON”으로 맞춘 뒤 프론트 붙이기
+
+DBeaver: 통계 쿼리/ERD/데이터 검증에 적극 활용
+
+원하면 이 문서 기반으로 **초기 스캐폴드(디렉터리/엔티티/컨트롤러/페이지 골격)**를 한 번에 뽑아줄 수도 있어. 어떤 부분부터 코드로 내려쓸지만 말해줘!

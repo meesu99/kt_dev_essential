@@ -1,0 +1,66 @@
+<< SpringBoot 1일차 >>
+
+> Controller
+  - 사용자의 요청(Request)을 받고 응답(Response)을 반환하는 계층
+  - 모델(Model) 데이터를 뷰(View)로 전달하거나 JSON/XML 형태로 응답
+  - URI 설계 시 자원 중심, 동작(행위) 명시 금지 (ex: Create, Patch 등)
+  - 동적 경로 변수 : "/api/products/{productId}" (PathVariable)
+  - 받을 수 있는 데이터 : Query, Path, Body
+  - HTTP 메서드
+    · GET    : 데이터 조회
+    · POST   : 데이터 생성, 서버가 식별자 지정 (응답에 제공)
+    · PUT    : 전체 수정(UPSERT), 클라이언트가 식별자 지정
+    · PATCH  : 부분 수정
+    · DELETE : 삭제
+  - @ModelAttribute : 요청 파라미터를 객체에 바인딩
+  - @RequestParam(required = false) : 필수 아님 설정 가능
+  - @RequiredArgsConstructor : final 필드를 생성자로 자동 초기화 (Lombok)
+  - 생성자가 1개인 경우 @Autowired 생략 가능
+
+> DTO (Data Transfer Object)
+  - 계층 간 데이터 전달용 객체
+  - 비즈니스 로직 없음, 주로 필드 + Getter/Setter
+  - 순환참조 제거 목적
+
+> Service
+  - 비즈니스 로직 담당 계층
+  - Controller와 Repository 사이에서 데이터 가공·처리
+  - @Transactional : 트랜잭션 자동 관리 (begin/commit/rollback)
+
+> Repository
+  - 데이터 저장소 접근 계층 (조회·저장·수정·삭제)
+  - @Repository 사용, Spring Data JPA 인터페이스로 구현
+  - @Transactional : 클래스보다 메서드 단위가 우선
+  - Column Definition은 되도록 사용하지 말기. (특히 nativeQuery, 해당 DB에서만 쓰는 기능인지 확인)
+  - UUID v4 : 무작위 생성 원칙 (@GeneratedValue; ID, Sequence, UUID 등)
+
+> JPQL
+  - 엔티티 객체를 기준으로 작성하는 객체 지향 쿼리 언어
+  - 실행 시 JPA가 SQL로 변환 후 DB에 전달
+
+> 영속성 컨텍스트
+  - 엔티티 상태를 추적·동기화하는 JPA의 관리 영역
+  - 1차 캐시에 엔티티 저장
+  - 변경 감지 후 트랜잭션 종료 시 DB와 동기화
+
+
+> lombok
+  - Java 개발에서 반복적으로 작성해야 하는 보일러플레이트 코드를 자동으로 생성해주는 라이브러리
+  - Getter, Setter, 생성자, toString, equals/hashCode 등을 자동 생성
+  * toString 주의점 : 양방향 참조하는 상황이 위험한 상황 (순환 참조) 
+
+
+> SOLID 원칙
+  - SRP (단일 책임 원칙)
+  - OCP (개방 폐쇄 원칙)
+  - LSP (리스코프 치환 원칙)
+  - ISP (인터페이스 분리 원칙)
+  - DIP (의존 역전 원칙)
+
+
+
+
+
+
+
+

@@ -1,0 +1,158 @@
+<< Database 1일차 >>
+
+> ACID
+  - 데이터베이스 트랜잭션이 지켜야 할 4가지 성질
+  - 데이터 안전, 정확, 일관성 보장을 위한 규칙
+  - Atomicity (원자성)    : 트랜잭션은 전부 실행되거나 전혀 실행되지 않아야 함
+  - Consistency (일관성) : 트랜잭션 전·후 데이터의 규칙(제약조건)이 항상 유지
+  - Isolation (격리성)   : 여러 트랜잭션이 동시에 실행돼도 서로 영향을 주면 안 됨
+  - Durability (지속성)  : 트랜잭션 완료 후 데이터는 영구히 저장
+
+
+> MVCC (Multi-Version Concurrency Control)
+  - 동시에 여러 사용자가 DB에 접근해도, 서로 간섭 없이 처리할 수 있게 하는 기술
+  - 데이터를 수정할 때 기존 데이터를 덮어쓰지 않고 새로운 버전을 생성
+  - 각 사용자는 트랜잭션 시작 시점의 데이터 스냅샷을 보기 때문에 읽기-쓰기 충돌이 줄어듦
+
+
+> Transaction (트랜잭션)
+  - 한 번에 처리되어야 하는 데이터 작업의 묶음
+  - 모두 성공해야 확정(COMMIT), 하나라도 실패하면 취소(ROLLBACK)
+  - 예: 계좌이체 → 출금과 입금이 모두 성공해야 함
+
+
+> SQL (관계형 데이터베이스)
+  - 테이블(행·열) 형태로 데이터 저장
+  - SQL 언어 사용 (표준화)
+  - 고정된 스키마 구조
+  - 데이터 일관성, 복잡한 쿼리 처리에 강함
+  - 예: PostgreSQL, MySQL, Oracle
+
+
+> NoSQL (비관계형 데이터베이스)
+  - JSON, 키-값, 그래프 등 자유로운 데이터 구조
+  - 스키마가 유연하고 구조 변경이 쉬움
+  - 수평 확장에 유리
+  - 대규모, 비정형 데이터 처리에 강함
+  - 예: MongoDB, Redis, Cassandra, DynamoDB
+
+
+> JPQL (Java Persistence Query Language)
+  - JPA에서 사용하는 객체 지향 쿼리 언어
+  - DB 테이블이 아닌 엔티티 클래스와 필드명을 대상으로 함
+  - SQL과 문법이 비슷하지만, JPA가 SQL로 변환해 실행
+  - 예: "SELECT m FROM Member m WHERE m.age > 20"
+
+
+> Docker
+  - Docker 컨테이너 접속 : docker exec -it pg-kt bash
+  - PSQL클라이언트로 DB 접속 : psql -U postgres -d pg_sample
+
+  - \l		데이터베이스 목록
+  - \dt		(테이블 없으면 빈 목록) 현재 스키마 테이블 목록
+  - \conninfo	현재 접속 정보
+  - SELECT 1;	테스트 쿼리
+  - \q		종료
+
+
+>> DDL(Data Definition Language)
+  - CREATE   : 새 객체 생성 (PostgreSQL O / MySQL O) → 테이블, 뷰, 인덱스, 스키마 등
+  - ALTER    : 기존 객체 수정 (PostgreSQL O / MySQL O) → 컬럼 추가·삭제, 타입 변경
+  - DROP     : 객체 삭제 (PostgreSQL O / MySQL O) → 복구 불가, 백업 필요
+  - TRUNCATE : 데이터 전부 삭제(구조는 유지) (PostgreSQL O / MySQL O) → DELETE보다 빠름, 자동 커밋
+  - COMMENT  : 객체 설명 추가 (PostgreSQL O / MySQL 일부 제한) → PostgreSQL은 COMMENT ON 지원
+  - RENAME   : 이름 변경 (PostgreSQL O / MySQL O) → 테이블·컬럼명 변경
+
+> TRUNCATE vs DELETE (PostgreSQL 기준)
+  - 속도
+    · TRUNCATE : 빠름 (메타데이터만 변경)
+    · DELETE   : 느림 (행 단위 삭제)
+  - 트랜잭션
+    · TRUNCATE : 자동 커밋, 롤백 불가능
+    · DELETE   : 롤백 가능
+  - WHERE 조건
+    · TRUNCATE : 불가능
+    · DELETE   : 가능
+  - 시퀀스 초기화
+    · TRUNCATE : RESTART IDENTITY 옵션으로 가능
+    · DELETE   : 불가능
+  - 외래키 영향
+    · TRUNCATE : CASCADE 옵션 가능
+    · DELETE   : 참조 있으면 에러(제약 해제 필요)
+
+
+>> DML (Data Manipulation Language)
+  - 데이터 넣기(INSERT), 바꾸기(UPDATE), 지우기(DELETE), 읽기(SELECT) 작업 언어
+  - 표준(SQL 기준): SELECT, INSERT, UPDATE, DELETE, MERGE
+  - 현업에서는 SELECT를 DQL로 부르기도 하지만 표준 용어는 아님
+  - 목적: 데이터 생성·변경·삭제를 무결성과 트랜잭션 아래에서 안전하게 수행
+
+> 주요 DML 명령
+  - SELECT 		: 데이터 조회 → 화면, 리포트, 검증 용도
+  - INSERT 		: 새 행 추가 → 신규 회원/주문 생성, RETURNING으로 PK 즉시 획득
+  - INSERT … ON CONFLICT 	: UPSERT → 있으면 갱신, 없으면 삽입
+  - UPDATE 		: 기존 행 변경 → 가격 인상, 상태 변경, UPDATE … FROM으로 조인 갱신 가능
+  - DELETE 		: 행 삭제 → 잘못된/만료 데이터 제거, DELETE … RETURNING 지원
+  - MERGE  		: 대량 동기화 → 키 기준으로 UPDATE + INSERT + 삭제 동시 처리 (PostgreSQL 15+)
+  - COPY   		: 대량 적재/덤프(비표준) → CSV 등 고속 적재, 서버·클라이언트 모두 지원
+
+> DML과 제약조건
+  - NOT NULL, CHECK, UNIQUE, PRIMARY KEY, FOREIGN KEY는 DML의 안전장치
+  - 위반 시 DML 실패 및 에러 발생
+  - FK는 참조 무결성 보장(부모 없는 자식 금지)
+  - PostgreSQL은 ON CONFLICT로 UPSERT 시 제약 위반을 우아하게 처리
+
+> 트리거 (Triggers)
+  - DML 실행 시 BEFORE/AFTER 시점에 자동 실행되는 함수
+  - 예: 삭제 전 감사 로그 기록, 삽입 시 자동 계산
+  - TRUNCATE는 행 단위 트리거 실행 안 됨
+
+> 트랜잭션과 MVCC
+  - BEGIN … COMMIT/ROLLBACK 내에서 DML을 묶어 실행 → 전부 성공 또는 전부 취소
+  - PostgreSQL은 MVCC로 동시성·일관성 보장
+    · INSERT : 새 버전 생성
+    · UPDATE/DELETE : 이전 버전 보존 후 커밋 시 정리
+  - 기본 고립 수준: Read Committed (필요 시 상향 가능)
+
+> RETURNING (PostgreSQL 전용 강점)
+  - INSERT/UPDATE/DELETE … RETURNING * → 변경된 행을 즉시 조회
+  - 추가 SELECT 없이 PK, 변경값, 삭제 전 데이터 획득 가능
+
+> 안전 패턴
+  - 드라이런: UPDATE/DELETE 전 동일 WHERE로 SELECT 실행해 대상 확인
+  - 가드: 수식(GREATEST, LEAST)으로 잘못된 값 방지
+  - 소프트 삭제: deleted_at 컬럼 활용, 이후 배치로 하드 삭제/아카이브
+
+> INSERT 계열
+  - 단건/다건 INSERT : 여러 행 한 번에 삽입 권장
+  - INSERT … SELECT : 다른 테이블/쿼리 결과를 그대로 삽입
+  - UPSERT 예:
+      INSERT INTO t (k, v)
+      VALUES (1,'A')
+      ON CONFLICT (k) DO UPDATE SET v = EXCLUDED.v;
+  - RETURNING 예:
+      INSERT INTO t (name) VALUES ('Kim') RETURNING id;
+
+> UPDATE/DELETE 주의사항
+  - WHERE 절이 대상 범위 → WHERE 없이 실행 시 전체 변경/삭제 위험
+  - 조인 갱신/삭제: UPDATE … FROM, DELETE … USING 지원
+  - RETURNING으로 변경/삭제 결과 즉시 확보 가능
+
+> MERGE(동기화)
+  - 스테이징 테이블과 본 테이블을 키 기준으로 동기화
+  - 있으면 UPDATE, 없으면 INSERT, 필요 시 삭제 포함
+  - PostgreSQL 15+에서 표준 MERGE 지원, ETL에 유용
+
+> 성능·운영 관점
+  - 인덱스는 성능 핵심 → WHERE/조인 키에 인덱스 필요
+  - 대량 적재는 COPY(\copy) 사용, INSERT 대량 시 배치 크기 조절
+  - 제약/트리거 많은 테이블은 적재 전 임시 비활성화 후 MERGE로 처리
+  - 대량 UPDATE/DELETE 후 VACUUM/ANALYZE로 통계·공간 정비
+
+> 실무 체크리스트
+  - UPDATE/DELETE 전 SELECT로 대상 범위 확인
+  - 트랜잭션(BEGIN)으로 중요한 작업 묶고 실패 시 ROLLBACK
+  - UPSERT 설계: 유니크 키 정의 + ON CONFLICT 정책 명확화
+  - 삭제 정책: 소프트 삭제 우선, DELETE … RETURNING으로 로그 확보
+  - 대량 작업: COPY + MERGE로 처리, 인덱스/제약 전략 고민
+  - PostgreSQL RETURNING 적극 활용해 추가 쿼리 제거

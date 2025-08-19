@@ -1,0 +1,107 @@
+<< Database 2일차 >>
+
+> 값 타입
+  - 정수
+    · SMALLINT / INT / BIGINT + IDENTITY
+    · 크기별 정수형 (2 / 4 / 8바이트)
+    · IDENTITY: 자동 증가값 생성 가능
+
+  - 소수
+    · NUMERIC(p, s)
+    · p = 전체 자릿수, s = 소수 자릿수
+    · 부동소수 오차 없이 정밀 계산 (금융 등)
+
+
+  - 부동소수
+    · REAL / DOUBLE PRECISION
+    · REAL: 4바이트(약 7자리), DOUBLE: 8바이트(약 15~16자리)
+    · 근사 표현, 부동소수점 오차 가능
+
+  - 문자
+    · TEXT / VARCHAR(n)
+    · TEXT: 길이 제한 없음
+    · VARCHAR(n): 최대 길이 제한
+
+  - 불린
+    · BOOLEAN
+    · TRUE/FALSE, t/f, 1/0 지원
+
+  - 날짜시간
+    · DATE: 날짜만
+    · TIMESTAMP: 날짜+시간 (시간대 없음)
+    · TIMESTAMPTZ: 날짜+시간+시간대 (UTC 변환)
+
+  - UUID
+    · UUID
+    · 전역 고유 식별자
+
+  - JSON
+    · JSONB
+    · JSON 이진 저장, 인덱싱·검색 성능 우수
+
+  - 배열
+    · TEXT[], INT[]
+    · 하나의 컬럼에 여러 값 저장 가능
+
+  - 범위
+    · INT4RANGE / TSRANGE 등
+    · 구간 데이터 저장, 예: [1,10)
+
+  - 열거
+    · ENUM
+    · 미리 정의한 값만 허용
+
+  - Key-Value
+    · HSTORE
+    · 단일 컬럼에 Key-Value 쌍 저장
+
+
+> DCL (Data Control Language)
+  - 권한을 부여/회수하는 SQL
+  - 목적: 최소권한(Least Privilege), 책임 분리, 사고 방지
+
+  - 객체/역할 기본
+    - ROLE(역할)	  : 사용자와 그룹의 통합 개념
+      · LOGIN	  : 로그인 가능한 역할(사람/앱 계정)
+      · NOLOGIN	  : 그룹 역할(권한 묶음)
+    - OWNER(소유자) : 항상 모든 권한 보유
+    - 권한 범위(주요)
+      · DATABASE 	: CONNECT
+      · SCHEMA   	: USAGE(찾기), CREATE(만들기)
+      · TABLE    	: SELECT, INSERT, UPDATE, DELETE
+      · SEQUENCE 	: USAGE, SELECT, UPDATE
+      · FUNCTION 	: EXECUTE
+
+  - 핵심 명령
+    · GRANT … TO …                     : 권한 부여
+    · REVOKE … FROM …                  : 권한 회수
+    · ALTER DEFAULT PRIVILEGES … GRANT … : 앞으로 생성될 객체의 기본 권한 지정
+    · SET ROLE …                       : 권한 전환(테스트/운영 스크립트에서 유용)
+
+
+> TCL (Transaction Control Language)
+  - 목적: 여러 DML을 하나의 단위로 묶어 전부 성공 또는 전부 취소(ACID) 처리
+  - 핵심 명령: BEGIN / COMMIT / ROLLBACK / SAVEPOINT / ROLLBACK TO SAVEPOINT / SET TRANSACTION
+  - 기본 동작(오토커밋): 트랜잭션을 명시하지 않으면 명령 1개 = 1 트랜잭션으로 즉시 커밋
+    · 안전하게 묶으려면 BEGIN … COMMIT로 명시적 블록 생성
+
+
+  - 명령 요약 (실전 포맷)
+    · BEGIN;                          		: 트랜잭션 시작
+    · COMMIT;                         		: 정상 종료(변경 사항 반영)
+    · ROLLBACK;                       		: 전체 취소
+    · SAVEPOINT sp;                   		: 중간 저장점 생성
+    · ROLLBACK TO sp;                 		: 저장점까지 되돌리기(거기까지만 취소)
+    · SET TRANSACTION ISOLATION LEVEL …; 	: 격리 수준 지정
+    · SET TRANSACTION READ ONLY;      	: 읽기 전용 트랜잭션 (리포트/검증 쿼리 보호)
+
+
+> 쿼리 순서
+  - FROM(JOIN) -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
+
+
+> Initializr Dependency
+  - Spring Web
+  - Spring Data JPA
+  - Lombok
+  - PostgreSQL Driver

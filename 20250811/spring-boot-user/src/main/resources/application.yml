@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: spring-boot-user
+
+  # H2 Database 설정
+  datasource:
+    url: jdbc:h2:mem:testdb        # 메모리 DB 사용
+    driver-class-name: org.h2.Driver
+    username: sa                    # 기본 사용자명
+    password:                      # 비밀번호 없음
+
+  # H2 Console 활성화 (웹 브라우저에서 DB 확인 가능)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console            # http://localhost:8080/h2-console
+
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: create-drop        # 앱 시작시 테이블 생성, 종료시 삭제
+    show-sql: true                 # 실행되는 SQL 콘솔에 출력
+    properties:
+      hibernate:
+        format_sql: true           # SQL 예쁘게 포맷팅
+
+# 로그 레벨 설정
+logging:
+  level:
+    org.hibernate.SQL: debug       # SQL 로그
+    org.hibernate.type: trace      # SQL 파라미터 로그
