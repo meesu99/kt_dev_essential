@@ -1,0 +1,138 @@
+//// Project: 위치 기반 타게팅 캠페인 (PostgreSQL + PostGIS)
+//// Note: PostGIS GIST 인덱스는 dbdiagram에서 직접 지정 불가 → 실제 DDL에서 생성 권장
+
+Table app_users {
+  id            bigint [pk]
+  email         varchar [unique, not null]
+  password_hash varchar [not null]
+  business_no   varchar [not null]
+  company_name  varchar [not null]
+  points        bigint  [not null, default: 0]
+  role          varchar [not null, default: 'USER'] // 'USER' | 'ADMIN'
+  created_at    timestamp
+}
+
+Table customers {
+  id              bigint   [pk, not null]
+  name            varchar  [not null]
+  gender          varchar  [not null]
+  birth_year      int      [not null]
+  phone           varchar  [not null]
+  road_address    varchar  [not null]
+  detail_address  varchar  [not null]
+  postal_code     varchar  [not null]
+  sido            varchar  [not null]
+  sigungu         varchar  [not null]
+  geom            geography [not null] // PostGIS GEOGRAPHY(POINT,4326) 권장
+  created_at      timestamp [not null]
+
+  indexes {
+    (gender)
+    (birth_year)
+    (sido, sigungu)
+    // geom은 실제 DDL에서: CREATE INDEX ... USING GIST(geom);
+  }
+}
+
+Table campaigns {
+  id                   bigint   [pk]
+  user_id              bigint   [not null, ref: > app_users.id]
+  title                varchar  [not null]
+  message_text         text     [not null]
+  link                 varchar
+  filters              jsonb
+  price_per_recipient  int      // 필터 개수 기반 단가 스냅샷
+  estimated_cost       bigint   // 미리보기 시 저장
+  final_cost           bigint   // 발송 완료 시 확정
+  recipients_count     int      [not null]
+  status               varchar  // 'DRAFT' | 'SENDING' | 'DONE' | 'FAILED' (권장)
+  created_at           timestamp
+}
+
+Table campaign_targets {
+  id               bigint [pk]
+  campaign_id      bigint [not null, ref: > campaigns.id]
+  customer_id      bigint [not null, ref: > customers.id]
+  delivery_status  varchar   // 'PENDING' | 'SENT' | 'READ' | 'CLICK' (권장)
+  sent_at          timestamp
+  read_at          timestamp
+  click_at         timestamp
+
+  indexes {
+    (campaign_id)
+    (delivery_status)
+  }
+}
+
+//// --- Pricing policy (3NF) ---
+
+Table pricing_plans {
+  id             bigint  [pk]
+  name           varchar [not null]         // e.g., "Standard"
+  unit           varchar [not null]         // e.g., "per_recipient"
+  unit_price     bigint  [not null]         // KRW
+  currency       char(3) [not null, default: 'KRW']
+  effective_from timestamp [not null]
+  effective_to   timestamp                  // null=open-ended
+  created_at     timestamp [not null]
+  is_active      boolean   [not null, default: true]
+}
+
+Table user_pricing_plans {
+  id              bigint [pk]
+  user_id         bigint [not null, ref: > app_users.id]
+  pricing_plan_id bigint [not null, ref: > pricing_plans.id]
+  started_at      timestamp [not null]
+  ended_at        timestamp                 // null=현재 적용
+
+  indexes {
+    (user_id, started_at)
+    (pricing_plan_id)
+  }
+}
+
+//// --- Aggregated billable events (캠페인 단위 집계) ---
+
+Table billable_events {
+  id                    bigint [pk]
+  campaign_id           bigint [ref: > campaigns.id]
+  wallet_transactions_id bigint [ref: > wallet_transactions.id]
+  event_type            varchar [not null]        // e.g., 'SEND'
+  quantity              int     [not null]        // recipients count, etc.
+  unit_price_snapshot   bigint  [not null]        // 이벤트 시점 단가 스냅샷
+  occurred_at           timestamp [not null]
+
+  indexes {
+    (campaign_id)
+    (event_type)
+  }
+}
+
+//// --- Wallet: 선불 충전/차감/환불 ---
+
+Table wallet_transactions {
+  id                 bigint [pk]
+  user_id            bigint [not null, ref: > app_users.id]
+  type               varchar [not null]           // 'CREDIT' | 'DEBIT' | 'REFUND'
+  amount             bigint  [not null]
+  balance_after      bigint  [not null]
+  meta               jsonb
+  created_at         timestamp [not null]
+
+  indexes {
+    (user_id, created_at)
+    (type)
+  }
+}
+
+//// --- Chat ---
+
+Table chat_messages {
+  id           bigint [pk]
+  user_id      bigint [not null, ref: > app_users.id]
+  from_admin   boolean
+  campaign_id  bigint [ref: > campaigns.id]
+  text         text   [not null]
+  link         varchar
+  created_at   timestamp
+}
